@@ -35,9 +35,10 @@ python3 herramientas/empaquetar.py         # trabajo/voces_salva.zip
 ```
 
 3. Revisá lo que marque `verificar.py`. Con cada voz fallan cosas distintas: con Martin fueron Af, Az, Dra, Ac–Uc y
-   Abrasar, y con Sara, Ac y Az. Para corregirlas se buscan semillas con `herramientas/buscar_semillas.py` o se arman
+   Abrasar, y con Sara, Ac, Az y la palabra "a" de la lectura (salía "ia"). Para corregirlas se buscan semillas con `herramientas/buscar_semillas.py` o se arman
    tomas compuestas. Las correcciones de cada voz se anotan en su perfil de `voces.py` (`semilla_por_toma`,
-   `tomas_compuestas`, `correcciones`).
+   `tomas_compuestas`, `semilla_palabras`, `correcciones`). También va ahí `rango_f0`, el rango de tono de la voz,
+   que sirve para igualar el tono en los empalmes.
 
 ## Créditos
 

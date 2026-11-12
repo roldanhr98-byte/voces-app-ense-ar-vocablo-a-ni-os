@@ -40,7 +40,8 @@ from fonetica import (clave_difono, clave_fonetica, fonemas, normalizar_silaba, 
 from generar import obtener_toma  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
-from voces import BIBLIOTECA, LECTURA as SALIDA  # noqa: E402
+from voces import BIBLIOTECA, LECTURA as SALIDA, VOZ  # noqa: E402
+import prosodia as P  # noqa: E402
 
 CONTEXTO = "Ella dijo que"   # previous_text: la palabra se dice a mitad de oración
 PORTADOR = "todo"            # palabra que sigue y se corta (su "t" deja un silencio limpio)
@@ -51,15 +52,18 @@ FUNCION = ("el la los las un una unos unas mi mis tu tus su sus a al de del en c
 CONTENIDO = {
     "pronombres": "yo tú él ella nosotros ellos",
     "personas": "mamá papá tío tía abuelo abuela hermano hermana amigo amiga niño niña maestra maestro bebé",
-    "animales": "vaca perro gato pato pájaro caballo pez ratón conejo oso león mono oveja pollito mariposa",
+    "animales": ("vaca perro gato pato pájaro caballo pez ratón conejo oso león mono oveja pollito mariposa "
+                 "toro dinosaurio ardilla elefante tortuga mariquita cocodrilo gallina"),
     "lugares": "casa escuela parque playa jardín campo río mar montaña ciudad calle tienda",
     "cosas": ("pasto sol luna agua flor árbol pelota libro juguete mesa cama pan leche fruta manzana helado "
-              "comida carro bicicleta"),
+              "comida carro bicicleta tomate chocolate naranja sandía zapato pantalón estrella helicóptero "
+              "lluvia nube globo regalo"),
     "verbos": ("es está son están soy estoy tiene tengo va voy vamos come como bebe juega juego corre salta "
-               "duerme lee canta mira quiere quiero vive nada vuela camina"),
+               "duerme lee canta mira quiere quiero vive nada vuela camina toma llueve pinta dibuja escribe aprende"),
     "adjetivos": ("grande pequeño pequeña bonito bonita feliz contento contenta rojo azul verde amarillo "
                   "blanco negro alto rápido nuevo mucho muchos muy más"),
-    "tiempo_y_otros": "hoy ayer mañana ahora siempre aquí allá no sí vacaciones día noche tarde también todos",
+    "tiempo_y_otros": ("hoy ayer mañana ahora siempre aquí allá no sí vacaciones día noche tarde también todos "
+                       "todavía cumpleaños fiesta juntos"),
 }
 CATEGORIA = {w: "funcion" for w in FUNCION}
 for _cat, _ws in CONTENIDO.items():
@@ -70,9 +74,9 @@ PALABRAS = list(CATEGORIA)
 # ----------------------------------------------------------------------------- parámetros (iguales en lector.js)
 PARAMS = {
     "hueco_oclusiva_ms": 40,      # antes de p, t, k, ch: el cierre natural de la consonante
-    "solape_vocales_ms": 35,      # vocal + vocal: se funden ("de‿agua")
+    "solape_vocales_ms": 20,      # vocal + vocal: se funden ("de‿agua"); con más, palabras cortas como "hoy" se pierden
     "solape_vocal_ms": 20,        # consonante + vocal ("los‿ojos")
-    "solape_ms": 15,              # el resto de los empalmes
+    "solape_ms": 15,              # el resto de los empalmes (solapes más largos se comen palabras cortas: probado)
     "pausa_coma_ms": 250,
     "pausa_punto_ms": 450,
     "pausa_entre_silabas_ms": 300,
@@ -87,17 +91,22 @@ def n_muestras(seg, sr):
 
 
 # ----------------------------------------------------------------------------- generación de palabras
+def semilla(w):
+    """Semilla de cada palabra (algunas voces regraban una palabra con otra semilla: ver voces.py)."""
+    return VOZ.get("semilla_palabras", {}).get(w, SEMILLA)
+
+
 def peticiones():
-    p = [(f"{w} {PORTADOR}", CONTEXTO) for w in PALABRAS]
-    p += [(f"{w}.", CONTEXTO) for w in PALABRAS if CATEGORIA[w] != "funcion"]
+    p = [(f"{w} {PORTADOR}", CONTEXTO, semilla(w)) for w in PALABRAS]
+    p += [(f"{w}.", CONTEXTO, semilla(w)) for w in PALABRAS if CATEGORIA[w] != "funcion"]
     return p
 
 
 def generar(voz=VOZ_ID):
     ps = peticiones()
-    print(f"{len(ps)} peticiones, {sum(len(t) for t, _ in ps)} caracteres (las que ya están en caché no se cobran)")
+    print(f"{len(ps)} peticiones, {sum(len(t) for t, _, _ in ps)} caracteres (las que ya están en caché no se cobran)")
     with ThreadPoolExecutor(3) as ex:
-        list(ex.map(lambda tp: obtener_toma(tp[0], AJUSTES_NEUTROS, tp[1], SEMILLA, voz=voz), ps))
+        list(ex.map(lambda tp: obtener_toma(tp[0], AJUSTES_NEUTROS, tp[1], tp[2], voz=voz), ps))
     print("listo")
 
 
@@ -111,7 +120,7 @@ def _bordes(y, fi=0.004, fo=0.010):
 
 def cortar_medio(w, voz=VOZ_ID):
     """La palabra dentro de la oración: desde que empieza la voz hasta que termina (sin el silencio de la t)."""
-    audio, al, _, _ = obtener_toma(f"{w} {PORTADOR}", AJUSTES_NEUTROS, CONTEXTO, SEMILLA, voz=voz)
+    audio, al, _, _ = obtener_toma(f"{w} {PORTADOR}", AJUSTES_NEUTROS, CONTEXTO, semilla(w), voz=voz)
     x = R.leer_wav(io.BytesIO(audio))
     db = R.energia_db(x)
     fin_w = al["character_end_times_seconds"][len(w) - 1]
@@ -127,11 +136,22 @@ def cortar_medio(w, voz=VOZ_ID):
 
 
 def cortar_final(w, voz=VOZ_ID):
-    x = R.leer_wav(io.BytesIO(obtener_toma(f"{w}.", AJUSTES_NEUTROS, CONTEXTO, SEMILLA, voz=voz)[0]))
+    x = R.leer_wav(io.BytesIO(obtener_toma(f"{w}.", AJUSTES_NEUTROS, CONTEXTO, semilla(w), voz=voz)[0]))
     db = R.energia_db(x)
     act = np.where(db > db.max() - 40)[0]
     y = x[int(max(0, act[0] - 2) * R.HOP * R.SR):int(min(len(db), act[-1] + 8) * R.HOP * R.SR)]
     return _bordes(y, fo=0.030)
+
+
+def sin_cola(y, w):
+    """Si la palabra termina en vocal, quita la cola que se apaga (así empalma sin bajón con la siguiente)."""
+    fon = fonemas(w)
+    if not fon or fon[-1][0] not in D.VOC or len(y) < 0.18 * R.SR:   # palabras muy cortas ("a", "y") quedan enteras
+        return y
+    db = R.energia_db(y)
+    med = np.median(db[db > db.max() - 25])
+    fin = min(len(y), int((np.where(db >= med - 9)[0][-1] + 2) * R.HOP * R.SR))
+    return _bordes(y[:fin], fo=0.012)
 
 
 def recorte_justo(y, pre=0.010, post=0.040):
@@ -354,11 +374,14 @@ def _archivo_unidades(unidades, sr):
     return np.concatenate(partes), indice, marcas
 
 
-def armar(voz=VOZ_ID, voz_nombre=VOZ_NOMBRE):
+def armar(voz=VOZ_ID, voz_nombre=VOZ_NOMBRE, tono_palabras=True, tono_difonos="parcial", nivel_difonos=True,
+          cola=True, solapes=None, fraccion=0.5):
     for viejo in ["palabras", "silabas", "ejemplos"]:
         if (SALIDA / viejo).exists():
             shutil.rmtree(SALIDA / viejo)
     SALIDA.mkdir(exist_ok=True)
+    if solapes:
+        PARAMS.update(solapes)
     man = {"voz": voz_nombre, "voz_id": voz, "sr": R.SR, "parametros": PARAMS,
            "audios": {"palabras": "palabras.wav", "silabas": "silabas.wav", "difonos": "difonos.wav"},
            "marcas": {}, "palabras": {}, "silabas": {}, "difonos": {}}
@@ -372,6 +395,25 @@ def armar(voz=VOZ_ID, voz_nombre=VOZ_NOMBRE):
         crudos[(w, "medio")] = y
         if CATEGORIA[w] != "funcion":
             crudos[(w, "final")] = cortar_final(w, voz)
+    # tono base de la voz: la mediana del tono de las palabras "medio"
+    rango = VOZ["rango_f0"]
+    tonos = []
+    for (w, var), y in crudos.items():
+        if var == "medio":
+            f = P.f0(y.astype(np.float64), R.SR, *rango)
+            tonos += list(P.a_st(f[f > 0]))
+    base_hz = float(P.de_st(np.median(tonos)))
+    # bordes al tono base (la melodía de adentro se conserva; dos pasadas para que converja) y sin la cola que se apaga
+    b_st = P.a_st(base_hz)
+    for (w, var), y in list(crudos.items()):
+        y = y.astype(np.float64)
+        bordes = (b_st, b_st) if var == "medio" else (b_st, None)
+        if tono_palabras:
+            for _ in range(2):   # como máximo 3 semitonos: más que eso en una palabra corta deja un "arranque" raro
+                y = P.ajustar_tono(y, R.SR, rango, bordes=bordes, max_st=3.0)
+        crudos[(w, var)] = sin_cola(y, w) if (var == "medio" and cola) else y
+    man["tono_base_hz"] = round(base_hz, 1)
+    man["rango_tono_hz"] = [round(rango[0], 1), round(rango[1], 1)]
     g = -20.0 - float(np.median([rms_activo(y) for y in crudos.values()]))
     unidades = []
     for (w, var), y in crudos.items():
@@ -401,7 +443,7 @@ def armar(voz=VOZ_ID, voz_nombre=VOZ_NOMBRE):
     R.escribir_wav(SALIDA / "silabas.wav", audio)
 
     # 3) dífonos
-    inv = D.extraer(voz)
+    inv = D.extraer(voz, base_hz=base_hz, rango=rango, tono=tono_difonos, nivel=nivel_difonos, fraccion=fraccion)
     nombres = sorted(inv)
     audio, idx, man["marcas"]["difonos"] = _archivo_unidades([(k, inv[k][0]) for k in nombres], R.SR)
     R.escribir_wav(SALIDA / "difonos.wav", audio)

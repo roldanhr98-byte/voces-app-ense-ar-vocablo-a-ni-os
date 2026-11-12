@@ -17,6 +17,7 @@ VOCES = {
         "id": "Vpv1YgvVd6CHIzOTiTt8",
         "nombre": "Martin Osborne - Deep and Passionate",
         "carpeta": "martin_osborne",
+        "rango_f0": (55, 220),     # voz muy grave (~67 Hz), con tramos "rasposos"
         "descripcion": "masculina, España (castellano)",
         "correcciones": (
             '- **Af, Az:** tenían una vocal agregada ("afe", "a-ce…"). Se regrabaron con otra semilla.\n'
@@ -50,6 +51,9 @@ VOCES = {
         "id": "KHCvMklQZZo0O30ERnVn",
         "nombre": "Sara Martin - Gentle and Layered",
         "carpeta": "sara_martin",
+        # Palabras de la lectura grabadas con otra semilla: con 1234, "a" salía "ia" (sonaba "voy a" al empezar).
+        "semilla_palabras": {"a": 7},
+        "rango_f0": (120, 400),
         "descripcion": "femenina, España (castellano); tono amable, recomendada para contenido educativo",
         "correcciones": (
             '- **Ac, Az:** salían con una vocal agregada ("ace", "aze"). Se tomaron de una toma donde la sílaba se '
@@ -71,6 +75,7 @@ VOCES = {
         "id": "hyKxCTlAqtnW188CgltM",
         "nombre": "Salva - The Spanish Narrator",
         "carpeta": "salva",
+        "rango_f0": (55, 250),
         "descripcion": "masculina, España (castellano); grave y cálida",
         "pendiente": True,
         "correcciones": "",
@@ -82,6 +87,7 @@ VOCES = {
         "id": "o0SveC0zgHFuCsEO3vHR",
         "nombre": "Gabo - Deep, Evocative and Resonant",
         "carpeta": "gabo",
+        "rango_f0": (55, 250),
         "descripcion": "masculina, España (castellano); grave. Alternativa latinoamericana: "
                        "4yMqddmQqI9aTy9ysF9H (Gabo - Thoughtful, Moving, and Powerful)",
         "pendiente": True,

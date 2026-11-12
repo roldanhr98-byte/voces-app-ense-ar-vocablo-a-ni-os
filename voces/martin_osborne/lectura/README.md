@@ -10,8 +10,8 @@ con la misma voz (Martin Osborne - Deep and Passionate, ElevenLabs `eleven_multi
 
 | Archivo | Qué tiene |
 |---|---|
-| `palabras.mp3` | 165 palabras frecuentes en dos versiones: **medio** (como suena dentro de una oración) y **final** (cierre de oración) |
-| `difonos.mp3` | 525 **dífonos**: la transición de un sonido al siguiente (k-a, a-s, s-a…), con y sin acento. Arman cualquier palabra que no esté grabada |
+| `palabras.mp3` | 195 palabras frecuentes en dos versiones: **medio** (como suena dentro de una oración) y **final** (cierre de oración) |
+| `difonos.mp3` | Unos 525 **dífonos**: la transición de un sonido al siguiente (k-a, a-s, s-a…), con y sin acento. Arman cualquier palabra que no esté grabada |
 | `silabas.mp3` | 254 sílabas de la biblioteca, para leer "va - ca" |
 | `manifest_lectura.json` | Índice: dónde empieza y cuánto dura cada pieza dentro de esos archivos, y los ajustes |
 | `lector.js` | El lector para la app (JavaScript, Web Audio) |
@@ -31,20 +31,32 @@ archivos suman unos 2,5 MB. Los originales en WAV 48 kHz están en GitHub.
 - **Palabras "medio":** si se graba "me" sola, la voz la dice como una oración entera (0,45 s, con caída). Dentro de
   una frase real dura 0,1 s. Por eso cada palabra se grabó como "*palabra* todo", con el contexto "Ella dijo
   que…", y se cortó justo donde termina su voz, antes de la "t". Queda como suena a mitad de una oración.
+- **Mismo tono en los empalmes:** cada palabra se dice con su propia melodía, así que al pegarlas el tono saltaba de
+  una a otra y se notaba el corte. Ahora el principio y el final de cada palabra se llevan al tono base de la voz,
+  sin tocar la melodía de adentro. Se usa TD-PSOLA, que cambia el tono sin cambiar la duración ni el timbre, y la
+  corrección se limita a 3 semitonos para no deformar palabras cortas.
+- **Sin bajón de volumen:** se quita la cola que se apaga al final de las palabras que terminan en vocal, y los
+  empalmes usan fundido de potencia constante.
 - **Empalmes según los sonidos que se tocan**, como al hablar:
   - antes de p, t, k o ch: un silencio de 40 ms, que es el cierre natural de esa consonante;
-  - vocal con vocal ("de‿agua"): se funden con un solape de 35 ms;
+  - vocal con vocal ("de‿agua"): se funden con un solape de 20 ms (con más, se pierden palabras cortas como "hoy");
   - el resto: solape de 15–20 ms.
-  Todos los solapes usan fundido de potencia constante, así no hay bajones de volumen.
-- **Resultado (voz de Martin):** "hoy me voy de vacaciones a la casa de mi tío" armada palabra por palabra dura
-  3,46 s y tiene 3 silencios cortos. La misma oración leída de corrido por la voz dura 3,28 s y también tiene 3. Antes
-  de este ajuste duraba 4,22 s y tenía 11 cortes. Con Sara, la oración armada también tiene 3 silencios cortos.
 - **Última palabra:** usa su versión "final", con el cierre de oración.
 - **Palabras que no están grabadas:** se arman con dífonos, usando la versión acentuada en la sílaba que corresponde
-  (to-**ma**-te).
-  En la prueba con 16 palabras nuevas, transcritas dos veces cada una, las armadas con dífonos se entendieron
-  30 de 32 veces con Martin y 28 de 32 con Sara (con ella fallan "ardilla" y "naranja"). Armadas por sílabas,
-  con Martin se entendían 13 de 16 y sonaban cortadas.
+  (to-**ma**-te). Las palabras inventadas de donde salen los dífonos se procesan antes de cortarlas:
+  - el tono de cada sonido se acerca a mitad de camino del tono base (forzarlo del todo le quitaba claridad);
+  - el volumen en cada punto de corte se iguala al típico de ese sonido.
+
+**Mediciones** con la oración "hoy me voy de vacaciones a la casa de mi tío" y palabras armadas con dífonos:
+
+| | Martin | Sara |
+|---|---|---|
+| Oración armada (la misma leída de corrido) | 3,29 s, 3 silencios cortos (3,28 s, 3 silencios) | 2,33 s, 3 silencios cortos |
+| Salto de tono entre palabras | sin tono medible en los bordes | 0,3 semitonos (antes 3,5) |
+| Salto de volumen entre palabras | 7,7 dB (antes 17) | 1,5 dB (antes 13) |
+| Salto de tono dentro de palabras armadas (mediana) | 1,0 semitonos (antes 2,2) | 2,1 semitonos (antes 5,0) |
+| Salto de volumen dentro de palabras armadas | 1,5 dB (antes 5,3) | 1,4 dB (antes 4,1) |
+| 10 oraciones variadas transcritas exactas | 10/10 | 10/10 |
 
 ## Qué pasa con lo que escriben los chicos
 
