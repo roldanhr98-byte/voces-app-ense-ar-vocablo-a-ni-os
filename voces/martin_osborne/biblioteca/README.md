@@ -89,7 +89,7 @@ Por eso se rehízo cada bloque en tomas de hasta 5 unidades: cada familia (Ba-Be
 
 ## Control de calidad
 
-1. **Transcripción automática:** cada familia de sílabas, palabra, frase y oración se transcribió con ElevenLabs Scribe y se comparó con el texto. Todas las palabras, frases, preguntas y exclamaciones coinciden. Las únicas diferencias son confusiones conocidas de Scribe, y se comprobó con el espectrograma que el audio está bien: "Pera" → "Espera", "Taza" → "Data", "Té" → "T", "Loro" → "Loto".
+1. **Transcripción automática:** cada familia de sílabas, palabra, frase y oración se transcribió con ElevenLabs Scribe y se comparó con el texto. Las diferencias que quedan son confusiones conocidas de Scribe con palabras sueltas (por ejemplo "Pera" → "Espera" o "Llave" → "¿Ya ve?") y, en voces con seseo, palabras que suenan igual (caza → "casa"). Se comprobó con el espectrograma que el audio está bien.
 2. **Control acústico:** se revisó cada clip para detectar vocales agregadas (por ejemplo "afe" en lugar de "af"), sílabas pegadas y cortes en la voz.
 3. **Espectrogramas:** se revisaron a mano los casos dudosos (J frente a Y, Z frente a S, sílabas inversas).
 
@@ -103,7 +103,7 @@ Por eso se rehízo cada bloque en tomas de hasta 5 unidades: cada familia (Ba-Be
 
 ## Notas de pronunciación (voz de España)
 
-- **Z y C ante e/i** (za, ce, ci, zo, zu, az, ez…): suenan /θ/, como en España, distinto de la S. Si la app es para Latinoamérica, conviene probar otra voz con seseo.
+- **Z y C ante e/i** (za, ce, ci, zo, zu, az, ez…): suenan /θ/, como en España, distinto de la S. Si la app es para Latinoamérica, conviene una voz con seseo (por ejemplo Lumina).
 - **LL e Y** suenan igual (yeísmo). **B y V** suenan igual, que es lo correcto en español.
 - **Ag, Eg, Ig, Og, Ug:** la G final sale suave [ɣ], como en "i**g**norar" o "di**g**no". Es la pronunciación natural, pero conviene escucharlas por si preferís una G más marcada.
 

@@ -174,14 +174,15 @@ def fonemas(palabra, acentuada=True, posiciones=False):
     return res if posiciones else [(s, a) for s, a, _, _ in res]
 
 
-def clave_fonetica(w):
-    """Dos palabras con la misma clave suenan igual (b=v, h muda, ll=y, c/qu/k...). Respeta z/s (voz de España)."""
+def clave_fonetica(w, seseo=False):
+    """Dos palabras con la misma clave suenan igual (b=v, h muda, ll=y, c/qu/k...). Respeta z/s (voz de España);
+    con seseo (voz latinoamericana) z, ce, ci y s suenan igual."""
     t = sin_tildes(w.lower().replace("gü", "gw"))
     for a, b in [("ch", "C"), ("ll", "y"), ("rr", "R"), ("qu", "k"), ("gu(?=[ei])", "G"), ("g(?=[ei])", "j"),
                  ("G", "g"), ("c(?=[ei])", "z"), ("c", "k"), ("h", ""), ("v", "b"), ("w", "u"), ("x", "ks"),
                  ("y$", "i"), ("^r", "R")]:
         t = re.sub(a, b, t)
-    return t
+    return t.replace("z", "s") if seseo else t
 
 
 def normalizar_silaba(s):

@@ -2,7 +2,7 @@
  * Lector encadenado — arma y reproduce sílabas, palabras y oraciones con los audios de esta carpeta.
  *
  *   import { Lector } from "./lector.js";
- *   const lector = await Lector.crear("lectura/");      // carga los 3 audios una sola vez (~1 s la primera vez)
+ *   const lector = await Lector.crear("lectura/");      // carga los audios una sola vez (1 a 3 s la primera vez)
  *   await lector.leerOracion("hoy me voy de vacaciones a la casa de mi tío");   // cualquier orden
  *   await lector.leerSilabas("vaca");                     // va - ca
  *   await lector.leerPalabra("vaca");                     // vaca
@@ -13,8 +13,9 @@
  *  - Palabras del banco: versión "medio" (como suena dentro de una oración) y "final" para la última.
  *  - Palabras que no están grabadas o mal escritas: primero se busca una que suene igual (baca → vaca);
  *    si no hay, se arma con dífonos (transiciones entre sonidos) respetando la sílaba acentuada.
- *  - Empalmes según los sonidos que se tocan: antes de p/t/k/ch un silencio corto (el de esa consonante),
- *    vocal + vocal se funden, el resto con un solape corto y fundido de potencia constante.
+ *  - Empalme "legato": cada palabra conserva su cola natural y la siguiente entra encima de esa cola mientras
+ *    se apaga (sin fundidos), como al hablar de corrido. Antes de p/t/k/ch queda el silencio de esa consonante.
+ *    Para una lectura más pausada: lector.p.pausa_extra_ms = 120 (o el valor que quieras).
  *  - Todo se arma en memoria, sin esperas: después de crear el lector cada lectura es instantánea.
  *
  * Mismas reglas que herramientas/fonetica.py y herramientas/lectura.py (los ejemplos se arman con esos).
@@ -29,7 +30,7 @@ const VOC = "aeiou";
 const CORTE_EN_CIERRE = "ptkC";
 const SUSTITUTOS = { R: "r", r: "R", N: "n", Y: "J", C: "t", Z: "s", J: "x", x: "J" };
 
-const muestras = (seg, sr) => Math.floor(seg * sr + 0.5);
+const muestras = (seg, sr) => { const v = seg * sr; return v >= 0 ? Math.floor(v + 0.5) : -Math.floor(-v + 0.5); };
 const clase = (s) => (VOC.includes(s[0]) ? "v" : CORTE_EN_CIERRE.includes(s[0]) ? "c" : "o");
 
 /* ------------------------------------------------------------------ texto -> sonidos */
@@ -147,13 +148,13 @@ export function fonemas(palabra, acentuada = true) {
   return res;
 }
 
-export function claveFonetica(w) {
+export function claveFonetica(w, seseo = false) {
   let t = sinTildes(w.toLowerCase().replace(/gü/g, "gw"));
   const reglas = [[/ch/g, "C"], [/ll/g, "y"], [/rr/g, "R"], [/qu/g, "k"], [/gu(?=[ei])/g, "G"],
     [/g(?=[ei])/g, "j"], [/G/g, "g"], [/c(?=[ei])/g, "z"], [/c/g, "k"], [/h/g, ""], [/v/g, "b"],
     [/w/g, "u"], [/x/g, "ks"], [/y$/, "i"], [/^r/, "R"]];
   for (const [a, b] of reglas) t = t.replace(a, b);
-  return t;
+  return seseo ? t.replace(/z/g, "s") : t;   // voz latinoamericana: z, ce, ci y s suenan igual
 }
 
 export function normalizarSilaba(s) {
@@ -169,7 +170,37 @@ export function claveDifono(a, b) {
 }
 
 /* ------------------------------------------------------------------ mezcla */
-// piezas: [[audio, junta]]; junta > 0 = muestras de silencio antes; < 0 = muestras de solape con fundido
+// Segundos de la cola que se apaga al final de una palabra (igual que cola_seg en lectura.py)
+export function colaSeg(y, sr) {
+  const hop = Math.floor(0.005 * sr), win = Math.floor(0.010 * sr);
+  const n = Math.floor((y.length - win) / hop) + 1;
+  if (n < 4) return 0;
+  const db = new Float64Array(n);
+  for (let i = 0; i < n; i++) {
+    let s = 0;
+    for (let j = 0; j < win; j++) { const v = y[i * hop + j]; s += v * v; }
+    db[i] = 20 * Math.log10(Math.sqrt(s / win) + 1e-10);
+  }
+  let max = -Infinity;
+  for (const v of db) if (v > max) max = v;
+  const act = Array.from(db).filter((v) => v > max - 25).sort((a, b) => a - b);
+  const m = act.length % 2 ? act[(act.length - 1) / 2] : (act[act.length / 2 - 1] + act[act.length / 2]) / 2;
+  let k = n - 1;
+  while (k > 0 && db[k] < m - 9) k--;
+  return Math.min(0.08, (y.length - (k + 1) * hop) / sr);
+}
+
+// Apaga suave (coseno, 40 ms) el final de una palabra que termina seca ("medio" o armada con dífonos)
+// cuando después viene una pausa. Igual en lectura.py.
+export function apagar(y, sr, ms = 40) {
+  const n = Math.min(y.length, muestras(ms / 1000, sr));
+  const z = Float32Array.from(y);
+  for (let i = 0; i < n; i++) z[z.length - n + i] *= 0.5 + 0.5 * Math.cos(Math.PI * (i + 0.5) / n);
+  return z;
+}
+
+// piezas: [[audio, junta]] o [[audio, junta, "sumar"]]. junta > 0 = muestras de silencio antes; < 0 = solape:
+// con fundido de potencia constante (dífonos) o, con "sumar", superpuesto sin fundidos (legato entre palabras)
 export function mezclar(piezas) {
   let pos = 0;
   const inicios = [];
@@ -182,10 +213,10 @@ export function mezclar(piezas) {
     pos = ini + y.length;
   });
   const out = new Float32Array(Math.max(pos, 0));
-  piezas.forEach(([y, junta], k) => {
+  piezas.forEach(([y, junta, modo], k) => {
     const ini = inicios[k];
     let n = 0;
-    if (k > 0 && junta < 0) n = Math.min(-junta, piezas[k - 1][0].length, y.length);
+    if (k > 0 && junta < 0 && modo !== "sumar") n = Math.min(-junta, piezas[k - 1][0].length, y.length);
     for (let i = 0; i < n; i++) {
       const ang = (i + 0.5) / n * (Math.PI / 2);
       out[ini + i] = out[ini + i] * Math.cos(ang) + y[i] * Math.sin(ang);
@@ -218,6 +249,7 @@ export class Lector {
   constructor(manifest, ctx = null) {
     this.m = manifest;
     this.p = manifest.parametros;
+    this.seseo = Boolean(manifest.seseo);
     this.ctx = ctx;
     this.sr = ctx ? ctx.sampleRate : manifest.sr;
     this.audios = {};
@@ -231,11 +263,13 @@ export class Lector {
     this.fuente = null;
   }
 
-  // Carga y decodifica los 3 audios en paralelo. Corrige el pequeño desfase que agregan algunos formatos (MP3).
+  // Carga y decodifica los audios una sola vez, de a dos por vez (así no se junta tanta memoria al decodificar).
+  // Se guardan como enteros de 16 bits, que ocupan la mitad que el formato de Web Audio.
+  // También corrige el pequeño desfase que agregan algunos formatos (MP3).
   async cargar(leer) {
-    await Promise.all(Object.entries(this.m.audios).map(async ([nombre, ruta]) => {
-      const buf = await this.ctx.decodeAudioData(await leer(ruta));
-      const x = buf.getChannelData(0);
+    const cola = Object.entries(this.m.audios);
+    const uno = async ([nombre, ruta]) => {
+      const x = (await this.ctx.decodeAudioData(await leer(ruta))).getChannelData(0);
       const deltas = [];
       for (const marca of this.m.marcas[nombre] || []) {
         // el MP3 solo puede atrasar el audio (retardo del codificador), nunca adelantarlo
@@ -244,20 +278,29 @@ export class Lector {
       }
       deltas.sort((p, q) => p - q);
       this.desfase[nombre] = deltas.length ? deltas[Math.floor(deltas.length / 2)] : 0;
-      this.audios[nombre] = x;
-    }));
+      const q = new Int16Array(x.length);
+      for (let i = 0; i < x.length; i++) {
+        const v = Math.round(x[i] * 32768);
+        q[i] = v > 32767 ? 32767 : v < -32768 ? -32768 : v;
+      }
+      this.audios[nombre] = q;
+    };
+    await Promise.all([0, 1].map(async () => { while (cola.length) await uno(cola.shift()); }));
     return this;
   }
 
   _corte(archivo, [ini, dur]) {
-    const a = muestras(ini + (this.desfase[archivo] || 0), this.sr);
-    return this.audios[archivo].subarray(Math.max(0, a), Math.max(0, a) + muestras(dur, this.sr));
+    const a = Math.max(0, muestras(ini + (this.desfase[archivo] || 0), this.sr));
+    const q = this.audios[archivo].subarray(a, a + muestras(dur, this.sr));
+    const y = new Float32Array(q.length);
+    for (let i = 0; i < q.length; i++) y[i] = q[i] / 32768;
+    return y;
   }
 
   buscar(w) {
     w = w.toLowerCase();
     if (this.m.palabras[w]) return w;
-    return this.porTilde.get(sinTildes(w)) || this.porClave.get(claveFonetica(w)) || null;
+    return this.porTilde.get(sinTildes(w)) || this.porClave.get(claveFonetica(w, this.seseo)) || null;
   }
 
   _buscarDifono(s1, a1, s2, a2) {
@@ -287,46 +330,57 @@ export class Lector {
     return piezas.length ? mezclar(piezas) : new Float32Array(0);
   }
 
+  // [audio, primer sonido, último sonido, terminaNatural]. terminaNatural: se usó la versión "final", que se
+  // apaga sola; la "medio" y las armadas con dífonos terminan secas.
   palabra(w, final) {
     const pal = this.buscar(w);
-    let fon, y;
+    let fon, y, natural = false;
     if (pal) {
       const d = this.m.palabras[pal];
       fon = fonemas(pal);
-      y = this._corte("palabras", final && d.final ? d.final : d.medio);
+      natural = Boolean(final && d.final);
+      y = this._corte(d.archivo || "palabras", natural ? d.final : d.medio);
     } else {
       fon = fonemas(w);
       y = this.difonos(fon);
     }
     if (!fon.length) return null;
-    return [y, fon[0][0], fon[fon.length - 1][0]];
+    return [y, fon[0][0], fon[fon.length - 1][0], natural];
   }
 
-  _junta(prevFin, sigIni) {
-    if (CORTE_EN_CIERRE.includes(sigIni)) return muestras(this.p.hueco_oclusiva_ms / 1000, this.sr);
-    if (VOC.includes(sigIni)) return -muestras((VOC.includes(prevFin) ? this.p.solape_vocales_ms : this.p.solape_vocal_ms) / 1000, this.sr);
-    return -muestras(this.p.solape_ms / 1000, this.sr);
+  // empalme legato: la palabra siguiente entra sobre la cola que se apaga de la anterior
+  _junta(prevAudio, sigIni) {
+    const extra = (this.p.pausa_extra_ms || 0) / 1000;
+    if (CORTE_EN_CIERRE.includes(sigIni)) return muestras(this.p.hueco_oclusiva_ms / 1000 + extra, this.sr);
+    return muestras(extra - this.p.entrada_ms / 1000 - this.p.solape_cola * colaSeg(prevAudio, this.sr), this.sr);
   }
 
   oracion(texto) {
     const tokens = texto.match(/\p{L}+|[.,;:!?¡¿]/gu) || [];
     const total = tokens.filter((t) => /\p{L}/u.test(t)).length;
     const piezas = [];
-    let vistas = 0, ultimo = null, pausa = 0;
-    for (const t of tokens) {
+    let vistas = 0, pausa = 0, seca = false;
+    tokens.forEach((t, i) => {
       if (!/\p{L}/u.test(t)) {
         if (piezas.length && ",;:".includes(t)) pausa = Math.max(pausa, muestras(this.p.pausa_coma_ms / 1000, this.sr));
         else if (piezas.length && ".!?".includes(t)) pausa = Math.max(pausa, muestras(this.p.pausa_punto_ms / 1000, this.sr));
-        continue;
+        return;
       }
       vistas += 1;
-      const r = this.palabra(t, vistas === total);
-      if (!r || !r[0].length) continue;
-      const [y, ini, fin] = r;
-      const junta = !piezas.length ? 0 : (pausa || this._junta(ultimo, ini));
-      piezas.push([y, junta]);
-      ultimo = fin; pausa = 0;
-    }
+      // versión "final" en la última palabra y antes de un punto (cierra la oración, se apaga sola)
+      const sig = tokens[i + 1] || "";
+      const r = this.palabra(t, vistas === total || ".!?".includes(sig) && sig !== "");
+      if (!r || !r[0].length) return;
+      const [y, ini, , natural] = r;
+      const junta = !piezas.length ? 0 : (pausa || this._junta(piezas[piezas.length - 1][0], ini));
+      if (piezas.length && seca && (pausa || (this.p.pausa_extra_ms || 0) > 0)) {
+        const ant = piezas[piezas.length - 1];
+        piezas[piezas.length - 1] = [apagar(ant[0], this.sr), ant[1], ant[2]];
+      }
+      piezas.push([y, junta, "sumar"]);
+      pausa = 0;
+      seca = !natural;
+    });
     return piezas.length ? mezclar(piezas) : new Float32Array(0);
   }
 

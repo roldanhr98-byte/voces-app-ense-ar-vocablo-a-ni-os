@@ -15,15 +15,39 @@ from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from voces import BIBLIOTECA as BIB, LECTURA as LEC, NOMBRE_ZIP, VOZ  # noqa: E402
+from voces import BIBLIOTECA as BIB, LECTURA as LEC, NOMBRE_ZIP, NOTAS_DIALECTO, VOZ  # noqa: E402
+
+
+DIALECTO = NOTAS_DIALECTO[VOZ.get("dialecto", "españa")]
+
+
+def datos_lectura():
+    """Cantidad de palabras, archivos de palabras y memoria (MB, enteros de 16 bits a 24 kHz) del paquete de lectura."""
+    import json
+    import wave
+    man = LEC / "manifest_lectura.json"
+    if not man.exists():
+        return {}
+    m = json.loads(man.read_text(encoding="utf-8"))
+    seg = 0.0
+    for ruta in m["audios"].values():
+        with wave.open(str(LEC / ruta)) as w:
+            seg += w.getnframes() / w.getframerate()
+    n_arch = sum(1 for k in m["audios"] if k.startswith("palabras"))
+    return {"{N_PALABRAS}": str(len(m["palabras"])), "{N_ARCHIVOS}": str(n_arch),
+            "{MEMORIA}": str(int(round(seg * 24000 * 2 / 1e6 / 5) * 5))}
 
 
 def plantilla(ruta):
     """Lee un README y completa los datos de la voz."""
     t = Path(ruta).read_text(encoding="utf-8")
+    for k, v in datos_lectura().items():
+        t = t.replace(k, v)
     for k, v in {"{VOZ_NOMBRE}": VOZ["nombre"], "{CARPETA}": NOMBRE_ZIP,
                  "{CORRECCIONES}": VOZ.get("correcciones") or "- Ninguna por ahora.",
-                 "{ATENCION}": VOZ.get("atencion") or "las familias inversas."}.items():
+                 "{ATENCION}": VOZ.get("atencion") or "las familias inversas.",
+                 "{ACENTO}": DIALECTO["acento"], "{NOTAS_PRONUNCIACION}": DIALECTO["notas"],
+                 "{LIMITACION_DIALECTO}": DIALECTO["limitacion"]}.items():
         t = t.replace(k, v)
     return t
 

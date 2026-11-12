@@ -85,12 +85,23 @@ button:focus-visible, .btn:focus-within, textarea:focus-visible { outline: 3px s
 .ficha.letra { background: var(--suave); font-weight: 700; min-width: 3.4rem; }
 .ficha.fam { font: 500 0.85rem var(--f-display); color: var(--gris); background: transparent; }
 .ficha.sonando, .ficha.sonando .v { background: var(--azul); color: var(--azul-fg); border-color: var(--azul); }
+.cat { border-top: 1px solid var(--linea); }
+.cat > summary {
+  cursor: pointer; padding: 10px 0; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gris);
+}
+.cat > summary .cuenta { font-variant-numeric: tabular-nums; opacity: 0.7; margin-left: 4px; }
+.cat > .fila { border-top: 0; padding-top: 0; padding-bottom: 12px; }
 .grupo-etq { width: 100%; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gris); }
 textarea {
   width: 100%; font: 400 1.3rem/1.4 var(--f-display); padding: 12px 14px; border-radius: 12px;
   border: 1px solid var(--linea); background: var(--hoja); color: var(--tinta); resize: vertical;
 }
-.acciones { display: flex; flex-wrap: wrap; gap: 8px; }
+.acciones { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ritmo { display: inline-flex; align-items: center; gap: 6px; color: var(--gris); font-size: 0.92rem; }
+.ritmo select {
+  font: 400 0.95rem var(--f-texto); padding: 7px 8px; border-radius: 10px; border: 1px solid var(--linea);
+  background: var(--hoja); color: var(--tinta);
+}
 .prueba { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: var(--gris); font-size: 0.92rem; }
 .chip { font: 400 0.9rem var(--f-texto); padding: 5px 10px; border-radius: 999px; border: 1px solid var(--linea); background: var(--hoja); color: var(--tinta); cursor: pointer; }
 .diag { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -145,12 +156,17 @@ textarea {
         <button class="btn prim" data-accion="leer">Leer</button>
         <button class="btn" data-accion="silabas">Leer por sílabas</button>
         <button class="btn" data-accion="paso">Sílabas y después de corrido</button>
+        <label class="ritmo">Ritmo
+          <select data-ritmo>
+            <option value="0">normal</option><option value="120">pausado</option><option value="250">muy pausado</option>
+          </select>
+        </label>
       </div>
       <div class="prueba">Probá:
         <button class="chip" data-texto="la vaca come pasto">la vaca come pasto</button>
         <button class="chip" data-texto="hoy me voy de vacaciones a la casa de mi tío">hoy me voy de vacaciones…</button>
         <button class="chip" data-texto="la baca come pazto">la baca come pazto (con errores)</button>
-        <button class="chip" data-texto="el dinosaurio come tomate y chocolate">el dinosaurio come tomate… (no grabadas)</button>
+        <button class="chip" data-texto="el hipopótamo y el rinoceronte nadan en el lago">el hipopótamo y el rinoceronte… (palabras no grabadas)</button>
         <button class="chip" data-texto="b">b</button>
         <button class="chip" data-texto="tra">tra</button>
       </div>
@@ -174,6 +190,11 @@ textarea {
         <button class="btn prim" data-accion="leer-armada">Leer</button>
         <button class="btn" data-accion="mezclar">Mezclar</button>
         <button class="btn" data-accion="borrar">Borrar</button>
+        <label class="ritmo">Ritmo
+          <select data-ritmo>
+            <option value="0">normal</option><option value="120">pausado</option><option value="250">muy pausado</option>
+          </select>
+        </label>
       </div>
       <p class="leyenda">Tocá una palabra de abajo para sumarla. Tocá una palabra de la oración para sacarla.</p>
     </div>
@@ -198,8 +219,11 @@ const TITULOS = {
   "00_renders_bloques_completos": "Bloques completos (render)"
 };
 const CATEGORIAS = {
-  funcion: "Artículos y conectores", pronombres: "Pronombres", personas: "Personas", animales: "Animales",
-  lugares: "Lugares", cosas: "Cosas", verbos: "Verbos", adjetivos: "Cómo es", tiempo_y_otros: "Tiempo y otras"
+  funcion: "Artículos y conectores", pronombres: "Pronombres", personas: "Personas", cuerpo: "El cuerpo",
+  animales: "Animales", comida: "Comida", casa_y_escuela: "Casa y escuela", transporte: "Transporte", ropa: "Ropa",
+  naturaleza: "Naturaleza", lugares: "Lugares", verbos: "Verbos", adjetivos: "Cómo es", colores: "Colores",
+  numeros: "Números", tiempo: "Tiempo", preguntas_y_saludos: "Preguntas y saludos", otros: "Otras palabras",
+  cosas: "Cosas", tiempo_y_otros: "Tiempo y otras"
 };
 const LETRA_A_GRUPO = { "ñ": "ny" };
 
@@ -278,7 +302,6 @@ async function importar(archivos, esCarpeta) {
     }
     if (!encontradas.size) throw new Error("No encontré los audios en lo que elegiste. Importá el zip «voces_…zip» completo.");
     const json = async (r) => JSON.parse(new TextDecoder().decode(await vfs.mapa.get(r)()));
-    let ultima = -1;
     for (const [raiz, d] of encontradas) {
       $("#estado").textContent = "Preparando la voz…";
       $("#estado").classList.remove("ok");
@@ -294,9 +317,11 @@ async function importar(archivos, esCarpeta) {
       v.audios = [...vfs.mapa.keys()].filter((r) => r.startsWith(raiz) && /\.(wav|mp3)$/.test(r)).length;
       const k = voces.findIndex((x) => x.raiz === raiz);
       if (k >= 0) voces[k] = v; else voces.push(v);
-      ultima = voces.findIndex((x) => x.raiz === raiz);
     }
-    elegirVoz(ultima);
+    // entre las voces recién importadas, queda elegida la del banco de palabras más completo
+    const nuevas = [...encontradas.keys()].map((raiz) => voces.findIndex((x) => x.raiz === raiz));
+    const tam = (i) => (voces[i].LEC ? Object.keys(voces[i].LEC.palabras).length : 0);
+    elegirVoz(nuevas.reduce((a, b) => (tam(b) > tam(a) ? b : a)));
   } catch (e) {
     $("#estado").textContent = e.message;
     $("#estado").classList.remove("ok");
@@ -453,11 +478,12 @@ function renderBanco() {
     if (!cats.has(d.categoria)) cats.set(d.categoria, []);
     cats.get(d.categoria).push(w);
   }
-  let h = "";
+  const total = Object.keys(LEC.palabras).length;
+  let h = `<h2>Banco de palabras</h2><p class="sub">${total} palabras grabadas. Tocá una categoría para abrirla.</p>`, n = 0;
   for (const [c, ws] of cats) {
-    h += `<div class="fila"><span class="grupo-etq">${esc(CATEGORIAS[c] || c)}</span>`;
+    h += `<details class="cat"${n++ < 2 ? " open" : ""}><summary>${esc(CATEGORIAS[c] || c)} <span class="cuenta">${ws.length}</span></summary><div class="fila">`;
     for (const w of ws) h += `<button class="ficha chica" data-agregar="${esc(w)}">${pintar(w)}</button>`;
-    h += `</div>`;
+    h += `</div></details>`;
   }
   $("#banco").innerHTML = h;
   $("#ejemplos").innerHTML = (LEC.ejemplos || []).map((e) =>
@@ -490,8 +516,10 @@ function familiaDeLetra(t) {
 }
 
 /* ---------- acciones ---------- */
+let ritmo = 0;   // pausa extra entre palabras (ms): 0 normal, 120 pausado, 250 muy pausado
 async function accion(nombre, boton) {
   const texto = $("#texto-libre").value.trim();
+  if (lector) lector.p.pausa_extra_ms = ritmo;
   try {
     if (nombre === "leer" || nombre === "silabas" || nombre === "paso") {
       if (!texto) { avisar("Escribí algo primero."); return; }
@@ -520,6 +548,12 @@ async function accion(nombre, boton) {
     avisar(e.message || "No se pudo reproducir.");
   }
 }
+
+document.addEventListener("change", (ev) => {
+  if (!ev.target.matches("[data-ritmo]")) return;
+  ritmo = Number(ev.target.value) || 0;
+  for (const s of document.querySelectorAll("[data-ritmo]")) s.value = String(ritmo);
+});
 
 document.addEventListener("click", async (ev) => {
   if (ctx && ctx.state === "suspended") ctx.resume();

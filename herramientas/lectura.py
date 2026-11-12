@@ -34,10 +34,10 @@ import numpy as np
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import difonos as D  # noqa: E402
 import recortar as R  # noqa: E402
-from bloques import AJUSTES_NEUTROS, SEMILLA, VOZ_ID, VOZ_NOMBRE  # noqa: E402
+from bloques import AJUSTES_LECTURA as AJUSTES_NEUTROS, SEMILLA, VOZ_ID, VOZ_NOMBRE  # noqa: E402
 from fonetica import (clave_difono, clave_fonetica, fonemas, normalizar_silaba, silabear,  # noqa: E402,F401
                       sin_tildes)
-from generar import obtener_toma  # noqa: E402
+from generar import TOMAS, clave_toma, obtener_toma  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
 from voces import BIBLIOTECA, LECTURA as SALIDA, VOZ  # noqa: E402
@@ -48,22 +48,69 @@ PORTADOR = "todo"            # palabra que sigue y se corta (su "t" deja un sile
 
 # ----------------------------------------------------------------------------- vocabulario
 FUNCION = ("el la los las un una unos unas mi mis tu tus su sus a al de del en con por para sin sobre "
-           "y o pero que porque me te se le lo").split()
+           "y o pero que porque me te se le lo si ni nos les hasta desde entre hacia cuando donde tan").split()
 CONTENIDO = {
-    "pronombres": "yo tú él ella nosotros ellos",
-    "personas": "mamá papá tío tía abuelo abuela hermano hermana amigo amiga niño niña maestra maestro bebé",
-    "animales": ("vaca perro gato pato pájaro caballo pez ratón conejo oso león mono oveja pollito mariposa "
-                 "toro dinosaurio ardilla elefante tortuga mariquita cocodrilo gallina"),
-    "lugares": "casa escuela parque playa jardín campo río mar montaña ciudad calle tienda",
-    "cosas": ("pasto sol luna agua flor árbol pelota libro juguete mesa cama pan leche fruta manzana helado "
-              "comida carro bicicleta tomate chocolate naranja sandía zapato pantalón estrella helicóptero "
-              "lluvia nube globo regalo"),
-    "verbos": ("es está son están soy estoy tiene tengo va voy vamos come como bebe juega juego corre salta "
-               "duerme lee canta mira quiere quiero vive nada vuela camina toma llueve pinta dibuja escribe aprende"),
-    "adjetivos": ("grande pequeño pequeña bonito bonita feliz contento contenta rojo azul verde amarillo "
-                  "blanco negro alto rápido nuevo mucho muchos muy más"),
-    "tiempo_y_otros": ("hoy ayer mañana ahora siempre aquí allá no sí vacaciones día noche tarde también todos "
-                       "todavía cumpleaños fiesta juntos"),
+    "pronombres": "yo tú él ella nosotros ellos este esta estos estas ese esa esos esas eso esto algo nadie alguien",
+    "personas": ("mamá papá tío tía abuelo abuela hermano hermana amigo amiga niño niña maestra maestro bebé hijo hija "
+                 "primo prima señor señora doctor doctora policía bombero vecino vecina rey reina princesa príncipe hada "
+                 "pirata payaso gente familia niños niñas amigos amigas hermanos papás abuelos chicos chicas abuelita "
+                 "abuelito bebés señorita profesor profesora cocinero granjero hermanito hermanita alumno alumnos "
+                 "compañero compañera astronauta"),
+    "cuerpo": "mano manos pie pies ojo ojos boca nariz oreja cabeza pelo diente dientes brazo pierna dedo cara corazón",
+    "animales": ("vaca perro gato pato pájaro caballo pez ratón conejo oso león mono oveja pollito mariposa toro "
+                 "dinosaurio ardilla elefante tortuga mariquita cocodrilo gallina perrito perrita gatito gatita cerdo "
+                 "burro gallo pollo loro búho rana sapo ballena delfín tiburón pulpo cangrejo foca pingüino lobo zorro "
+                 "tigre jirafa cebra camello canguro serpiente abeja hormiga araña mosca caracol paloma águila perros "
+                 "gatos pájaros animales peces patos vacas pollitos ovejas conejito ratoncito pececito patito pajarito "
+                 "caballito mariposas abejas hormigas dinosaurios dragón unicornio monstruo mascota"),
+    "comida": ("pan leche fruta manzana helado comida tomate chocolate naranja sandía agua sopa arroz carne huevo "
+               "huevos queso jugo galleta galletas torta pastel dulce dulces caramelo plátano banana uva uvas fresa "
+               "pera piña limón zanahoria maíz pizza miel desayuno almuerzo cena frutas arepa empanada tortilla "
+               "pescado ensalada papitas mango melón cereza coco durazno manzanas naranjas tomates helados bebida "
+               "refresco té merienda postre hambre sed"),
+    "casa_y_escuela": ("mesa cama libro juguete pelota globo regalo puerta ventana silla sofá cocina baño cuarto piso "
+                       "cuchara plato vaso taza llave lámpara reloj teléfono televisión computadora cuaderno lápiz "
+                       "colores papel tijeras mochila caja juguetes muñeca tambor guitarra piano dibujo cuento canción "
+                       "música tarea clase recreo letra letras palabra palabras nombre número libros juegos casita "
+                       "almohada manta jabón cepillo toalla espejo escalera columpio tobogán cometa trompo muñeco "
+                       "peluche osito carrito bloques rompecabezas crayones pincel pintura cuadernos regla borrador "
+                       "pizarra salón patio"),
+    "transporte": "carro bicicleta helicóptero barco avión tren autobús camión cohete",
+    "ropa": "zapato pantalón camisa vestido falda zapatos gorra sombrero abrigo botas",
+    "naturaleza": ("sol luna flor árbol estrella lluvia nube pasto cielo tierra arena piedra hoja hojas planta flores "
+                   "árboles bosque lago isla nieve viento estrellas arcoíris mundo nubes rayo trueno tormenta ola olas "
+                   "concha montañas camino puente volcán cueva planeta espacio"),
+    "lugares": ("casa escuela parque playa jardín campo río mar montaña ciudad calle tienda colegio hospital mercado "
+                "zoológico granja pueblo lugar"),
+    "verbos": ("es está son están soy estoy tiene tengo va voy vamos come como bebe juega juego corre salta duerme lee "
+               "canta mira quiere quiero vive nada vuela camina toma llueve pinta dibuja escribe aprende hay era fue "
+               "tenía hace hago puede puedo sabe dice ve veo oye habla hablo escucha comemos comen bebo juegan jugamos "
+               "jugar comer correr saltar leer escribir dibujar pintar cantar bailar dormir nadar ir ver hacer jugaba "
+               "corro corren duermo duermen leo leen canto cantan baila bailo bailan abre cierra sube baja entra sale "
+               "llega busca encuentra ayuda ayudo lava limpia compra trae lleva da doy pone ríe llora abraza gusta "
+               "gustan ama amo necesito piensa conoce vivo viven cuida patea sopla toca miro camino corrió saltó comió "
+               "jugó vio llegó dijo estaba quieren queremos tienen tenemos van fuimos vi encanta encantan puedes "
+               "quieres tienes vas eres estás somos sabes dices haces juegas comes corres miras ves despierta levanta "
+               "baña viste peina ordena guarda saca regala presta comparte espera sigue empieza termina gana pierde cae "
+               "cayó rompe arregla construye cuenta leyó escribió dibujó pintó cantó bailó durmió nadó voló caminó "
+               "subió bajó abrió cerró llovió hizo puso trajo encontró ayudó compró quería estaban fueron jugaron "
+               "comieron corrieron llegaron vinieron"),
+    "adjetivos": ("grande pequeño pequeña bonito bonita feliz contento contenta alto rápido nuevo chico chica chiquito "
+                  "gordo largo corto lindo linda bueno buena malo alegre triste enojado cansado limpio sucio caliente "
+                  "frío fría rico rica suave mojado lleno fuerte lento nueva viejo vieja bajo alta grandes pequeños "
+                  "bonitos bonitas felices contentos altos bajos rápida lenta mojada sucia llena vacío vacía tranquilo "
+                  "valiente divertido divertida dormido despierto hermoso hermosa preciosa favorito favorita mágico "
+                  "gigante peludo redondo cuadrado"),
+    "colores": ("rojo azul verde amarillo blanco negro roja verdes amarilla blanca negra rosada morada anaranjado gris "
+                "rosado morado café"),
+    "numeros": "uno dos tres cuatro cinco seis siete ocho nueve diez",
+    "tiempo": ("hoy ayer mañana ahora siempre tarde noche día vacaciones cumpleaños fiesta lunes martes miércoles "
+               "jueves viernes sábado domingo semana año invierno verano luego después antes nunca ya temprano todavía "
+               "hora horas minuto mes noches días fin navidad entonces"),
+    "preguntas_y_saludos": "qué cómo dónde cuándo quién cuál hola adiós gracias perdón favor sí no",
+    "otros": ("mucho muchos muy más aquí allá también todos juntos muchas poco pocos todo toda otro otra primero "
+              "último mejor bien mal vez veces solo sola cerca lejos arriba abajo adentro afuera encima debajo detrás "
+              "delante despacio bastante cosa cosas"),
 }
 CATEGORIA = {w: "funcion" for w in FUNCION}
 for _cat, _ws in CONTENIDO.items():
@@ -73,10 +120,12 @@ PALABRAS = list(CATEGORIA)
 
 # ----------------------------------------------------------------------------- parámetros (iguales en lector.js)
 PARAMS = {
-    "hueco_oclusiva_ms": 40,      # antes de p, t, k, ch: el cierre natural de la consonante
-    "solape_vocales_ms": 20,      # vocal + vocal: se funden ("de‿agua"); con más, palabras cortas como "hoy" se pierden
-    "solape_vocal_ms": 20,        # consonante + vocal ("los‿ojos")
-    "solape_ms": 15,              # el resto de los empalmes (solapes más largos se comen palabras cortas: probado)
+    # Empalme "legato": cada palabra conserva su cola natural (no se corta de golpe) y la siguiente entra encima
+    # de esa cola mientras se apaga, sumándose sin fundidos (como al hablar de corrido).
+    "entrada_ms": 10,             # la palabra siguiente entra sobre su propio silencio inicial...
+    "solape_cola": 0.5,           # ...y sobre esta fracción de la cola que se apaga de la anterior
+    "hueco_oclusiva_ms": 30,      # antes de p, t, k, ch: la cola termina y queda el silencio del cierre
+    "pausa_extra_ms": 0,          # pausa agregada entre palabras: subirla da una lectura más pausada (p. ej. 120)
     "pausa_coma_ms": 250,
     "pausa_punto_ms": 450,
     "pausa_entre_silabas_ms": 300,
@@ -87,19 +136,34 @@ SEPARACION = 0.06   # silencio entre unidades dentro de cada archivo
 
 
 def n_muestras(seg, sr):
-    return int(seg * sr + 0.5)
+    """Segundos -> muestras, redondeando al más cercano (igual para negativos; igual en lector.js)."""
+    v = seg * sr
+    return int(v + 0.5) if v >= 0 else -int(-v + 0.5)
 
 
 # ----------------------------------------------------------------------------- generación de palabras
-def semilla(w):
-    """Semilla de cada palabra (algunas voces regraban una palabra con otra semilla: ver voces.py)."""
-    return VOZ.get("semilla_palabras", {}).get(w, SEMILLA)
+def semilla(w, final=False):
+    """Semilla de cada palabra. Algunas voces regraban una palabra con otra semilla (ver voces.py): la clave "w" vale
+    para las dos versiones y "w." solo para la versión final."""
+    sp = VOZ.get("semilla_palabras", {})
+    return sp.get(f"{w}.", sp.get(w, SEMILLA)) if final else sp.get(w, SEMILLA)
 
 
 def peticiones():
     p = [(f"{w} {PORTADOR}", CONTEXTO, semilla(w)) for w in PALABRAS]
-    p += [(f"{w}.", CONTEXTO, semilla(w)) for w in PALABRAS if CATEGORIA[w] != "funcion"]
+    p += [(f"{w}.", CONTEXTO, semilla(w, final=True)) for w in PALABRAS if CATEGORIA[w] != "funcion"]
     return p
+
+
+def grabada(w, voz=VOZ_ID):
+    """True si las tomas de la palabra ya están en el caché (armar no genera nada nuevo ni gasta créditos)."""
+    textos = [(f"{w} {PORTADOR}", False)] + ([(f"{w}.", True)] if CATEGORIA[w] != "funcion" else [])
+    return all((TOMAS / f"{clave_toma(t, AJUSTES_NEUTROS, CONTEXTO, semilla(w, fin), voz=voz)}.wav").exists()
+               for t, fin in textos)
+
+
+SESEO = VOZ.get("dialecto") == "latinoamericano"   # z, ce, ci y s suenan igual: "pazto" se lee con "pasto"
+PALABRAS_POR_ARCHIVO = 160   # el banco se reparte en varios audios: cada uno se decodifica rápido y con poca memoria
 
 
 def generar(voz=VOZ_ID):
@@ -125,7 +189,8 @@ def cortar_medio(w, voz=VOZ_ID):
     db = R.energia_db(x)
     fin_w = al["character_end_times_seconds"][len(w) - 1]
     ini_t = al["character_start_times_seconds"][len(w) + 1]
-    a, b = R.t2f(min(fin_w, ini_t) - 0.05), R.t2f(max(fin_w, ini_t) + 0.06)
+    a = min(max(0, R.t2f(min(fin_w, ini_t) - 0.05)), len(db) - 2)
+    b = min(len(db), max(a + 2, R.t2f(max(fin_w, ini_t) + 0.06)))
     cierre = a + int(np.argmin(db[a:b]))
     tope = db[:cierre].max()
     voz_on = np.where(db[:cierre] > tope - 30)[0]
@@ -136,22 +201,11 @@ def cortar_medio(w, voz=VOZ_ID):
 
 
 def cortar_final(w, voz=VOZ_ID):
-    x = R.leer_wav(io.BytesIO(obtener_toma(f"{w}.", AJUSTES_NEUTROS, CONTEXTO, semilla(w), voz=voz)[0]))
+    x = R.leer_wav(io.BytesIO(obtener_toma(f"{w}.", AJUSTES_NEUTROS, CONTEXTO, semilla(w, final=True), voz=voz)[0]))
     db = R.energia_db(x)
     act = np.where(db > db.max() - 40)[0]
     y = x[int(max(0, act[0] - 2) * R.HOP * R.SR):int(min(len(db), act[-1] + 8) * R.HOP * R.SR)]
     return _bordes(y, fo=0.030)
-
-
-def sin_cola(y, w):
-    """Si la palabra termina en vocal, quita la cola que se apaga (así empalma sin bajón con la siguiente)."""
-    fon = fonemas(w)
-    if not fon or fon[-1][0] not in D.VOC or len(y) < 0.18 * R.SR:   # palabras muy cortas ("a", "y") quedan enteras
-        return y
-    db = R.energia_db(y)
-    med = np.median(db[db > db.max() - 25])
-    fin = min(len(y), int((np.where(db >= med - 9)[0][-1] + 2) * R.HOP * R.SR))
-    return _bordes(y[:fin], fo=0.012)
 
 
 def recorte_justo(y, pre=0.010, post=0.040):
@@ -169,10 +223,28 @@ def rms_activo(y):
 
 
 # ----------------------------------------------------------------------------- mezcla (igual que lector.js)
+def cola_seg(y, sr):
+    """Segundos de la cola que se apaga al final de una palabra: desde el último tramo de 5 ms que está a menos
+    de 9 dB de su voz típica hasta el final (máximo 80 ms). Igual en lector.js."""
+    hop, win = int(0.005 * sr), int(0.010 * sr)
+    n = (len(y) - win) // hop + 1
+    if n < 4:
+        return 0.0
+    y = np.asarray(y, dtype=np.float64)
+    idx = np.arange(win)[None, :] + hop * np.arange(n)[:, None]
+    db = 20 * np.log10(np.sqrt((y[idx] ** 2).mean(axis=1)) + 1e-10)
+    med = np.median(db[db > db.max() - 25])
+    k = np.where(db >= med - 9)[0][-1]
+    return min(0.08, (len(y) - (k + 1) * hop) / sr)
+
+
 def mezclar(piezas, sr):
-    """piezas: [(audio, junta_muestras)]; junta > 0 = hueco de silencio antes, < 0 = solape con fundido."""
+    """piezas: [(audio, junta_muestras)] o [(audio, junta, "sumar")].
+    junta > 0 = hueco de silencio antes; < 0 = solape: con fundido de potencia constante (empalmes de dífonos)
+    o, con "sumar", superpuesto sin fundidos (empalme legato entre palabras)."""
+    piezas = [(p[0], p[1], p[2] if len(p) > 2 else None) for p in piezas]
     pos, inicios = 0, []
-    for k, (y, junta) in enumerate(piezas):
+    for k, (y, junta, _) in enumerate(piezas):
         if k == 0:
             ini = 0
         elif junta >= 0:
@@ -183,10 +255,10 @@ def mezclar(piezas, sr):
         inicios.append(ini)
         pos = ini + len(y)
     out = np.zeros(max(pos, 0), dtype=np.float32)
-    for k, (y, junta) in enumerate(piezas):
+    for k, (y, junta, modo) in enumerate(piezas):
         ini = inicios[k]
         y = y.astype(np.float32)
-        if k > 0 and junta < 0:
+        if k > 0 and junta < 0 and modo != "sumar":
             n = min(-junta, len(piezas[k - 1][0]), len(y))
             if n > 0:
                 ang = (np.arange(n, dtype=np.float32) + 0.5) / n * (np.pi / 2)
@@ -197,15 +269,23 @@ def mezclar(piezas, sr):
     return out
 
 
-def junta_palabras(prev_fin, sig_ini, sr):
-    """Cuántas muestras de hueco (+) o solape (-) entre dos palabras según los sonidos que se tocan."""
+def apagar(y, sr, ms=40):
+    """Apaga suave (coseno, 40 ms) el final de una palabra que termina seca ("medio" o armada con dífonos) cuando
+    después viene una pausa. Igual en lector.js."""
+    n = min(len(y), n_muestras(ms / 1000, sr))
+    z = np.array(y, dtype=np.float64)
+    if n > 0:
+        z[len(z) - n:] *= 0.5 + 0.5 * np.cos(np.pi * (np.arange(n) + 0.5) / n)
+    return z.astype(np.float32)
+
+
+def junta_palabras(prev_audio, sig_ini, sr):
+    """Muestras de hueco (+) o solape (-) entre dos palabras (empalme legato, ver PARAMS)."""
     p = PARAMS
+    extra = p["pausa_extra_ms"] / 1000
     if sig_ini in D.CORTE_EN_CIERRE:
-        return n_muestras(p["hueco_oclusiva_ms"] / 1000, sr)
-    if sig_ini in D.VOC:
-        ms = p["solape_vocales_ms"] if prev_fin in D.VOC else p["solape_vocal_ms"]
-        return -n_muestras(ms / 1000, sr)
-    return -n_muestras(p["solape_ms"] / 1000, sr)
+        return n_muestras(p["hueco_oclusiva_ms"] / 1000 + extra, sr)
+    return n_muestras(extra - p["entrada_ms"] / 1000 - p["solape_cola"] * cola_seg(prev_audio, sr), sr)
 
 
 # ----------------------------------------------------------------------------- lector (igual que lector.js)
@@ -214,6 +294,7 @@ class Lector:
         self.base = Path(base)
         self.m = json.loads((self.base / "manifest_lectura.json").read_text(encoding="utf-8"))
         self.sr = self.m["sr"]
+        self.seseo = bool(self.m.get("seseo"))
         self.audios = {k: R.leer_wav(self.base / v).astype(np.float32) for k, v in self.m["audios"].items()}
         self.por_tilde, self.por_clave = {}, {}
         for w, d in self.m["palabras"].items():
@@ -228,7 +309,7 @@ class Lector:
         w = w.lower()
         if w in self.m["palabras"]:
             return w
-        return self.por_tilde.get(sin_tildes(w)) or self.por_clave.get(clave_fonetica(w))
+        return self.por_tilde.get(sin_tildes(w)) or self.por_clave.get(clave_fonetica(w, self.seseo))
 
     def difonos(self, fon):
         seq = [("_", False)] + list(fon) + [("_", False)]
@@ -259,24 +340,27 @@ class Lector:
         return None
 
     def palabra(self, w, final):
-        """(audio, primer_sonido, último_sonido) de una palabra."""
+        """(audio, primer_sonido, último_sonido, termina_natural) de una palabra. termina_natural: se usó la versión
+        "final", que se apaga sola; la "medio" y las armadas con dífonos terminan secas."""
         pal = self.buscar(w)
+        natural = False
         if pal:
             d = self.m["palabras"][pal]
             fon = fonemas(pal)
-            y = self._corte("palabras", d["final"] if final and "final" in d else d["medio"])
+            natural = bool(final and "final" in d)
+            y = self._corte(d.get("archivo", "palabras"), d["final"] if natural else d["medio"])
         else:
             fon = fonemas(w)
             y = self.difonos(fon)
         if not fon:
             return None
-        return y, fon[0][0], fon[-1][0]
+        return y, fon[0][0], fon[-1][0], natural
 
     def oracion(self, texto):
         tokens = re.findall(r"[^\W\d_]+|[.,;:!?¡¿]", texto)
         total = sum(1 for t in tokens if t[0].isalpha())
-        piezas, vistas, ultimo, pausa = [], 0, None, 0
-        for t in tokens:
+        piezas, vistas, pausa, seca = [], 0, 0, False
+        for i, t in enumerate(tokens):
             if not t[0].isalpha():
                 if piezas and t in ",;:":
                     pausa = max(pausa, n_muestras(PARAMS["pausa_coma_ms"] / 1000, self.sr))
@@ -284,13 +368,17 @@ class Lector:
                     pausa = max(pausa, n_muestras(PARAMS["pausa_punto_ms"] / 1000, self.sr))
                 continue
             vistas += 1
-            r = self.palabra(t, vistas == total)
+            # versión "final" en la última palabra y antes de un punto (cierra la oración, se apaga sola)
+            sig = tokens[i + 1] if i + 1 < len(tokens) else ""
+            r = self.palabra(t, vistas == total or sig in (".", "!", "?"))
             if r is None or not len(r[0]):
                 continue
-            y, ini, fin = r
-            junta = 0 if not piezas else (pausa if pausa else junta_palabras(ultimo, ini, self.sr))
-            piezas.append((y, junta))
-            ultimo, pausa = fin, 0
+            y, ini, fin, natural = r
+            junta = 0 if not piezas else (pausa if pausa else junta_palabras(piezas[-1][0], ini, self.sr))
+            if piezas and seca and (pausa or PARAMS["pausa_extra_ms"] > 0):
+                piezas[-1] = (apagar(piezas[-1][0], self.sr), piezas[-1][1], piezas[-1][2])
+            piezas.append((y, junta, "sumar"))
+            pausa, seca = 0, not natural
         return mezclar(piezas, self.sr) if piezas else np.zeros(0, dtype=np.float32)
 
     def silaba(self, s):
@@ -348,7 +436,7 @@ TEXTO_ESPERADO = {
     "02_oracion": "hoy me voy de vacaciones a la casa de mi tío",
     "03_oracion_desordenada": "a la casa de mi tío hoy me voy de vacaciones",
     "04_otro_orden": "de vacaciones me voy hoy a la casa de mi tío",
-    "05_mal_escrita": "la vaca come pazto",
+    "05_mal_escrita": "la vaca come pasto" if SESEO else "la vaca come pazto",
     "06_oracion_parque": "el perro juega con la pelota en el parque",
     "07_unir_silabas_casa": "ca sa casa mi ca sa mi casa es grande",
     "08_palabras_nuevas": "el dinosaurio come tomate y chocolate",
@@ -375,20 +463,24 @@ def _archivo_unidades(unidades, sr):
 
 
 def armar(voz=VOZ_ID, voz_nombre=VOZ_NOMBRE, tono_palabras=True, tono_difonos="parcial", nivel_difonos=True,
-          cola=True, solapes=None, fraccion=0.5):
+          solapes=None, fraccion=0.5):
     for viejo in ["palabras", "silabas", "ejemplos"]:
         if (SALIDA / viejo).exists():
             shutil.rmtree(SALIDA / viejo)
     SALIDA.mkdir(exist_ok=True)
+    for f in SALIDA.glob("palabras*.wav"):
+        f.unlink()
     if solapes:
         PARAMS.update(solapes)
-    man = {"voz": voz_nombre, "voz_id": voz, "sr": R.SR, "parametros": PARAMS,
-           "audios": {"palabras": "palabras.wav", "silabas": "silabas.wav", "difonos": "difonos.wav"},
-           "marcas": {}, "palabras": {}, "silabas": {}, "difonos": {}}
+    man = {"voz": voz_nombre, "voz_id": voz, "sr": R.SR, "seseo": SESEO, "parametros": PARAMS,
+           "audios": {}, "marcas": {}, "palabras": {}, "silabas": {}, "difonos": {}}
 
-    # 1) palabras
+    # 1) palabras (solo las que tienen grabación de esta voz; el resto se arma con dífonos)
+    palabras = [w for w in PALABRAS if grabada(w, voz)]
+    if len(palabras) < len(PALABRAS):
+        print(f"palabras sin grabar con esta voz: {len(PALABRAS) - len(palabras)} (se leen con dífonos)")
     crudos, avisos = {}, []
-    for w in PALABRAS:
+    for w in palabras:
         y, prof = cortar_medio(w, voz)
         if prof < 15:
             avisos.append(f"corte poco limpio en '{w}' (baja {prof:.0f} dB)")
@@ -411,22 +503,30 @@ def armar(voz=VOZ_ID, voz_nombre=VOZ_NOMBRE, tono_palabras=True, tono_difonos="p
         if tono_palabras:
             for _ in range(2):   # como máximo 3 semitonos: más que eso en una palabra corta deja un "arranque" raro
                 y = P.ajustar_tono(y, R.SR, rango, bordes=bordes, max_st=3.0)
-        crudos[(w, var)] = sin_cola(y, w) if (var == "medio" and cola) else y
+        crudos[(w, var)] = y
     man["tono_base_hz"] = round(base_hz, 1)
     man["rango_tono_hz"] = [round(rango[0], 1), round(rango[1], 1)]
     g = -20.0 - float(np.median([rms_activo(y) for y in crudos.values()]))
-    unidades = []
-    for (w, var), y in crudos.items():
-        gg = min(g, -1.0 - 20 * np.log10(np.abs(y).max() + 1e-12))
-        unidades.append((f"{w}|{var}", y * 10 ** (gg / 20)))
-    audio, idx, marcas = _archivo_unidades(unidades, R.SR)
-    R.escribir_wav(SALIDA / "palabras.wav", audio)
-    man["marcas"]["palabras"] = marcas
-    for w in PALABRAS:
-        d = {"categoria": CATEGORIA[w], "clave": clave_fonetica(w), "medio": idx[f"{w}|medio"]}
-        if f"{w}|final" in idx:
-            d["final"] = idx[f"{w}|final"]
-        man["palabras"][w] = d
+    for k in range(0, len(palabras), PALABRAS_POR_ARCHIVO):
+        grupo = palabras[k:k + PALABRAS_POR_ARCHIVO]
+        archivo = f"palabras_{k // PALABRAS_POR_ARCHIVO + 1}"
+        unidades = []
+        for w in grupo:
+            for var in ["medio", "final"]:
+                if (w, var) in crudos:
+                    y = crudos[(w, var)]
+                    gg = min(g, -1.0 - 20 * np.log10(np.abs(y).max() + 1e-12))
+                    unidades.append((f"{w}|{var}", y * 10 ** (gg / 20)))
+        audio, idx, marcas = _archivo_unidades(unidades, R.SR)
+        R.escribir_wav(SALIDA / f"{archivo}.wav", audio)
+        man["audios"][archivo] = f"{archivo}.wav"
+        man["marcas"][archivo] = marcas
+        for w in grupo:
+            d = {"categoria": CATEGORIA[w], "clave": clave_fonetica(w, SESEO), "archivo": archivo,
+                 "medio": idx[f"{w}|medio"]}
+            if f"{w}|final" in idx:
+                d["final"] = idx[f"{w}|final"]
+            man["palabras"][w] = d
 
     # 2) sílabas de la biblioteca
     unidades, vistos = [], set()
@@ -441,12 +541,14 @@ def armar(voz=VOZ_ID, voz_nombre=VOZ_NOMBRE, tono_palabras=True, tono_difonos="p
                 unidades.append((nombre, recorte_justo(R.leer_wav(f))))
     audio, man["silabas"], man["marcas"]["silabas"] = _archivo_unidades(unidades, R.SR)
     R.escribir_wav(SALIDA / "silabas.wav", audio)
+    man["audios"]["silabas"] = "silabas.wav"
 
     # 3) dífonos
     inv = D.extraer(voz, base_hz=base_hz, rango=rango, tono=tono_difonos, nivel=nivel_difonos, fraccion=fraccion)
     nombres = sorted(inv)
     audio, idx, man["marcas"]["difonos"] = _archivo_unidades([(k, inv[k][0]) for k in nombres], R.SR)
     R.escribir_wav(SALIDA / "difonos.wav", audio)
+    man["audios"]["difonos"] = "difonos.wav"
     man["difonos"] = {k: idx[k] + [inv[k][1]] for k in nombres}
 
     man["ejemplos"] = [{"archivo": f"ejemplos/{n}.wav", "texto": " → ".join(t for _, t in pasos)}

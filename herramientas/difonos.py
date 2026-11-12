@@ -70,7 +70,7 @@ def generar(voz=None):
     from concurrent.futures import ThreadPoolExecutor
     from pathlib import Path
     sys.path.insert(0, str(Path(__file__).resolve().parent))
-    from bloques import AJUSTES_NEUTROS, SEMILLA
+    from bloques import AJUSTES_LECTURA as AJUSTES_NEUTROS, SEMILLA
     from generar import obtener_toma
     ts = tomas()
     print(f"{len(ts)} tomas, {sum(len(t) for t in ts)} caracteres (las que ya están en caché no se cobran)")
@@ -114,7 +114,7 @@ def extraer(voz=None, con_origen=False, refinar_vocales=True, base_hz=None, rang
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     import prosodia as P
     import recortar as R
-    from bloques import AJUSTES_NEUTROS, SEMILLA
+    from bloques import AJUSTES_LECTURA as AJUSTES_NEUTROS, SEMILLA
     from fonetica import fonemas, clave_difono
     from generar import obtener_toma
 

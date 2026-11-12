@@ -2,11 +2,12 @@
  "voz": "Martin Osborne - Deep and Passionate",
  "voz_id": "Vpv1YgvVd6CHIzOTiTt8",
  "sr": 48000,
+ "seseo": false,
  "parametros": {
-  "hueco_oclusiva_ms": 40,
-  "solape_vocales_ms": 20,
-  "solape_vocal_ms": 20,
-  "solape_ms": 15,
+  "entrada_ms": 10,
+  "solape_cola": 0.5,
+  "hueco_oclusiva_ms": 30,
+  "pausa_extra_ms": 0,
   "pausa_coma_ms": 250,
   "pausa_punto_ms": 450,
   "pausa_entre_silabas_ms": 300,
@@ -18,15 +19,21 @@
   }
  },
  "audios": {
-  "palabras": "palabras.wav",
+  "palabras_1": "palabras_1.wav",
+  "palabras_2": "palabras_2.wav",
   "silabas": "silabas.wav",
   "difonos": "difonos.wav"
  },
  "marcas": {
-  "palabras": [
+  "palabras_1": [
    0.21735,
-   0.51862,
-   0.73069
+   0.51752,
+   0.76069
+  ],
+  "palabras_2": [
+   0.20452,
+   0.81402,
+   1.45569
   ],
   "silabas": [
    0.2196,
@@ -43,6 +50,7 @@
   "el": {
    "categoria": "funcion",
    "clave": "el",
+   "archivo": "palabras_1",
    "medio": [
     0.2,
     0.255
@@ -51,2196 +59,2390 @@
   "la": {
    "categoria": "funcion",
    "clave": "la",
+   "archivo": "palabras_1",
    "medio": [
     0.515,
-    0.155
+    0.185
    ]
   },
   "los": {
    "categoria": "funcion",
    "clave": "los",
+   "archivo": "palabras_1",
    "medio": [
-    0.73,
+    0.76,
     0.23
    ]
   },
   "las": {
    "categoria": "funcion",
    "clave": "las",
+   "archivo": "palabras_1",
    "medio": [
-    1.02,
+    1.05,
     0.295
    ]
   },
   "un": {
    "categoria": "funcion",
    "clave": "un",
+   "archivo": "palabras_1",
    "medio": [
-    1.375,
+    1.405,
     0.26
    ]
   },
   "una": {
    "categoria": "funcion",
    "clave": "una",
+   "archivo": "palabras_1",
    "medio": [
-    1.695,
-    0.27
+    1.725,
+    0.315
    ]
   },
   "unos": {
    "categoria": "funcion",
    "clave": "unos",
+   "archivo": "palabras_1",
    "medio": [
-    2.025,
+    2.1,
     0.455
    ]
   },
   "unas": {
    "categoria": "funcion",
    "clave": "unas",
+   "archivo": "palabras_1",
    "medio": [
-    2.54,
+    2.615,
     0.41
    ]
   },
   "mi": {
    "categoria": "funcion",
    "clave": "mi",
+   "archivo": "palabras_1",
    "medio": [
-    3.01,
-    0.15
+    3.085,
+    0.195
    ]
   },
   "mis": {
    "categoria": "funcion",
    "clave": "mis",
+   "archivo": "palabras_1",
    "medio": [
-    3.22,
+    3.34,
     0.27
    ]
   },
   "tu": {
    "categoria": "funcion",
    "clave": "tu",
+   "archivo": "palabras_1",
    "medio": [
-    3.55,
-    0.14498
+    3.67,
+    0.185
    ]
   },
   "tus": {
    "categoria": "funcion",
    "clave": "tus",
+   "archivo": "palabras_1",
    "medio": [
-    3.75498,
+    3.915,
     0.355
    ]
   },
   "su": {
    "categoria": "funcion",
    "clave": "su",
+   "archivo": "palabras_1",
    "medio": [
-    4.16998,
-    0.18
+    4.33,
+    0.22
    ]
   },
   "sus": {
    "categoria": "funcion",
    "clave": "sus",
+   "archivo": "palabras_1",
    "medio": [
-    4.40998,
+    4.61,
     0.28998
    ]
   },
   "a": {
    "categoria": "funcion",
    "clave": "a",
+   "archivo": "palabras_1",
    "medio": [
-    4.75996,
+    4.95998,
     0.165
    ]
   },
   "al": {
    "categoria": "funcion",
    "clave": "al",
+   "archivo": "palabras_1",
    "medio": [
-    4.98496,
+    5.18498,
     0.235
    ]
   },
   "de": {
    "categoria": "funcion",
    "clave": "de",
+   "archivo": "palabras_1",
    "medio": [
-    5.27996,
+    5.47998,
     0.15
    ]
   },
   "del": {
    "categoria": "funcion",
    "clave": "del",
+   "archivo": "palabras_1",
    "medio": [
-    5.48996,
+    5.68998,
     0.26
    ]
   },
   "en": {
    "categoria": "funcion",
    "clave": "en",
+   "archivo": "palabras_1",
    "medio": [
-    5.80996,
+    6.00998,
     0.23
    ]
   },
   "con": {
    "categoria": "funcion",
    "clave": "kon",
+   "archivo": "palabras_1",
    "medio": [
-    6.09996,
+    6.29998,
     0.295
    ]
   },
   "por": {
    "categoria": "funcion",
    "clave": "por",
+   "archivo": "palabras_1",
    "medio": [
-    6.45496,
+    6.65498,
     0.22
    ]
   },
   "para": {
    "categoria": "funcion",
    "clave": "para",
+   "archivo": "palabras_1",
    "medio": [
-    6.73496,
-    0.235
+    6.93498,
+    0.26
    ]
   },
   "sin": {
    "categoria": "funcion",
    "clave": "sin",
+   "archivo": "palabras_1",
    "medio": [
-    7.02996,
+    7.25498,
     0.305
    ]
   },
   "sobre": {
    "categoria": "funcion",
    "clave": "sobre",
+   "archivo": "palabras_1",
    "medio": [
-    7.39496,
-    0.37
+    7.61998,
+    0.375
    ]
   },
   "y": {
    "categoria": "funcion",
    "clave": "i",
+   "archivo": "palabras_1",
    "medio": [
-    7.82496,
+    8.05498,
     0.16
    ]
   },
   "o": {
    "categoria": "funcion",
    "clave": "o",
+   "archivo": "palabras_1",
    "medio": [
-    8.04496,
+    8.27498,
     0.165
    ]
   },
   "pero": {
    "categoria": "funcion",
    "clave": "pero",
+   "archivo": "palabras_1",
    "medio": [
-    8.26996,
-    0.26
+    8.49998,
+    0.285
    ]
   },
   "que": {
    "categoria": "funcion",
    "clave": "ke",
+   "archivo": "palabras_1",
    "medio": [
-    8.58996,
-    0.16
+    8.84498,
+    0.185
    ]
   },
   "porque": {
    "categoria": "funcion",
    "clave": "porke",
+   "archivo": "palabras_1",
    "medio": [
-    8.80996,
-    0.37
+    9.08998,
+    0.39
    ]
   },
   "me": {
    "categoria": "funcion",
    "clave": "me",
+   "archivo": "palabras_1",
    "medio": [
-    9.23996,
-    0.17
+    9.53998,
+    0.21
    ]
   },
   "te": {
    "categoria": "funcion",
    "clave": "te",
+   "archivo": "palabras_1",
    "medio": [
-    9.46996,
-    0.155
+    9.80998,
+    0.185
    ]
   },
   "se": {
    "categoria": "funcion",
    "clave": "se",
+   "archivo": "palabras_1",
    "medio": [
-    9.68496,
-    0.215
+    10.05498,
+    0.24
    ]
   },
   "le": {
    "categoria": "funcion",
    "clave": "le",
+   "archivo": "palabras_1",
    "medio": [
-    9.95996,
+    10.35498,
     0.14498
    ]
   },
   "lo": {
    "categoria": "funcion",
    "clave": "lo",
+   "archivo": "palabras_1",
    "medio": [
-    10.16494,
-    0.185
+    10.55996,
+    0.195
    ]
   },
   "yo": {
    "categoria": "pronombres",
    "clave": "yo",
+   "archivo": "palabras_1",
    "medio": [
-    10.40994,
-    0.24
+    10.81496,
+    0.27
    ],
    "final": [
-    10.70994,
+    11.14496,
     0.36
    ]
   },
   "tú": {
    "categoria": "pronombres",
    "clave": "tu",
+   "archivo": "palabras_1",
    "medio": [
-    11.12994,
-    0.4
+    11.56496,
+    0.425
    ],
    "final": [
-    11.58994,
+    12.04996,
     0.325
    ]
   },
   "él": {
    "categoria": "pronombres",
    "clave": "el",
+   "archivo": "palabras_1",
    "medio": [
-    11.97494,
+    12.43496,
     0.28
    ],
    "final": [
-    12.31494,
+    12.77496,
     0.48
    ]
   },
   "ella": {
    "categoria": "pronombres",
    "clave": "eya",
+   "archivo": "palabras_1",
    "medio": [
-    12.85494,
-    0.405
+    13.31496,
+    0.415
    ],
    "final": [
-    13.31994,
+    13.78996,
     0.545
    ]
   },
   "nosotros": {
    "categoria": "pronombres",
    "clave": "nosotros",
+   "archivo": "palabras_1",
    "medio": [
-    13.92494,
+    14.39496,
     0.69
    ],
    "final": [
-    14.67494,
+    15.14496,
     0.775
    ]
   },
   "ellos": {
    "categoria": "pronombres",
    "clave": "eyos",
+   "archivo": "palabras_1",
    "medio": [
-    15.50994,
+    15.97996,
     0.495
    ],
    "final": [
-    16.06494,
+    16.53496,
     0.64
    ]
   },
   "mamá": {
    "categoria": "personas",
    "clave": "mama",
+   "archivo": "palabras_1",
    "medio": [
-    16.76494,
-    0.475
+    17.23496,
+    0.485
    ],
    "final": [
-    17.29994,
+    17.77996,
     0.595
    ]
   },
   "papá": {
    "categoria": "personas",
    "clave": "papa",
+   "archivo": "palabras_1",
    "medio": [
-    17.95494,
-    0.535
+    18.43496,
+    0.58
    ],
    "final": [
-    18.54994,
+    19.07496,
     0.515
    ]
   },
   "tío": {
    "categoria": "personas",
    "clave": "tio",
+   "archivo": "palabras_1",
    "medio": [
-    19.12494,
-    0.285
+    19.64996,
+    0.31
    ],
    "final": [
-    19.46994,
+    20.01996,
     0.465
    ]
   },
   "tía": {
    "categoria": "personas",
    "clave": "tia",
+   "archivo": "palabras_1",
    "medio": [
-    19.99494,
-    0.315
+    20.54496,
+    0.34
    ],
    "final": [
-    20.36994,
+    20.94496,
     0.505
    ]
   },
   "abuelo": {
    "categoria": "personas",
    "clave": "abuelo",
+   "archivo": "palabras_1",
    "medio": [
-    20.93494,
-    0.485
+    21.50996,
+    0.53
    ],
    "final": [
-    21.47994,
+    22.09996,
     0.685
    ]
   },
   "abuela": {
    "categoria": "personas",
    "clave": "abuela",
+   "archivo": "palabras_1",
    "medio": [
-    22.22494,
-    0.545
+    22.84496,
+    0.57
    ],
    "final": [
-    22.82994,
+    23.47496,
     0.735
    ]
   },
   "hermano": {
    "categoria": "personas",
    "clave": "ermano",
+   "archivo": "palabras_1",
    "medio": [
-    23.62494,
-    0.575
+    24.26996,
+    0.61
    ],
    "final": [
-    24.25994,
+    24.93996,
     0.75
    ]
   },
   "hermana": {
    "categoria": "personas",
    "clave": "ermana",
+   "archivo": "palabras_1",
    "medio": [
-    25.06994,
-    0.57
+    25.74996,
+    0.625
    ],
    "final": [
-    25.69994,
+    26.43496,
     0.73
    ]
   },
   "amigo": {
    "categoria": "personas",
    "clave": "amigo",
+   "archivo": "palabras_1",
    "medio": [
-    26.48994,
-    0.415
+    27.22496,
+    0.44
    ],
    "final": [
-    26.96494,
+    27.72496,
     0.755
    ]
   },
   "amiga": {
    "categoria": "personas",
    "clave": "amiga",
+   "archivo": "palabras_1",
    "medio": [
-    27.77994,
-    0.53
+    28.53996,
+    0.56
    ],
    "final": [
-    28.36994,
+    29.15996,
     0.68
    ]
   },
   "niño": {
    "categoria": "personas",
    "clave": "niño",
+   "archivo": "palabras_1",
    "medio": [
-    29.10994,
-    0.445
+    29.89996,
+    0.485
    ],
    "final": [
-    29.61494,
+    30.44496,
     0.585
    ]
   },
   "niña": {
    "categoria": "personas",
    "clave": "niña",
+   "archivo": "palabras_1",
    "medio": [
-    30.25994,
-    0.485
+    31.08996,
+    0.51
    ],
    "final": [
-    30.80494,
+    31.65996,
     0.59
    ]
   },
   "maestra": {
    "categoria": "personas",
    "clave": "maestra",
+   "archivo": "palabras_1",
    "medio": [
-    31.45494,
-    0.69
+    32.30996,
+    0.72
    ],
    "final": [
-    32.20494,
+    33.08996,
     0.765
    ]
   },
   "maestro": {
    "categoria": "personas",
    "clave": "maestro",
+   "archivo": "palabras_1",
    "medio": [
-    33.02994,
-    0.735
+    33.91496,
+    0.765
    ],
    "final": [
-    33.82494,
+    34.73996,
     0.745
    ]
   },
   "bebé": {
    "categoria": "personas",
    "clave": "bebe",
+   "archivo": "palabras_1",
    "medio": [
-    34.62994,
-    0.35
+    35.54496,
+    0.375
    ],
    "final": [
-    35.03994,
+    35.97996,
     0.515
    ]
   },
   "vaca": {
    "categoria": "animales",
    "clave": "baka",
+   "archivo": "palabras_1",
    "medio": [
-    35.61494,
-    0.435
+    36.55496,
+    0.46
    ],
    "final": [
-    36.10994,
+    37.07496,
     0.655
    ]
   },
   "perro": {
    "categoria": "animales",
    "clave": "peRo",
+   "archivo": "palabras_1",
    "medio": [
-    36.82494,
-    0.42
+    37.78996,
+    0.45
    ],
    "final": [
-    37.30494,
+    38.29996,
     0.585
    ]
   },
   "gato": {
    "categoria": "animales",
    "clave": "gato",
+   "archivo": "palabras_1",
    "medio": [
-    37.94994,
-    0.56
+    38.94496,
+    0.59
    ],
    "final": [
-    38.56994,
+    39.59496,
     0.72
    ]
   },
   "pato": {
    "categoria": "animales",
    "clave": "pato",
+   "archivo": "palabras_1",
    "medio": [
-    39.34994,
-    0.375
+    40.37496,
+    0.415
    ],
    "final": [
-    39.78494,
+    40.84996,
     0.605
    ]
   },
   "pájaro": {
    "categoria": "animales",
    "clave": "pajaro",
+   "archivo": "palabras_1",
    "medio": [
-    40.44994,
-    0.53
+    41.51496,
+    0.555
    ],
    "final": [
-    41.03994,
+    42.12996,
     0.665
    ]
   },
   "caballo": {
    "categoria": "animales",
    "clave": "kabayo",
+   "archivo": "palabras_1",
    "medio": [
-    41.76494,
-    0.715
+    42.85496,
+    0.75
    ],
    "final": [
-    42.53994,
+    43.66496,
     0.775
    ]
   },
   "pez": {
    "categoria": "animales",
    "clave": "pez",
+   "archivo": "palabras_1",
    "medio": [
-    43.37494,
+    44.49996,
     0.275
    ],
    "final": [
-    43.70994,
+    44.83496,
     0.475
    ]
   },
   "ratón": {
    "categoria": "animales",
    "clave": "Raton",
+   "archivo": "palabras_1",
    "medio": [
-    44.24494,
+    45.36996,
     0.765
    ],
    "final": [
-    45.06994,
+    46.19496,
     0.94
    ]
   },
   "conejo": {
    "categoria": "animales",
    "clave": "konejo",
+   "archivo": "palabras_1",
    "medio": [
-    46.06994,
-    0.57
+    47.19496,
+    0.595
    ],
    "final": [
-    46.69994,
+    47.84996,
     0.795
    ]
   },
   "oso": {
    "categoria": "animales",
    "clave": "oso",
+   "archivo": "palabras_1",
    "medio": [
-    47.55494,
-    0.44
+    48.70496,
+    0.465
    ],
    "final": [
-    48.05494,
+    49.22996,
     0.6
    ]
   },
   "león": {
    "categoria": "animales",
    "clave": "leon",
+   "archivo": "palabras_1",
    "medio": [
-    48.71494,
+    49.88996,
     0.46
    ],
    "final": [
-    49.23494,
+    50.40996,
     0.78
    ]
   },
   "mono": {
    "categoria": "animales",
    "clave": "mono",
+   "archivo": "palabras_1",
    "medio": [
-    50.07494,
-    0.395
+    51.24996,
+    0.42
    ],
    "final": [
-    50.52994,
+    51.72996,
     0.54
    ]
   },
   "oveja": {
    "categoria": "animales",
    "clave": "obeja",
+   "archivo": "palabras_1",
    "medio": [
-    51.12994,
-    0.51
+    52.32996,
+    0.525
    ],
    "final": [
-    51.69994,
+    52.91496,
     0.765
    ]
   },
   "pollito": {
    "categoria": "animales",
    "clave": "poyito",
+   "archivo": "palabras_1",
    "medio": [
-    52.52494,
-    0.62
+    53.73996,
+    0.64
    ],
    "final": [
-    53.20494,
+    54.43996,
     0.735
    ]
   },
   "mariposa": {
    "categoria": "animales",
    "clave": "mariposa",
+   "archivo": "palabras_1",
    "medio": [
-    53.99994,
-    0.93
+    55.23496,
+    0.945
    ],
    "final": [
-    54.98994,
+    56.23996,
     0.84
    ]
   },
   "toro": {
    "categoria": "animales",
    "clave": "toro",
+   "archivo": "palabras_1",
    "medio": [
-    55.88994,
-    0.34
+    57.13996,
+    0.365
    ],
    "final": [
-    56.28994,
+    57.56496,
     0.545
    ]
   },
   "dinosaurio": {
    "categoria": "animales",
    "clave": "dinosaurio",
+   "archivo": "palabras_1",
    "medio": [
-    56.89494,
-    0.935
+    58.16996,
+    0.965
    ],
    "final": [
-    57.88994,
+    59.19496,
     0.935
    ]
   },
   "ardilla": {
    "categoria": "animales",
    "clave": "ardiya",
+   "archivo": "palabras_1",
    "medio": [
-    58.88494,
-    0.84
+    60.18996,
+    0.86
    ],
    "final": [
-    59.78494,
+    61.10996,
     0.86
    ]
   },
   "elefante": {
    "categoria": "animales",
    "clave": "elefante",
+   "archivo": "palabras_1",
    "medio": [
-    60.70494,
-    0.67
+    62.02996,
+    0.69
    ],
    "final": [
-    61.43494,
+    62.77996,
     0.925
    ]
   },
   "tortuga": {
    "categoria": "animales",
    "clave": "tortuga",
+   "archivo": "palabras_1",
    "medio": [
-    62.41994,
-    0.815
+    63.76496,
+    0.84
    ],
    "final": [
-    63.29494,
+    64.66496,
     0.74
    ]
   },
   "mariquita": {
    "categoria": "animales",
    "clave": "marikita",
+   "archivo": "palabras_1",
    "medio": [
-    64.09494,
-    0.81
+    65.46496,
+    0.83
    ],
    "final": [
-    64.96494,
+    66.35496,
     0.935
    ]
   },
   "cocodrilo": {
    "categoria": "animales",
    "clave": "kokodrilo",
+   "archivo": "palabras_1",
    "medio": [
-    65.95994,
-    0.835
+    67.34996,
+    0.845
    ],
    "final": [
-    66.85494,
+    68.25496,
     0.95
    ]
   },
   "gallina": {
    "categoria": "animales",
    "clave": "gayina",
+   "archivo": "palabras_1",
    "medio": [
-    67.86494,
-    0.545
+    69.26496,
+    0.585
    ],
    "final": [
-    68.46994,
+    69.90996,
     0.745
+   ]
+  },
+  "pan": {
+   "categoria": "comida",
+   "clave": "pan",
+   "archivo": "palabras_1",
+   "medio": [
+    70.71496,
+    0.33
+   ],
+   "final": [
+    71.10496,
+    0.68
+   ]
+  },
+  "leche": {
+   "categoria": "comida",
+   "clave": "leCe",
+   "archivo": "palabras_1",
+   "medio": [
+    71.84496,
+    0.455
+   ],
+   "final": [
+    72.35996,
+    0.635
+   ]
+  },
+  "fruta": {
+   "categoria": "comida",
+   "clave": "fruta",
+   "archivo": "palabras_1",
+   "medio": [
+    73.05496,
+    0.6
+   ],
+   "final": [
+    73.71496,
+    0.715
+   ]
+  },
+  "manzana": {
+   "categoria": "comida",
+   "clave": "manzana",
+   "archivo": "palabras_1",
+   "medio": [
+    74.48996,
+    0.69
+   ],
+   "final": [
+    75.23996,
+    0.85
+   ]
+  },
+  "helado": {
+   "categoria": "comida",
+   "clave": "elado",
+   "archivo": "palabras_1",
+   "medio": [
+    76.14996,
+    0.535
+   ],
+   "final": [
+    76.74496,
+    0.775
+   ]
+  },
+  "comida": {
+   "categoria": "comida",
+   "clave": "komida",
+   "archivo": "palabras_1",
+   "medio": [
+    77.57996,
+    0.58
+   ],
+   "final": [
+    78.21996,
+    0.675
+   ]
+  },
+  "tomate": {
+   "categoria": "comida",
+   "clave": "tomate",
+   "archivo": "palabras_1",
+   "medio": [
+    78.95496,
+    0.5
+   ],
+   "final": [
+    79.51496,
+    0.815
+   ]
+  },
+  "chocolate": {
+   "categoria": "comida",
+   "clave": "Cokolate",
+   "archivo": "palabras_1",
+   "medio": [
+    80.38996,
+    0.89
+   ],
+   "final": [
+    81.33996,
+    0.905
+   ]
+  },
+  "naranja": {
+   "categoria": "comida",
+   "clave": "naranja",
+   "archivo": "palabras_1",
+   "medio": [
+    82.30496,
+    0.715
+   ],
+   "final": [
+    83.07996,
+    0.85
+   ]
+  },
+  "sandía": {
+   "categoria": "comida",
+   "clave": "sandia",
+   "archivo": "palabras_1",
+   "medio": [
+    83.98996,
+    0.655
+   ],
+   "final": [
+    84.70496,
+    0.86
+   ]
+  },
+  "agua": {
+   "categoria": "comida",
+   "clave": "agua",
+   "archivo": "palabras_1",
+   "medio": [
+    85.62496,
+    0.505
+   ],
+   "final": [
+    86.18996,
+    0.61
+   ]
+  },
+  "mesa": {
+   "categoria": "casa_y_escuela",
+   "clave": "mesa",
+   "archivo": "palabras_1",
+   "medio": [
+    86.85996,
+    0.48
+   ],
+   "final": [
+    87.39996,
+    0.675
+   ]
+  },
+  "cama": {
+   "categoria": "casa_y_escuela",
+   "clave": "kama",
+   "archivo": "palabras_1",
+   "medio": [
+    88.13496,
+    0.44
+   ],
+   "final": [
+    88.63496,
+    0.56998
+   ]
+  },
+  "libro": {
+   "categoria": "casa_y_escuela",
+   "clave": "libro",
+   "archivo": "palabras_1",
+   "medio": [
+    89.26494,
+    0.42
+   ],
+   "final": [
+    89.74494,
+    0.545
+   ]
+  },
+  "juguete": {
+   "categoria": "casa_y_escuela",
+   "clave": "jugete",
+   "archivo": "palabras_1",
+   "medio": [
+    90.34994,
+    0.79
+   ],
+   "final": [
+    91.19994,
+    0.81
+   ]
+  },
+  "pelota": {
+   "categoria": "casa_y_escuela",
+   "clave": "pelota",
+   "archivo": "palabras_1",
+   "medio": [
+    92.06994,
+    0.565
+   ],
+   "final": [
+    92.69494,
+    0.755
+   ]
+  },
+  "globo": {
+   "categoria": "casa_y_escuela",
+   "clave": "globo",
+   "archivo": "palabras_1",
+   "medio": [
+    93.50994,
+    0.52
+   ],
+   "final": [
+    94.08994,
+    0.705
+   ]
+  },
+  "regalo": {
+   "categoria": "casa_y_escuela",
+   "clave": "Regalo",
+   "archivo": "palabras_1",
+   "medio": [
+    94.85494,
+    0.555
+   ],
+   "final": [
+    95.46994,
+    0.725
+   ]
+  },
+  "carro": {
+   "categoria": "transporte",
+   "clave": "kaRo",
+   "archivo": "palabras_1",
+   "medio": [
+    96.25494,
+    0.435
+   ],
+   "final": [
+    96.74994,
+    0.6
+   ]
+  },
+  "bicicleta": {
+   "categoria": "transporte",
+   "clave": "bizikleta",
+   "archivo": "palabras_1",
+   "medio": [
+    97.40994,
+    0.92
+   ],
+   "final": [
+    98.38994,
+    0.955
+   ]
+  },
+  "helicóptero": {
+   "categoria": "transporte",
+   "clave": "elikoptero",
+   "archivo": "palabras_1",
+   "medio": [
+    99.40494,
+    1.065
+   ],
+   "final": [
+    100.52994,
+    1.04
+   ]
+  },
+  "zapato": {
+   "categoria": "ropa",
+   "clave": "zapato",
+   "archivo": "palabras_1",
+   "medio": [
+    101.62994,
+    0.645
+   ],
+   "final": [
+    102.33494,
+    0.785
+   ]
+  },
+  "pantalón": {
+   "categoria": "ropa",
+   "clave": "pantalon",
+   "archivo": "palabras_1",
+   "medio": [
+    103.17994,
+    0.79
+   ],
+   "final": [
+    104.02994,
+    0.975
+   ]
+  },
+  "sol": {
+   "categoria": "naturaleza",
+   "clave": "sol",
+   "archivo": "palabras_1",
+   "medio": [
+    105.06494,
+    0.35
+   ],
+   "final": [
+    105.47494,
+    0.645
+   ]
+  },
+  "luna": {
+   "categoria": "naturaleza",
+   "clave": "luna",
+   "archivo": "palabras_1",
+   "medio": [
+    106.17994,
+    0.385
+   ],
+   "final": [
+    106.62494,
+    0.585
+   ]
+  },
+  "flor": {
+   "categoria": "naturaleza",
+   "clave": "flor",
+   "archivo": "palabras_1",
+   "medio": [
+    107.26994,
+    0.415
+   ],
+   "final": [
+    107.74494,
+    0.605
+   ]
+  },
+  "árbol": {
+   "categoria": "naturaleza",
+   "clave": "arbol",
+   "archivo": "palabras_1",
+   "medio": [
+    108.40994,
+    0.655
+   ],
+   "final": [
+    109.12494,
+    0.885
+   ]
+  },
+  "estrella": {
+   "categoria": "naturaleza",
+   "clave": "estreya",
+   "archivo": "palabras_1",
+   "medio": [
+    110.06994,
+    0.745
+   ],
+   "final": [
+    110.87494,
+    0.75
+   ]
+  },
+  "lluvia": {
+   "categoria": "naturaleza",
+   "clave": "yubia",
+   "archivo": "palabras_1",
+   "medio": [
+    111.68494,
+    0.54
+   ],
+   "final": [
+    112.28494,
+    0.735
+   ]
+  },
+  "nube": {
+   "categoria": "naturaleza",
+   "clave": "nube",
+   "archivo": "palabras_1",
+   "medio": [
+    113.07994,
+    0.385
+   ],
+   "final": [
+    113.52494,
+    0.56
+   ]
+  },
+  "pasto": {
+   "categoria": "naturaleza",
+   "clave": "pasto",
+   "archivo": "palabras_1",
+   "medio": [
+    114.14494,
+    0.54
+   ],
+   "final": [
+    114.74494,
+    0.7
    ]
   },
   "casa": {
    "categoria": "lugares",
    "clave": "kasa",
+   "archivo": "palabras_1",
    "medio": [
-    69.27494,
-    0.415
+    115.50494,
+    0.425
    ],
    "final": [
-    69.74994,
+    115.98994,
     0.595
    ]
   },
   "escuela": {
    "categoria": "lugares",
    "clave": "eskuela",
+   "archivo": "palabras_1",
    "medio": [
-    70.40494,
-    0.645
+    116.64494,
+    0.67
    ],
    "final": [
-    71.10994,
+    117.37494,
     0.78
    ]
   },
   "parque": {
    "categoria": "lugares",
    "clave": "parke",
+   "archivo": "palabras_1",
    "medio": [
-    71.94994,
-    0.435
+    118.21494,
+    0.46
    ],
    "final": [
-    72.44494,
+    118.73494,
     0.745
    ]
   },
   "playa": {
    "categoria": "lugares",
    "clave": "playa",
+   "archivo": "palabras_1",
    "medio": [
-    73.24994,
-    0.49
+    119.53994,
+    0.535
    ],
    "final": [
-    73.79994,
+    120.13494,
     0.715
    ]
   },
   "jardín": {
    "categoria": "lugares",
    "clave": "jardin",
+   "archivo": "palabras_1",
    "medio": [
-    74.57494,
+    120.90994,
     0.595
    ],
    "final": [
-    75.22994,
+    121.56494,
     0.88
    ]
   },
   "campo": {
    "categoria": "lugares",
    "clave": "kampo",
+   "archivo": "palabras_1",
    "medio": [
-    76.16994,
-    0.46
+    122.50494,
+    0.49
    ],
    "final": [
-    76.68994,
+    123.05494,
     0.745
    ]
   },
   "río": {
    "categoria": "lugares",
    "clave": "Rio",
+   "archivo": "palabras_1",
    "medio": [
-    77.49494,
-    0.3
+    123.85994,
+    0.34
    ],
    "final": [
-    77.85494,
+    124.25994,
     0.59
    ]
   },
   "mar": {
    "categoria": "lugares",
    "clave": "mar",
+   "archivo": "palabras_1",
    "medio": [
-    78.50494,
+    124.90994,
     0.38
    ],
    "final": [
-    78.94494,
+    125.34994,
     0.59
    ]
   },
   "montaña": {
    "categoria": "lugares",
    "clave": "montaña",
+   "archivo": "palabras_1",
    "medio": [
-    79.59494,
-    0.76
+    125.99994,
+    0.78
    ],
    "final": [
-    80.41494,
+    126.83994,
     0.86
    ]
   },
   "ciudad": {
    "categoria": "lugares",
    "clave": "ziudad",
+   "archivo": "palabras_1",
    "medio": [
-    81.33494,
+    127.75994,
     0.555
    ],
    "final": [
-    81.94994,
+    128.37494,
     0.63
    ]
   },
   "calle": {
    "categoria": "lugares",
    "clave": "kaye",
+   "archivo": "palabras_1",
    "medio": [
-    82.63994,
-    0.415
+    129.06494,
+    0.45
    ],
    "final": [
-    83.11494,
+    129.57494,
     0.59
    ]
   },
   "tienda": {
    "categoria": "lugares",
    "clave": "tienda",
+   "archivo": "palabras_1",
    "medio": [
-    83.76494,
-    0.48
+    130.22494,
+    0.505
    ],
    "final": [
-    84.30494,
+    130.78994,
     0.7
-   ]
-  },
-  "pasto": {
-   "categoria": "cosas",
-   "clave": "pasto",
-   "medio": [
-    85.06494,
-    0.53
-   ],
-   "final": [
-    85.65494,
-    0.7
-   ]
-  },
-  "sol": {
-   "categoria": "cosas",
-   "clave": "sol",
-   "medio": [
-    86.41494,
-    0.35
-   ],
-   "final": [
-    86.82494,
-    0.645
-   ]
-  },
-  "luna": {
-   "categoria": "cosas",
-   "clave": "luna",
-   "medio": [
-    87.52994,
-    0.36
-   ],
-   "final": [
-    87.94994,
-    0.585
-   ]
-  },
-  "agua": {
-   "categoria": "cosas",
-   "clave": "agua",
-   "medio": [
-    88.59494,
-    0.465
-   ],
-   "final": [
-    89.11994,
-    0.61
-   ]
-  },
-  "flor": {
-   "categoria": "cosas",
-   "clave": "flor",
-   "medio": [
-    89.78994,
-    0.415
-   ],
-   "final": [
-    90.26494,
-    0.605
-   ]
-  },
-  "árbol": {
-   "categoria": "cosas",
-   "clave": "arbol",
-   "medio": [
-    90.92994,
-    0.655
-   ],
-   "final": [
-    91.64494,
-    0.885
-   ]
-  },
-  "pelota": {
-   "categoria": "cosas",
-   "clave": "pelota",
-   "medio": [
-    92.58994,
-    0.545
-   ],
-   "final": [
-    93.19494,
-    0.755
-   ]
-  },
-  "libro": {
-   "categoria": "cosas",
-   "clave": "libro",
-   "medio": [
-    94.00994,
-    0.38
-   ],
-   "final": [
-    94.44994,
-    0.545
-   ]
-  },
-  "juguete": {
-   "categoria": "cosas",
-   "clave": "jugete",
-   "medio": [
-    95.05494,
-    0.765
-   ],
-   "final": [
-    95.87994,
-    0.81
-   ]
-  },
-  "mesa": {
-   "categoria": "cosas",
-   "clave": "mesa",
-   "medio": [
-    96.74994,
-    0.465
-   ],
-   "final": [
-    97.27494,
-    0.675
-   ]
-  },
-  "cama": {
-   "categoria": "cosas",
-   "clave": "kama",
-   "medio": [
-    98.00994,
-    0.415
-   ],
-   "final": [
-    98.48494,
-    0.56998
-   ]
-  },
-  "pan": {
-   "categoria": "cosas",
-   "clave": "pan",
-   "medio": [
-    99.11492,
-    0.33
-   ],
-   "final": [
-    99.50492,
-    0.68
-   ]
-  },
-  "leche": {
-   "categoria": "cosas",
-   "clave": "leCe",
-   "medio": [
-    100.24492,
-    0.435
-   ],
-   "final": [
-    100.73992,
-    0.635
-   ]
-  },
-  "fruta": {
-   "categoria": "cosas",
-   "clave": "fruta",
-   "medio": [
-    101.43492,
-    0.565
-   ],
-   "final": [
-    102.05992,
-    0.715
-   ]
-  },
-  "manzana": {
-   "categoria": "cosas",
-   "clave": "manzana",
-   "medio": [
-    102.83492,
-    0.67
-   ],
-   "final": [
-    103.56492,
-    0.85
-   ]
-  },
-  "helado": {
-   "categoria": "cosas",
-   "clave": "elado",
-   "medio": [
-    104.47492,
-    0.52
-   ],
-   "final": [
-    105.05492,
-    0.775
-   ]
-  },
-  "comida": {
-   "categoria": "cosas",
-   "clave": "komida",
-   "medio": [
-    105.88992,
-    0.57
-   ],
-   "final": [
-    106.51992,
-    0.675
-   ]
-  },
-  "carro": {
-   "categoria": "cosas",
-   "clave": "kaRo",
-   "medio": [
-    107.25492,
-    0.405
-   ],
-   "final": [
-    107.71992,
-    0.6
-   ]
-  },
-  "bicicleta": {
-   "categoria": "cosas",
-   "clave": "bizikleta",
-   "medio": [
-    108.37992,
-    0.9
-   ],
-   "final": [
-    109.33992,
-    0.955
-   ]
-  },
-  "tomate": {
-   "categoria": "cosas",
-   "clave": "tomate",
-   "medio": [
-    110.35492,
-    0.475
-   ],
-   "final": [
-    110.88992,
-    0.815
-   ]
-  },
-  "chocolate": {
-   "categoria": "cosas",
-   "clave": "Cokolate",
-   "medio": [
-    111.76492,
-    0.86
-   ],
-   "final": [
-    112.68492,
-    0.905
-   ]
-  },
-  "naranja": {
-   "categoria": "cosas",
-   "clave": "naranja",
-   "medio": [
-    113.64992,
-    0.685
-   ],
-   "final": [
-    114.39492,
-    0.85
-   ]
-  },
-  "sandía": {
-   "categoria": "cosas",
-   "clave": "sandia",
-   "medio": [
-    115.30492,
-    0.61
-   ],
-   "final": [
-    115.97492,
-    0.86
-   ]
-  },
-  "zapato": {
-   "categoria": "cosas",
-   "clave": "zapato",
-   "medio": [
-    116.89492,
-    0.615
-   ],
-   "final": [
-    117.56992,
-    0.785
-   ]
-  },
-  "pantalón": {
-   "categoria": "cosas",
-   "clave": "pantalon",
-   "medio": [
-    118.41492,
-    0.79
-   ],
-   "final": [
-    119.26492,
-    0.975
-   ]
-  },
-  "estrella": {
-   "categoria": "cosas",
-   "clave": "estreya",
-   "medio": [
-    120.29992,
-    0.705
-   ],
-   "final": [
-    121.06492,
-    0.75
-   ]
-  },
-  "helicóptero": {
-   "categoria": "cosas",
-   "clave": "elikoptero",
-   "medio": [
-    121.87492,
-    1.04
-   ],
-   "final": [
-    122.97492,
-    1.04
-   ]
-  },
-  "lluvia": {
-   "categoria": "cosas",
-   "clave": "yubia",
-   "medio": [
-    124.07492,
-    0.515
-   ],
-   "final": [
-    124.64992,
-    0.735
-   ]
-  },
-  "nube": {
-   "categoria": "cosas",
-   "clave": "nube",
-   "medio": [
-    125.44492,
-    0.355
-   ],
-   "final": [
-    125.85992,
-    0.56
-   ]
-  },
-  "globo": {
-   "categoria": "cosas",
-   "clave": "globo",
-   "medio": [
-    126.47992,
-    0.515
-   ],
-   "final": [
-    127.05492,
-    0.705
-   ]
-  },
-  "regalo": {
-   "categoria": "cosas",
-   "clave": "Regalo",
-   "medio": [
-    127.81992,
-    0.55
-   ],
-   "final": [
-    128.42992,
-    0.725
    ]
   },
   "es": {
    "categoria": "verbos",
    "clave": "es",
+   "archivo": "palabras_1",
    "medio": [
-    129.21492,
+    131.54994,
     0.19
    ],
    "final": [
-    129.46492,
+    131.79994,
     0.395
    ]
   },
   "está": {
    "categoria": "verbos",
    "clave": "esta",
+   "archivo": "palabras_1",
    "medio": [
-    129.91992,
-    0.405
+    132.25494,
+    0.43
    ],
    "final": [
-    130.38492,
+    132.74494,
     0.615
    ]
   },
   "son": {
    "categoria": "verbos",
    "clave": "son",
+   "archivo": "palabras_1",
    "medio": [
-    131.05992,
+    133.41994,
     0.335
    ],
    "final": [
-    131.45492,
+    133.81494,
     0.645
    ]
   },
   "están": {
    "categoria": "verbos",
    "clave": "estan",
+   "archivo": "palabras_1",
    "medio": [
-    132.15992,
+    134.51994,
     0.54
    ],
    "final": [
-    132.75992,
+    135.11994,
     0.875
    ]
   },
   "soy": {
    "categoria": "verbos",
    "clave": "soi",
+   "archivo": "palabras_1",
    "medio": [
-    133.69492,
-    0.285
+    136.05494,
+    0.295
    ],
    "final": [
-    134.03992,
+    136.40994,
     0.595
    ]
   },
   "estoy": {
    "categoria": "verbos",
    "clave": "estoi",
+   "archivo": "palabras_1",
    "medio": [
-    134.69492,
-    0.45
+    137.06494,
+    0.53
    ],
    "final": [
-    135.20492,
+    137.65494,
     0.74
    ]
   },
   "tiene": {
    "categoria": "verbos",
    "clave": "tiene",
+   "archivo": "palabras_1",
    "medio": [
-    136.00492,
-    0.28998
+    138.45494,
+    0.315
    ],
    "final": [
-    136.3549,
+    138.82994,
     0.57998
    ]
   },
   "tengo": {
    "categoria": "verbos",
    "clave": "tengo",
+   "archivo": "palabras_1",
    "medio": [
-    136.99488,
-    0.355
+    139.46992,
+    0.38
    ],
    "final": [
-    137.40987,
+    139.90992,
     0.65
    ]
   },
   "va": {
    "categoria": "verbos",
    "clave": "ba",
+   "archivo": "palabras_1",
    "medio": [
-    138.11988,
-    0.245
+    140.61992,
+    0.275
    ],
    "final": [
-    138.42487,
+    140.95492,
     0.4
    ]
   },
   "voy": {
    "categoria": "verbos",
    "clave": "boi",
+   "archivo": "palabras_1",
    "medio": [
-    138.88487,
-    0.25
+    141.41492,
+    0.26
    ],
    "final": [
-    139.19487,
+    141.73492,
     0.6
    ]
   },
   "vamos": {
    "categoria": "verbos",
    "clave": "bamos",
+   "archivo": "palabras_1",
    "medio": [
-    139.85487,
+    142.39492,
     0.38
    ],
    "final": [
-    140.29487,
+    142.83492,
     0.68
    ]
   },
   "come": {
    "categoria": "verbos",
    "clave": "kome",
+   "archivo": "palabras_1",
    "medio": [
-    141.03487,
-    0.325
+    143.57492,
+    0.355
    ],
    "final": [
-    141.41987,
+    143.98992,
     0.525
    ]
   },
   "como": {
    "categoria": "verbos",
    "clave": "komo",
+   "archivo": "palabras_1",
    "medio": [
-    142.00487,
-    0.295
+    144.57492,
+    0.32
    ],
    "final": [
-    142.35987,
+    144.95492,
     0.52
    ]
   },
   "bebe": {
    "categoria": "verbos",
    "clave": "bebe",
+   "archivo": "palabras_1",
    "medio": [
-    142.93988,
-    0.295
+    145.53492,
+    0.32
    ],
    "final": [
-    143.29487,
+    145.91492,
     0.545
    ]
   },
   "juega": {
    "categoria": "verbos",
    "clave": "juega",
+   "archivo": "palabras_1",
    "medio": [
-    143.89988,
-    0.45
+    146.51992,
+    0.475
    ],
    "final": [
-    144.40987,
+    147.05492,
     0.685
    ]
   },
   "juego": {
    "categoria": "verbos",
    "clave": "juego",
+   "archivo": "palabras_1",
    "medio": [
-    145.15488,
-    0.43
+    147.79992,
+    0.445
    ],
    "final": [
-    145.64488,
+    148.30492,
     0.69
    ]
   },
   "corre": {
    "categoria": "verbos",
    "clave": "koRe",
+   "archivo": "palabras_1",
    "medio": [
-    146.39488,
-    0.36
+    149.05492,
+    0.375
    ],
    "final": [
-    146.81488,
+    149.48992,
     0.63
    ]
   },
   "salta": {
    "categoria": "verbos",
    "clave": "salta",
+   "archivo": "palabras_1",
    "medio": [
-    147.50487,
-    0.47
+    150.17992,
+    0.5
    ],
    "final": [
-    148.03487,
+    150.73992,
     0.745
    ]
   },
   "duerme": {
    "categoria": "verbos",
    "clave": "duerme",
+   "archivo": "palabras_1",
    "medio": [
-    148.83988,
-    0.465
+    151.54492,
+    0.49
    ],
    "final": [
-    149.36488,
+    152.09492,
     0.685
    ]
   },
   "lee": {
    "categoria": "verbos",
    "clave": "lee",
+   "archivo": "palabras_1",
    "medio": [
-    150.10987,
-    0.275
+    152.83992,
+    0.305
    ],
    "final": [
-    150.44487,
+    153.20492,
     0.56
    ]
   },
   "canta": {
    "categoria": "verbos",
    "clave": "kanta",
+   "archivo": "palabras_1",
    "medio": [
-    151.06488,
-    0.51
+    153.82492,
+    0.54
    ],
    "final": [
-    151.63487,
+    154.42492,
     0.86
    ]
   },
   "mira": {
    "categoria": "verbos",
    "clave": "mira",
+   "archivo": "palabras_1",
    "medio": [
-    152.55488,
-    0.44
+    155.34492,
+    0.465
    ],
    "final": [
-    153.05488,
+    155.86992,
     0.54
    ]
   },
   "quiere": {
    "categoria": "verbos",
    "clave": "kiere",
+   "archivo": "palabras_1",
    "medio": [
-    153.65488,
-    0.43
+    156.46992,
+    0.455
    ],
    "final": [
-    154.14488,
+    156.98492,
     0.59
    ]
   },
   "quiero": {
    "categoria": "verbos",
    "clave": "kiero",
+   "archivo": "palabras_1",
    "medio": [
-    154.79487,
-    0.395
+    157.63492,
+    0.435
    ],
    "final": [
-    155.24988,
+    158.12992,
     0.575
    ]
   },
   "vive": {
    "categoria": "verbos",
    "clave": "bibe",
+   "archivo": "palabras_1",
    "medio": [
-    155.88487,
-    0.3
+    158.76492,
+    0.325
    ],
    "final": [
-    156.24488,
+    159.14992,
     0.555
    ]
   },
   "nada": {
    "categoria": "verbos",
    "clave": "nada",
+   "archivo": "palabras_1",
    "medio": [
-    156.85987,
-    0.415
+    159.76492,
+    0.435
    ],
    "final": [
-    157.33488,
+    160.25992,
     0.535
    ]
   },
   "vuela": {
    "categoria": "verbos",
    "clave": "buela",
+   "archivo": "palabras_1",
    "medio": [
-    157.92988,
-    0.33
+    160.85492,
+    0.365
    ],
    "final": [
-    158.31987,
+    161.27992,
     0.65
    ]
   },
   "camina": {
    "categoria": "verbos",
    "clave": "kamina",
+   "archivo": "palabras_1",
    "medio": [
-    159.02988,
-    0.565
+    161.98992,
+    0.59
    ],
    "final": [
-    159.65488,
+    162.63992,
     0.775
    ]
   },
   "toma": {
    "categoria": "verbos",
    "clave": "toma",
+   "archivo": "palabras_1",
    "medio": [
-    160.48988,
-    0.4
+    163.47492,
+    0.43
    ],
    "final": [
-    160.94987,
+    163.96492,
     0.53
    ]
   },
   "llueve": {
    "categoria": "verbos",
    "clave": "yuebe",
+   "archivo": "palabras_1",
    "medio": [
-    161.53987,
-    0.44
+    164.55492,
+    0.46
    ],
    "final": [
-    162.03987,
+    165.07492,
     0.63
    ]
   },
   "pinta": {
    "categoria": "verbos",
    "clave": "pinta",
+   "archivo": "palabras_1",
    "medio": [
-    162.72987,
-    0.665
+    165.76492,
+    0.69
    ],
    "final": [
-    163.45487,
+    166.51492,
     0.695
    ]
   },
   "dibuja": {
    "categoria": "verbos",
    "clave": "dibuja",
+   "archivo": "palabras_1",
    "medio": [
-    164.20988,
-    0.555
+    167.26992,
+    0.575
    ],
    "final": [
-    164.82487,
+    167.90492,
     0.73
    ]
   },
   "escribe": {
    "categoria": "verbos",
    "clave": "eskribe",
+   "archivo": "palabras_1",
    "medio": [
-    165.61488,
-    0.615
+    168.69492,
+    0.65
    ],
    "final": [
-    166.28987,
+    169.40492,
     0.815
    ]
   },
   "aprende": {
    "categoria": "verbos",
    "clave": "aprende",
+   "archivo": "palabras_1",
    "medio": [
-    167.16487,
-    0.655
+    170.27992,
+    0.68
    ],
    "final": [
-    167.87987,
+    171.01992,
     0.75
    ]
   },
   "grande": {
    "categoria": "adjetivos",
    "clave": "grande",
+   "archivo": "palabras_1",
    "medio": [
-    168.68988,
-    0.575
+    171.82992,
+    0.6
    ],
    "final": [
-    169.32487,
+    172.48992,
     0.72
    ]
   },
   "pequeño": {
    "categoria": "adjetivos",
    "clave": "pekeño",
+   "archivo": "palabras_1",
    "medio": [
-    170.10487,
-    0.59
+    173.26992,
+    0.62
    ],
    "final": [
-    170.75487,
+    173.94992,
     0.79
    ]
   },
   "pequeña": {
    "categoria": "adjetivos",
    "clave": "pekeña",
+   "archivo": "palabras_1",
    "medio": [
-    171.60487,
-    0.665
+    174.79992,
+    0.695
    ],
    "final": [
-    172.32987,
+    175.55492,
     0.775
    ]
   },
   "bonito": {
    "categoria": "adjetivos",
    "clave": "bonito",
+   "archivo": "palabras_1",
    "medio": [
-    173.16487,
-    0.52
+    176.38992,
+    0.545
    ],
    "final": [
-    173.74488,
+    176.99492,
     0.825
    ]
   },
   "bonita": {
    "categoria": "adjetivos",
    "clave": "bonita",
+   "archivo": "palabras_1",
    "medio": [
-    174.62987,
-    0.545
+    177.87992,
+    0.56
    ],
    "final": [
-    175.23487,
+    178.49992,
     0.67
    ]
   },
   "feliz": {
    "categoria": "adjetivos",
    "clave": "feliz",
+   "archivo": "palabras_2",
    "medio": [
-    175.96488,
+    0.2,
     0.55
    ],
    "final": [
-    176.57487,
+    0.81,
     0.57
    ]
   },
   "contento": {
    "categoria": "adjetivos",
    "clave": "kontento",
+   "archivo": "palabras_2",
    "medio": [
-    177.20487,
-    0.895
+    1.44,
+    0.92
    ],
    "final": [
-    178.15987,
+    2.42,
     0.985
    ]
   },
   "contenta": {
    "categoria": "adjetivos",
    "clave": "kontenta",
+   "archivo": "palabras_2",
    "medio": [
-    179.20487,
-    1.07
+    3.465,
+    1.09
    ],
    "final": [
-    180.33488,
+    4.615,
     0.915
-   ]
-  },
-  "rojo": {
-   "categoria": "adjetivos",
-   "clave": "Rojo",
-   "medio": [
-    181.30988,
-    0.4
-   ],
-   "final": [
-    181.76988,
-    0.655
-   ]
-  },
-  "azul": {
-   "categoria": "adjetivos",
-   "clave": "azul",
-   "medio": [
-    182.48487,
-    0.5
-   ],
-   "final": [
-    183.04487,
-    0.695
-   ]
-  },
-  "verde": {
-   "categoria": "adjetivos",
-   "clave": "berde",
-   "medio": [
-    183.79987,
-    0.46
-   ],
-   "final": [
-    184.31987,
-    0.66
-   ]
-  },
-  "amarillo": {
-   "categoria": "adjetivos",
-   "clave": "amariyo",
-   "medio": [
-    185.03987,
-    0.595
-   ],
-   "final": [
-    185.69487,
-    0.77
-   ]
-  },
-  "blanco": {
-   "categoria": "adjetivos",
-   "clave": "blanko",
-   "medio": [
-    186.52488,
-    0.67
-   ],
-   "final": [
-    187.25487,
-    0.795
-   ]
-  },
-  "negro": {
-   "categoria": "adjetivos",
-   "clave": "negro",
-   "medio": [
-    188.10987,
-    0.41
-   ],
-   "final": [
-    188.57987,
-    0.59
    ]
   },
   "alto": {
    "categoria": "adjetivos",
    "clave": "alto",
+   "archivo": "palabras_2",
    "medio": [
-    189.22987,
-    0.43
+    5.59,
+    0.46
    ],
    "final": [
-    189.71988,
+    6.11,
     0.705
    ]
   },
   "rápido": {
    "categoria": "adjetivos",
    "clave": "Rapido",
+   "archivo": "palabras_2",
    "medio": [
-    190.48487,
-    0.525
+    6.875,
+    0.555
    ],
    "final": [
-    191.06987,
+    7.49,
     0.675
    ]
   },
   "nuevo": {
    "categoria": "adjetivos",
    "clave": "nuebo",
+   "archivo": "palabras_2",
    "medio": [
-    191.80488,
-    0.415
+    8.225,
+    0.445
    ],
    "final": [
-    192.27988,
+    8.73,
     0.55
    ]
   },
-  "mucho": {
-   "categoria": "adjetivos",
-   "clave": "muCo",
+  "rojo": {
+   "categoria": "colores",
+   "clave": "Rojo",
+   "archivo": "palabras_2",
    "medio": [
-    192.88987,
-    0.535
+    9.34,
+    0.425
    ],
    "final": [
-    193.48487,
-    0.635
+    9.825,
+    0.655
    ]
   },
-  "muchos": {
-   "categoria": "adjetivos",
-   "clave": "muCos",
+  "azul": {
+   "categoria": "colores",
+   "clave": "azul",
+   "archivo": "palabras_2",
    "medio": [
-    194.17988,
+    10.54,
+    0.5
+   ],
+   "final": [
+    11.1,
+    0.695
+   ]
+  },
+  "verde": {
+   "categoria": "colores",
+   "clave": "berde",
+   "archivo": "palabras_2",
+   "medio": [
+    11.855,
+    0.505
+   ],
+   "final": [
+    12.42,
+    0.66
+   ]
+  },
+  "amarillo": {
+   "categoria": "colores",
+   "clave": "amariyo",
+   "archivo": "palabras_2",
+   "medio": [
+    13.14,
+    0.63
+   ],
+   "final": [
+    13.83,
+    0.77
+   ]
+  },
+  "blanco": {
+   "categoria": "colores",
+   "clave": "blanko",
+   "archivo": "palabras_2",
+   "medio": [
+    14.66,
+    0.695
+   ],
+   "final": [
+    15.415,
+    0.795
+   ]
+  },
+  "negro": {
+   "categoria": "colores",
+   "clave": "negro",
+   "archivo": "palabras_2",
+   "medio": [
+    16.27,
+    0.44
+   ],
+   "final": [
+    16.77,
     0.59
-   ],
-   "final": [
-    194.82987,
-    0.675
-   ]
-  },
-  "muy": {
-   "categoria": "adjetivos",
-   "clave": "mui",
-   "medio": [
-    195.56488,
-    0.335
-   ],
-   "final": [
-    195.95988,
-    0.52
-   ]
-  },
-  "más": {
-   "categoria": "adjetivos",
-   "clave": "mas",
-   "medio": [
-    196.53987,
-    0.31
-   ],
-   "final": [
-    196.90987,
-    0.455
    ]
   },
   "hoy": {
-   "categoria": "tiempo_y_otros",
+   "categoria": "tiempo",
    "clave": "oi",
+   "archivo": "palabras_2",
    "medio": [
-    197.42487,
-    0.345
+    17.42,
+    0.37
    ],
    "final": [
-    197.82987,
+    17.85,
     0.59
    ]
   },
   "ayer": {
-   "categoria": "tiempo_y_otros",
+   "categoria": "tiempo",
    "clave": "ayer",
+   "archivo": "palabras_2",
    "medio": [
-    198.47987,
+    18.5,
     0.505
    ],
    "final": [
-    199.04487,
+    19.065,
     0.755
    ]
   },
   "mañana": {
-   "categoria": "tiempo_y_otros",
+   "categoria": "tiempo",
    "clave": "mañana",
+   "archivo": "palabras_2",
    "medio": [
-    199.85987,
-    0.475
+    19.88,
+    0.5
    ],
    "final": [
-    200.39488,
+    20.44,
     0.73
    ]
   },
   "ahora": {
-   "categoria": "tiempo_y_otros",
+   "categoria": "tiempo",
    "clave": "aora",
+   "archivo": "palabras_2",
    "medio": [
-    201.18488,
-    0.4
+    21.23,
+    0.445
    ],
    "final": [
-    201.64488,
+    21.735,
     0.68
    ]
   },
   "siempre": {
-   "categoria": "tiempo_y_otros",
+   "categoria": "tiempo",
    "clave": "siempre",
+   "archivo": "palabras_2",
    "medio": [
-    202.38487,
-    0.67
+    22.475,
+    0.69
    ],
    "final": [
-    203.11488,
-    0.645
-   ]
-  },
-  "aquí": {
-   "categoria": "tiempo_y_otros",
-   "clave": "aki",
-   "medio": [
-    203.81987,
-    0.365
-   ],
-   "final": [
-    204.24488,
-    0.63
-   ]
-  },
-  "allá": {
-   "categoria": "tiempo_y_otros",
-   "clave": "aya",
-   "medio": [
-    204.93488,
-    0.435
-   ],
-   "final": [
-    205.42988,
-    0.575
-   ]
-  },
-  "no": {
-   "categoria": "tiempo_y_otros",
-   "clave": "no",
-   "medio": [
-    206.06488,
-    0.205
-   ],
-   "final": [
-    206.32987,
-    0.3
-   ]
-  },
-  "sí": {
-   "categoria": "tiempo_y_otros",
-   "clave": "si",
-   "medio": [
-    206.68988,
-    0.295
-   ],
-   "final": [
-    207.04487,
-    0.455
-   ]
-  },
-  "vacaciones": {
-   "categoria": "tiempo_y_otros",
-   "clave": "bakaziones",
-   "medio": [
-    207.55988,
-    0.925
-   ],
-   "final": [
-    208.54487,
-    0.955
-   ]
-  },
-  "día": {
-   "categoria": "tiempo_y_otros",
-   "clave": "dia",
-   "medio": [
-    209.55988,
-    0.305
-   ],
-   "final": [
-    209.92487,
-    0.55
-   ]
-  },
-  "noche": {
-   "categoria": "tiempo_y_otros",
-   "clave": "noCe",
-   "medio": [
-    210.53487,
-    0.37
-   ],
-   "final": [
-    210.96488,
+    23.225,
     0.645
    ]
   },
   "tarde": {
-   "categoria": "tiempo_y_otros",
+   "categoria": "tiempo",
    "clave": "tarde",
+   "archivo": "palabras_2",
    "medio": [
-    211.66987,
-    0.385
+    23.93,
+    0.41
    ],
    "final": [
-    212.11488,
+    24.4,
     0.625
    ]
   },
-  "también": {
-   "categoria": "tiempo_y_otros",
-   "clave": "tambien",
+  "noche": {
+   "categoria": "tiempo",
+   "clave": "noCe",
+   "archivo": "palabras_2",
    "medio": [
-    212.79987,
+    25.085,
+    0.385
+   ],
+   "final": [
+    25.53,
+    0.645
+   ]
+  },
+  "día": {
+   "categoria": "tiempo",
+   "clave": "dia",
+   "archivo": "palabras_2",
+   "medio": [
+    26.235,
+    0.335
+   ],
+   "final": [
+    26.63,
+    0.55
+   ]
+  },
+  "vacaciones": {
+   "categoria": "tiempo",
+   "clave": "bakaziones",
+   "archivo": "palabras_2",
+   "medio": [
+    27.24,
     0.925
    ],
    "final": [
-    213.78487,
-    0.775
-   ]
-  },
-  "todos": {
-   "categoria": "tiempo_y_otros",
-   "clave": "todos",
-   "medio": [
-    214.61988,
-    0.445
-   ],
-   "final": [
-    215.12488,
-    0.56
-   ]
-  },
-  "todavía": {
-   "categoria": "tiempo_y_otros",
-   "clave": "todabia",
-   "medio": [
-    215.74488,
-    0.595
-   ],
-   "final": [
-    216.39988,
-    0.73
+    28.225,
+    0.955
    ]
   },
   "cumpleaños": {
-   "categoria": "tiempo_y_otros",
+   "categoria": "tiempo",
    "clave": "kumpleaños",
+   "archivo": "palabras_2",
    "medio": [
-    217.18988,
+    29.24,
     1.235
    ],
    "final": [
-    218.48487,
+    30.535,
     1.03
    ]
   },
   "fiesta": {
-   "categoria": "tiempo_y_otros",
+   "categoria": "tiempo",
    "clave": "fiesta",
+   "archivo": "palabras_2",
    "medio": [
-    219.57487,
-    0.595
+    31.625,
+    0.615
    ],
    "final": [
-    220.22987,
+    32.3,
     0.755
    ]
   },
-  "juntos": {
-   "categoria": "tiempo_y_otros",
-   "clave": "juntos",
+  "todavía": {
+   "categoria": "tiempo",
+   "clave": "todabia",
+   "archivo": "palabras_2",
    "medio": [
-    221.04487,
+    33.115,
+    0.62
+   ],
+   "final": [
+    33.795,
+    0.73
+   ]
+  },
+  "sí": {
+   "categoria": "preguntas_y_saludos",
+   "clave": "si",
+   "archivo": "palabras_2",
+   "medio": [
+    34.585,
+    0.31
+   ],
+   "final": [
+    34.955,
+    0.455
+   ]
+  },
+  "no": {
+   "categoria": "preguntas_y_saludos",
+   "clave": "no",
+   "archivo": "palabras_2",
+   "medio": [
+    35.47,
+    0.26
+   ],
+   "final": [
+    35.79,
+    0.3
+   ]
+  },
+  "mucho": {
+   "categoria": "otros",
+   "clave": "muCo",
+   "archivo": "palabras_2",
+   "medio": [
+    36.15,
+    0.55
+   ],
+   "final": [
+    36.76,
+    0.635
+   ]
+  },
+  "muchos": {
+   "categoria": "otros",
+   "clave": "muCos",
+   "archivo": "palabras_2",
+   "medio": [
+    37.455,
+    0.59
+   ],
+   "final": [
+    38.105,
+    0.675
+   ]
+  },
+  "muy": {
+   "categoria": "otros",
+   "clave": "mui",
+   "archivo": "palabras_2",
+   "medio": [
+    38.84,
+    0.375
+   ],
+   "final": [
+    39.275,
+    0.52
+   ]
+  },
+  "más": {
+   "categoria": "otros",
+   "clave": "mas",
+   "archivo": "palabras_2",
+   "medio": [
+    39.855,
+    0.31
+   ],
+   "final": [
+    40.225,
+    0.455
+   ]
+  },
+  "aquí": {
+   "categoria": "otros",
+   "clave": "aki",
+   "archivo": "palabras_2",
+   "medio": [
+    40.74,
+    0.39
+   ],
+   "final": [
+    41.19,
+    0.63
+   ]
+  },
+  "allá": {
+   "categoria": "otros",
+   "clave": "aya",
+   "archivo": "palabras_2",
+   "medio": [
+    41.88,
+    0.46
+   ],
+   "final": [
+    42.4,
+    0.575
+   ]
+  },
+  "también": {
+   "categoria": "otros",
+   "clave": "tambien",
+   "archivo": "palabras_2",
+   "medio": [
+    43.035,
+    0.925
+   ],
+   "final": [
+    44.02,
+    0.775
+   ]
+  },
+  "todos": {
+   "categoria": "otros",
+   "clave": "todos",
+   "archivo": "palabras_2",
+   "medio": [
+    44.855,
+    0.445
+   ],
+   "final": [
+    45.36,
+    0.56
+   ]
+  },
+  "juntos": {
+   "categoria": "otros",
+   "clave": "juntos",
+   "archivo": "palabras_2",
+   "medio": [
+    45.98,
     0.75
    ],
    "final": [
-    221.85487,
+    46.79,
     0.725
    ]
   }

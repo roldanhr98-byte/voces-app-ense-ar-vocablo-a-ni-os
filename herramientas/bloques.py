@@ -212,6 +212,17 @@ BLOQUES = [
 ]
 
 
+# velocidad por bloque propia de la voz (por ejemplo Lumina: palabras y frases al 90 %)
+for _b in BLOQUES:
+    _v = _VOZ.get("velocidad_bloques", {}).get(_b["id"])
+    if _v:
+        _b["voice_settings"] = dict(_b["voice_settings"], speed=_v)
+
+# ajustes para las piezas de la lectura encadenada (palabras y dífonos)
+AJUSTES_LECTURA = dict(AJUSTES_NEUTROS, speed=_VOZ.get("velocidad_lectura", 1.0)) \
+    if _VOZ.get("velocidad_lectura") else AJUSTES_NEUTROS
+
+
 def texto_tts(u):
     """Texto que se envía para una unidad: sílabas/palabras llevan punto final."""
     if u in TEXTO_TTS:

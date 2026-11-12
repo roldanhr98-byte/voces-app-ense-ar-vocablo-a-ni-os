@@ -1,6 +1,6 @@
 # Voces para la app: vocales, sílabas, palabras y frases en español
 
-- **Voz:** {VOZ_NOMBRE} (ElevenLabs, español de España)
+- **Voz:** {VOZ_NOMBRE} (ElevenLabs, {ACENTO})
 - **Modelo:** `eleven_multilingual_v2`
 - **Formato:** en el zip, MP3 mono de 64 kbps (48 kHz), liviano para la app. Los originales en WAV 48 kHz 16 bits
   (sin pérdida) están en GitHub, en la carpeta `biblioteca/`.
@@ -89,7 +89,7 @@ Por eso se rehízo cada bloque en tomas de hasta 5 unidades: cada familia (Ba-Be
 
 ## Control de calidad
 
-1. **Transcripción automática:** cada familia de sílabas, palabra, frase y oración se transcribió con ElevenLabs Scribe y se comparó con el texto. Todas las palabras, frases, preguntas y exclamaciones coinciden. Las únicas diferencias son confusiones conocidas de Scribe, y se comprobó con el espectrograma que el audio está bien: "Pera" → "Espera", "Taza" → "Data", "Té" → "T", "Loro" → "Loto".
+1. **Transcripción automática:** cada familia de sílabas, palabra, frase y oración se transcribió con ElevenLabs Scribe y se comparó con el texto. Las diferencias que quedan son confusiones conocidas de Scribe con palabras sueltas (por ejemplo "Pera" → "Espera" o "Llave" → "¿Ya ve?") y, en voces con seseo, palabras que suenan igual (caza → "casa"). Se comprobó con el espectrograma que el audio está bien.
 2. **Control acústico:** se revisó cada clip para detectar vocales agregadas (por ejemplo "afe" en lugar de "af"), sílabas pegadas y cortes en la voz.
 3. **Espectrogramas:** se revisaron a mano los casos dudosos (J frente a Y, Z frente a S, sílabas inversas).
 
@@ -98,10 +98,6 @@ Por eso se rehízo cada bloque en tomas de hasta 5 unidades: cada familia (Ba-Be
 - **Dra:** "Dra." es la abreviatura de *Doctora* y la voz la leía "doctora". Se envía como "Drá." (suena "dra").
 {CORRECCIONES}
 
-## Notas de pronunciación (voz de España)
-
-- **Z y C ante e/i** (za, ce, ci, zo, zu, az, ez…): suenan /θ/, como en España, distinto de la S. Si la app es para Latinoamérica, conviene probar otra voz con seseo.
-- **LL e Y** suenan igual (yeísmo). **B y V** suenan igual, que es lo correcto en español.
-- **Ag, Eg, Ig, Og, Ug:** la G final sale suave [ɣ], como en "i**g**norar" o "di**g**no". Es la pronunciación natural, pero conviene escucharlas por si preferís una G más marcada.
+{NOTAS_PRONUNCIACION}
 
 **Para escuchar con atención:** {ATENCION}

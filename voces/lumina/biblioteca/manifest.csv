@@ -1,0 +1,529 @@
+archivo,texto,tipo,bloque,seccion,grupo,duracion_ms,inicio_en_render_s,fin_en_render_s
+00_renders_bloques_completos/bloque_1_vocales_y_silabas_directas.wav,Vocales y sílabas directas,render_bloque,1,,,101136,,
+01_vocales/a.wav,A,unidad,1,vocales,vocales,395,0.0,0.365
+01_vocales/e.wav,E,unidad,1,vocales,vocales,462,0.4,0.863
+01_vocales/i.wav,I,unidad,1,vocales,vocales,398,0.925,1.323
+01_vocales/o.wav,O,unidad,1,vocales,vocales,452,1.365,1.818
+01_vocales/u.wav,U,unidad,1,vocales,vocales,465,1.88,2.345
+02_silabas_directas/b/ba.wav,Ba,unidad,1,silabas_directas,b,540,2.91,3.45
+02_silabas_directas/b/be.wav,Be,unidad,1,silabas_directas,b,570,3.69,4.26
+02_silabas_directas/b/bi.wav,Bi,unidad,1,silabas_directas,b,530,4.55,5.08
+02_silabas_directas/b/bo.wav,Bo,unidad,1,silabas_directas,b,545,5.36,5.905
+02_silabas_directas/b/bu.wav,Bu,unidad,1,silabas_directas,b,495,6.2,6.695
+02_silabas_directas/p/pa.wav,Pa,unidad,1,silabas_directas,p,435,7.41,7.845
+02_silabas_directas/p/pe.wav,Pe,unidad,1,silabas_directas,p,445,8.02,8.465
+02_silabas_directas/p/pi.wav,Pi,unidad,1,silabas_directas,p,450,8.63,9.08
+02_silabas_directas/p/po.wav,Po,unidad,1,silabas_directas,p,425,9.325,9.75
+02_silabas_directas/p/pu.wav,Pu,unidad,1,silabas_directas,p,410,9.94,10.35
+02_silabas_directas/m/ma.wav,Ma,unidad,1,silabas_directas,m,505,10.98,11.485
+02_silabas_directas/m/me.wav,Me,unidad,1,silabas_directas,m,525,11.675,12.2
+02_silabas_directas/m/mi.wav,Mi,unidad,1,silabas_directas,m,505,12.42,12.925
+02_silabas_directas/m/mo.wav,Mo,unidad,1,silabas_directas,m,495,13.21,13.705
+02_silabas_directas/m/mu.wav,Mu,unidad,1,silabas_directas,m,490,13.955,14.445
+02_silabas_directas/f/fa.wav,Fa,unidad,1,silabas_directas,f,535,15.07,15.605
+02_silabas_directas/f/fe.wav,Fe,unidad,1,silabas_directas,f,575,15.815,16.39
+02_silabas_directas/f/fi.wav,Fi,unidad,1,silabas_directas,f,595,16.58,17.175
+02_silabas_directas/f/fo.wav,Fo,unidad,1,silabas_directas,f,610,17.38,17.99
+02_silabas_directas/f/fu.wav,Fu,unidad,1,silabas_directas,f,580,18.23,18.81
+02_silabas_directas/v/va.wav,Va,unidad,1,silabas_directas,v,500,19.37,19.87
+02_silabas_directas/v/ve.wav,Ve,unidad,1,silabas_directas,v,515,20.125,20.64
+02_silabas_directas/v/vi.wav,Vi,unidad,1,silabas_directas,v,540,20.865,21.405
+02_silabas_directas/v/vo.wav,Vo,unidad,1,silabas_directas,v,510,21.665,22.175
+02_silabas_directas/v/vu.wav,Vu,unidad,1,silabas_directas,v,500,22.395,22.895
+02_silabas_directas/t/ta.wav,Ta,unidad,1,silabas_directas,t,440,23.545,23.985
+02_silabas_directas/t/te.wav,Te,unidad,1,silabas_directas,t,430,24.31,24.74
+02_silabas_directas/t/ti.wav,Ti,unidad,1,silabas_directas,t,440,25.085,25.525
+02_silabas_directas/t/to.wav,To,unidad,1,silabas_directas,t,445,25.88,26.325
+02_silabas_directas/t/tu.wav,Tu,unidad,1,silabas_directas,t,425,26.69,27.115
+02_silabas_directas/d/da.wav,Da,unidad,1,silabas_directas,d,505,27.67,28.175
+02_silabas_directas/d/de.wav,De,unidad,1,silabas_directas,d,565,28.44,29.005
+02_silabas_directas/d/di.wav,Di,unidad,1,silabas_directas,d,545,29.235,29.78
+02_silabas_directas/d/do.wav,Do,unidad,1,silabas_directas,d,550,30.03,30.58
+02_silabas_directas/d/du.wav,Du,unidad,1,silabas_directas,d,505,30.82,31.325
+02_silabas_directas/n/na.wav,Na,unidad,1,silabas_directas,n,540,31.935,32.475
+02_silabas_directas/n/ne.wav,Ne,unidad,1,silabas_directas,n,525,32.69,33.215
+02_silabas_directas/n/ni.wav,Ni,unidad,1,silabas_directas,n,490,33.48,33.97
+02_silabas_directas/n/no.wav,No,unidad,1,silabas_directas,n,540,34.225,34.765
+02_silabas_directas/n/nu.wav,Nu,unidad,1,silabas_directas,n,530,34.965,35.495
+02_silabas_directas/ny/nya.wav,Ña,unidad,1,silabas_directas,ny,565,36.09,36.655
+02_silabas_directas/ny/nye.wav,Ñe,unidad,1,silabas_directas,ny,585,36.965,37.55
+02_silabas_directas/ny/nyi.wav,Ñi,unidad,1,silabas_directas,ny,570,37.78,38.35
+02_silabas_directas/ny/nyo.wav,Ño,unidad,1,silabas_directas,ny,595,38.57,39.165
+02_silabas_directas/ny/nyu.wav,Ñu,unidad,1,silabas_directas,ny,545,39.375,39.92
+02_silabas_directas/l/la.wav,La,unidad,1,silabas_directas,l,570,40.57,41.14
+02_silabas_directas/l/le.wav,Le,unidad,1,silabas_directas,l,575,41.34,41.915
+02_silabas_directas/l/li.wav,Li,unidad,1,silabas_directas,l,550,42.16,42.71
+02_silabas_directas/l/lo.wav,Lo,unidad,1,silabas_directas,l,565,42.96,43.525
+02_silabas_directas/l/lu.wav,Lu,unidad,1,silabas_directas,l,510,43.755,44.265
+02_silabas_directas/r/ra.wav,Ra,unidad,1,silabas_directas,r,460,44.89,45.35
+02_silabas_directas/r/re.wav,Re,unidad,1,silabas_directas,r,525,45.645,46.17
+02_silabas_directas/r/ri.wav,Ri,unidad,1,silabas_directas,r,540,46.425,46.965
+02_silabas_directas/r/ro.wav,Ro,unidad,1,silabas_directas,r,515,47.3,47.815
+02_silabas_directas/r/ru.wav,Ru,unidad,1,silabas_directas,r,530,48.085,48.615
+02_silabas_directas/s/sa.wav,Sa,unidad,1,silabas_directas,s,535,49.19,49.725
+02_silabas_directas/s/se.wav,Se,unidad,1,silabas_directas,s,530,49.96,50.49
+02_silabas_directas/s/si.wav,Si,unidad,1,silabas_directas,s,550,50.71,51.26
+02_silabas_directas/s/so.wav,So,unidad,1,silabas_directas,s,565,51.5,52.065
+02_silabas_directas/s/su.wav,Su,unidad,1,silabas_directas,s,500,52.32,52.82
+02_silabas_directas/j/ja.wav,Ja,unidad,1,silabas_directas,j,495,53.515,54.01
+02_silabas_directas/j/je.wav,Je,unidad,1,silabas_directas,j,465,54.66,55.125
+02_silabas_directas/j/ji.wav,Ji,unidad,1,silabas_directas,j,500,55.775,56.275
+02_silabas_directas/j/jo.wav,Jo,unidad,1,silabas_directas,j,515,56.93,57.445
+02_silabas_directas/j/ju.wav,Ju,unidad,1,silabas_directas,j,495,58.1,58.595
+02_silabas_directas/ch/cha.wav,Cha,unidad,1,silabas_directas,ch,500,59.15,59.65
+02_silabas_directas/ch/che.wav,Che,unidad,1,silabas_directas,ch,495,59.98,60.475
+02_silabas_directas/ch/chi.wav,Chi,unidad,1,silabas_directas,ch,480,60.75,61.23
+02_silabas_directas/ch/cho.wav,Cho,unidad,1,silabas_directas,ch,495,61.495,61.99
+02_silabas_directas/ch/chu.wav,Chu,unidad,1,silabas_directas,ch,455,62.245,62.7
+02_silabas_directas/y/ya.wav,Ya,unidad,1,silabas_directas,y,525,63.33,63.855
+02_silabas_directas/y/ye.wav,Ye,unidad,1,silabas_directas,y,545,64.11,64.655
+02_silabas_directas/y/yi.wav,Yi,unidad,1,silabas_directas,y,480,64.97,65.45
+02_silabas_directas/y/yo.wav,Yo,unidad,1,silabas_directas,y,490,65.77,66.26
+02_silabas_directas/y/yu.wav,Yu,unidad,1,silabas_directas,y,425,66.565,66.99
+02_silabas_directas/c/ca.wav,Ca,unidad,1,silabas_directas,c,475,67.67,68.145
+02_silabas_directas/c/que.wav,Que,unidad,1,silabas_directas,c,450,68.79,69.24
+02_silabas_directas/c/qui.wav,Qui,unidad,1,silabas_directas,c,470,69.885,70.355
+02_silabas_directas/c/co.wav,Co,unidad,1,silabas_directas,c,435,71.01,71.445
+02_silabas_directas/c/cu.wav,Cu,unidad,1,silabas_directas,c,395,72.095,72.49
+02_silabas_directas/g/ga.wav,Ga,unidad,1,silabas_directas,g,570,72.975,73.545
+02_silabas_directas/g/gue.wav,Gue,unidad,1,silabas_directas,g,560,74.075,74.635
+02_silabas_directas/g/gui.wav,Gui,unidad,1,silabas_directas,g,515,75.335,75.85
+02_silabas_directas/g/go.wav,Go,unidad,1,silabas_directas,g,510,76.54,77.05
+02_silabas_directas/g/gu.wav,Gu,unidad,1,silabas_directas,g,440,77.83,78.27
+02_silabas_directas/z/za.wav,Za,unidad,1,silabas_directas,z,560,78.9,79.46
+02_silabas_directas/z/ce.wav,Ce,unidad,1,silabas_directas,z,570,79.68,80.25
+02_silabas_directas/z/ci.wav,Ci,unidad,1,silabas_directas,z,545,80.525,81.07
+02_silabas_directas/z/zo.wav,Zo,unidad,1,silabas_directas,z,580,81.295,81.875
+02_silabas_directas/z/zu.wav,Zu,unidad,1,silabas_directas,z,535,82.125,82.66
+02_silabas_directas/k/ka.wav,Ka,unidad,1,silabas_directas,k,490,83.39,83.88
+02_silabas_directas/k/ke.wav,Ke,unidad,1,silabas_directas,k,510,84.12,84.63
+02_silabas_directas/k/ki.wav,Ki,unidad,1,silabas_directas,k,530,84.87,85.4
+02_silabas_directas/k/ko.wav,Ko,unidad,1,silabas_directas,k,525,85.595,86.12
+02_silabas_directas/k/ku.wav,Ku,unidad,1,silabas_directas,k,460,86.32,86.78
+02_silabas_directas/w/wa.wav,Wa,unidad,1,silabas_directas,w,500,87.42,87.92
+02_silabas_directas/w/we.wav,We,unidad,1,silabas_directas,w,525,88.155,88.68
+02_silabas_directas/w/wi.wav,Wi,unidad,1,silabas_directas,w,510,88.94,89.45
+02_silabas_directas/w/wo.wav,Wo,unidad,1,silabas_directas,w,560,89.73,90.29
+02_silabas_directas/w/wu.wav,Wu,unidad,1,silabas_directas,w,480,90.565,91.045
+02_silabas_directas/ll/lla.wav,Lla,unidad,1,silabas_directas,ll,570,91.655,92.225
+02_silabas_directas/ll/lle.wav,Lle,unidad,1,silabas_directas,ll,570,92.495,93.065
+02_silabas_directas/ll/lli.wav,Lli,unidad,1,silabas_directas,ll,500,93.375,93.875
+02_silabas_directas/ll/llo.wav,Llo,unidad,1,silabas_directas,ll,550,94.17,94.72
+02_silabas_directas/ll/llu.wav,Llu,unidad,1,silabas_directas,ll,545,95.005,95.55
+02_silabas_directas/rr/rra.wav,Rra,unidad,1,silabas_directas,rr,545,96.15,96.695
+02_silabas_directas/rr/rre.wav,Rre,unidad,1,silabas_directas,rr,545,97.145,97.69
+02_silabas_directas/rr/rri.wav,Rri,unidad,1,silabas_directas,rr,575,98.21,98.785
+02_silabas_directas/rr/rro.wav,Rro,unidad,1,silabas_directas,rr,535,99.325,99.86
+02_silabas_directas/rr/rru.wav,Rru,unidad,1,silabas_directas,rr,565,100.395,100.96
+01_vocales/vocales_a_e_i_o_u.wav,A. E. I. O. U.,familia,1,vocales,vocales,2375,0.0,2.345
+02_silabas_directas/b/familia_b.wav,Ba. Be. Bi. Bo. Bu.,familia,1,silabas_directas,b,3785,2.91,6.695
+02_silabas_directas/p/familia_p.wav,Pa. Pe. Pi. Po. Pu.,familia,1,silabas_directas,p,2940,7.41,10.35
+02_silabas_directas/m/familia_m.wav,Ma. Me. Mi. Mo. Mu.,familia,1,silabas_directas,m,3465,10.98,14.445
+02_silabas_directas/f/familia_f.wav,Fa. Fe. Fi. Fo. Fu.,familia,1,silabas_directas,f,3740,15.07,18.81
+02_silabas_directas/v/familia_v.wav,Va. Ve. Vi. Vo. Vu.,familia,1,silabas_directas,v,3525,19.37,22.895
+02_silabas_directas/t/familia_t.wav,Ta. Te. Ti. To. Tu.,familia,1,silabas_directas,t,3570,23.545,27.115
+02_silabas_directas/d/familia_d.wav,Da. De. Di. Do. Du.,familia,1,silabas_directas,d,3655,27.67,31.325
+02_silabas_directas/n/familia_n.wav,Na. Ne. Ni. No. Nu.,familia,1,silabas_directas,n,3560,31.935,35.495
+02_silabas_directas/ny/familia_ny.wav,Ña. Ñe. Ñi. Ño. Ñu.,familia,1,silabas_directas,ny,3830,36.09,39.92
+02_silabas_directas/l/familia_l.wav,La. Le. Li. Lo. Lu.,familia,1,silabas_directas,l,3695,40.57,44.265
+02_silabas_directas/r/familia_r.wav,Ra. Re. Ri. Ro. Ru.,familia,1,silabas_directas,r,3725,44.89,48.615
+02_silabas_directas/s/familia_s.wav,Sa. Se. Si. So. Su.,familia,1,silabas_directas,s,3630,49.19,52.82
+02_silabas_directas/j/familia_j.wav,Ja. Je. Ji. Jo. Ju.,familia,1,silabas_directas,j,5080,53.515,58.595
+02_silabas_directas/ch/familia_ch.wav,Cha. Che. Chi. Cho. Chu.,familia,1,silabas_directas,ch,3550,59.15,62.7
+02_silabas_directas/y/familia_y.wav,Ya. Ye. Yi. Yo. Yu.,familia,1,silabas_directas,y,3660,63.33,66.99
+02_silabas_directas/c/familia_c.wav,Ca. Que. Qui. Co. Cu.,familia,1,silabas_directas,c,4820,67.67,72.49
+02_silabas_directas/g/familia_g.wav,Ga. Gue. Gui. Go. Gu.,familia,1,silabas_directas,g,5295,72.975,78.27
+02_silabas_directas/z/familia_z.wav,Za. Ce. Ci. Zo. Zu.,familia,1,silabas_directas,z,3760,78.9,82.66
+02_silabas_directas/k/familia_k.wav,Ka. Ke. Ki. Ko. Ku.,familia,1,silabas_directas,k,3390,83.39,86.78
+02_silabas_directas/w/familia_w.wav,Wa. We. Wi. Wo. Wu.,familia,1,silabas_directas,w,3625,87.42,91.045
+02_silabas_directas/ll/familia_ll.wav,Lla. Lle. Lli. Llo. Llu.,familia,1,silabas_directas,ll,3895,91.655,95.55
+02_silabas_directas/rr/familia_rr.wav,Rra. Rre. Rri. Rro. Rru.,familia,1,silabas_directas,rr,4810,96.15,100.96
+00_renders_bloques_completos/bloque_2_silabas_inversas_y_grupos_consonanticos.wav,Sílabas inversas y grupos consonánticos,render_bloque,2,,,111605,,
+03_silabas_inversas/l/al.wav,Al,unidad,2,silabas_inversas,l,525,0.0,0.51
+03_silabas_inversas/l/el.wav,El,unidad,2,silabas_inversas,l,530,0.825,1.355
+03_silabas_inversas/l/il.wav,Il,unidad,2,silabas_inversas,l,510,1.64,2.15
+03_silabas_inversas/l/ol.wav,Ol,unidad,2,silabas_inversas,l,535,2.48,3.015
+03_silabas_inversas/l/ul.wav,Ul,unidad,2,silabas_inversas,l,460,3.29,3.75
+03_silabas_inversas/r/ar.wav,Ar,unidad,2,silabas_inversas,r,455,4.4,4.855
+03_silabas_inversas/r/er.wav,Er,unidad,2,silabas_inversas,r,460,4.9,5.36
+03_silabas_inversas/r/ir.wav,Ir,unidad,2,silabas_inversas,r,420,5.4,5.82
+03_silabas_inversas/r/or.wav,Or,unidad,2,silabas_inversas,r,408,5.865,6.272
+03_silabas_inversas/r/ur.wav,Ur,unidad,2,silabas_inversas,r,395,6.33,6.725
+03_silabas_inversas/s/as.wav,As,unidad,2,silabas_inversas,s,530,7.395,7.925
+03_silabas_inversas/s/es.wav,Es,unidad,2,silabas_inversas,s,525,8.09,8.615
+03_silabas_inversas/s/is.wav,Is,unidad,2,silabas_inversas,s,550,8.845,9.395
+03_silabas_inversas/s/os.wav,Os,unidad,2,silabas_inversas,s,540,9.61,10.15
+03_silabas_inversas/s/us.wav,Us,unidad,2,silabas_inversas,s,525,10.415,10.94
+03_silabas_inversas/n/an.wav,An,unidad,2,silabas_inversas,n,500,11.605,12.105
+03_silabas_inversas/n/en.wav,En,unidad,2,silabas_inversas,n,530,12.395,12.925
+03_silabas_inversas/n/in.wav,In,unidad,2,silabas_inversas,n,520,13.255,13.775
+03_silabas_inversas/n/on.wav,On,unidad,2,silabas_inversas,n,545,14.03,14.575
+03_silabas_inversas/n/un.wav,Un,unidad,2,silabas_inversas,n,540,14.805,15.345
+03_silabas_inversas/m/am.wav,Am,unidad,2,silabas_inversas,m,480,15.935,16.415
+03_silabas_inversas/m/em.wav,Em,unidad,2,silabas_inversas,m,520,16.78,17.3
+03_silabas_inversas/m/im.wav,Im,unidad,2,silabas_inversas,m,510,17.62,18.13
+03_silabas_inversas/m/om.wav,Om,unidad,2,silabas_inversas,m,480,18.51,18.99
+03_silabas_inversas/m/um.wav,Um,unidad,2,silabas_inversas,m,465,19.335,19.8
+03_silabas_inversas/b/ab.wav,Ab,unidad,2,silabas_inversas,b,390,20.4,20.79
+03_silabas_inversas/b/eb.wav,Eb,unidad,2,silabas_inversas,b,425,21.19,21.615
+03_silabas_inversas/b/ib.wav,Ib,unidad,2,silabas_inversas,b,430,21.92,22.35
+03_silabas_inversas/b/ob.wav,Ob,unidad,2,silabas_inversas,b,445,22.64,23.085
+03_silabas_inversas/b/ub.wav,Ub,unidad,2,silabas_inversas,b,330,23.37,23.7
+03_silabas_inversas/p/ap.wav,Ap,unidad,2,silabas_inversas,p,535,24.425,24.96
+03_silabas_inversas/p/ep.wav,Ep,unidad,2,silabas_inversas,p,450,25.435,25.885
+03_silabas_inversas/p/ip.wav,Ip,unidad,2,silabas_inversas,p,465,26.295,26.76
+03_silabas_inversas/p/op.wav,Op,unidad,2,silabas_inversas,p,435,27.205,27.64
+03_silabas_inversas/p/up.wav,Up,unidad,2,silabas_inversas,p,425,28.12,28.545
+03_silabas_inversas/t/at.wav,At,unidad,2,silabas_inversas,t,375,29.09,29.465
+03_silabas_inversas/t/et.wav,Et,unidad,2,silabas_inversas,t,400,29.495,29.895
+03_silabas_inversas/t/it.wav,It,unidad,2,silabas_inversas,t,390,29.94,30.33
+03_silabas_inversas/t/ot.wav,Ot,unidad,2,silabas_inversas,t,365,30.38,30.745
+03_silabas_inversas/t/ut.wav,Ut,unidad,2,silabas_inversas,t,490,30.77,31.26
+03_silabas_inversas/c/ac.wav,Ac,unidad,2,silabas_inversas,c,565,31.875,32.44
+03_silabas_inversas/c/ec.wav,Ec,unidad,2,silabas_inversas,c,545,33.095,33.64
+03_silabas_inversas/c/ic.wav,Ic,unidad,2,silabas_inversas,c,555,34.295,34.85
+03_silabas_inversas/c/oc.wav,Oc,unidad,2,silabas_inversas,c,425,35.495,35.92
+03_silabas_inversas/c/uc.wav,Uc,unidad,2,silabas_inversas,c,495,36.57,37.065
+03_silabas_inversas/d/ad.wav,Ad,unidad,2,silabas_inversas,d,432,37.62,38.053
+03_silabas_inversas/d/ed.wav,Ed,unidad,2,silabas_inversas,d,440,38.13,38.57
+03_silabas_inversas/d/id.wav,Id,unidad,2,silabas_inversas,d,450,38.655,39.105
+03_silabas_inversas/d/od.wav,Od,unidad,2,silabas_inversas,d,465,39.165,39.63
+03_silabas_inversas/d/ud.wav,Ud,unidad,2,silabas_inversas,d,390,39.7,40.09
+03_silabas_inversas/f/af.wav,Af,unidad,2,silabas_inversas,f,540,40.865,41.405
+03_silabas_inversas/f/ef.wav,Ef,unidad,2,silabas_inversas,f,520,41.91,42.43
+03_silabas_inversas/f/if.wav,If,unidad,2,silabas_inversas,f,510,42.875,43.385
+03_silabas_inversas/f/of.wav,Of,unidad,2,silabas_inversas,f,480,43.805,44.285
+03_silabas_inversas/f/uf.wav,Uf,unidad,2,silabas_inversas,f,455,44.71,45.165
+03_silabas_inversas/g/ag.wav,Ag,unidad,2,silabas_inversas,g,505,45.88,46.385
+03_silabas_inversas/g/eg.wav,Eg,unidad,2,silabas_inversas,g,470,46.725,47.195
+03_silabas_inversas/g/ig.wav,Ig,unidad,2,silabas_inversas,g,420,47.49,47.91
+03_silabas_inversas/g/og.wav,Og,unidad,2,silabas_inversas,g,475,48.335,48.81
+03_silabas_inversas/g/ug.wav,Ug,unidad,2,silabas_inversas,g,490,49.13,49.62
+03_silabas_inversas/z/az.wav,Az,unidad,2,silabas_inversas,z,535,50.22,50.755
+03_silabas_inversas/z/ez.wav,Ez,unidad,2,silabas_inversas,z,540,51.36,51.9
+03_silabas_inversas/z/iz.wav,Iz,unidad,2,silabas_inversas,z,515,52.55,53.065
+03_silabas_inversas/z/oz.wav,Oz,unidad,2,silabas_inversas,z,540,53.71,54.25
+03_silabas_inversas/z/uz.wav,Uz,unidad,2,silabas_inversas,z,560,54.9,55.46
+04_grupos_consonanticos/br/bra.wav,Bra,unidad,2,grupos_consonanticos,br,520,55.97,56.49
+04_grupos_consonanticos/br/bre.wav,Bre,unidad,2,grupos_consonanticos,br,510,56.835,57.345
+04_grupos_consonanticos/br/bri.wav,Bri,unidad,2,grupos_consonanticos,br,515,57.64,58.155
+04_grupos_consonanticos/br/bro.wav,Bro,unidad,2,grupos_consonanticos,br,525,58.5,59.025
+04_grupos_consonanticos/br/bru.wav,Bru,unidad,2,grupos_consonanticos,br,520,59.345,59.865
+04_grupos_consonanticos/cr/cra.wav,Cra,unidad,2,grupos_consonanticos,cr,535,60.55,61.085
+04_grupos_consonanticos/cr/cre.wav,Cre,unidad,2,grupos_consonanticos,cr,520,61.32,61.84
+04_grupos_consonanticos/cr/cri.wav,Cri,unidad,2,grupos_consonanticos,cr,515,62.145,62.66
+04_grupos_consonanticos/cr/cro.wav,Cro,unidad,2,grupos_consonanticos,cr,510,62.865,63.375
+04_grupos_consonanticos/cr/cru.wav,Cru,unidad,2,grupos_consonanticos,cr,480,63.595,64.075
+04_grupos_consonanticos/dr/dra.wav,Dra,unidad,2,grupos_consonanticos,dr,550,64.705,65.255
+04_grupos_consonanticos/dr/dre.wav,Dre,unidad,2,grupos_consonanticos,dr,560,65.58,66.14
+04_grupos_consonanticos/dr/dri.wav,Dri,unidad,2,grupos_consonanticos,dr,530,66.395,66.925
+04_grupos_consonanticos/dr/dro.wav,Dro,unidad,2,grupos_consonanticos,dr,595,67.19,67.785
+04_grupos_consonanticos/dr/dru.wav,Dru,unidad,2,grupos_consonanticos,dr,520,68.035,68.555
+04_grupos_consonanticos/fr/fra.wav,Fra,unidad,2,grupos_consonanticos,fr,550,69.27,69.82
+04_grupos_consonanticos/fr/fre.wav,Fre,unidad,2,grupos_consonanticos,fr,545,70.165,70.71
+04_grupos_consonanticos/fr/fri.wav,Fri,unidad,2,grupos_consonanticos,fr,535,71.09,71.625
+04_grupos_consonanticos/fr/fro.wav,Fro,unidad,2,grupos_consonanticos,fr,560,71.92,72.48
+04_grupos_consonanticos/fr/fru.wav,Fru,unidad,2,grupos_consonanticos,fr,510,72.875,73.385
+04_grupos_consonanticos/gr/gra.wav,Gra,unidad,2,grupos_consonanticos,gr,545,74.025,74.57
+04_grupos_consonanticos/gr/gre.wav,Gre,unidad,2,grupos_consonanticos,gr,595,74.755,75.35
+04_grupos_consonanticos/gr/gri.wav,Gri,unidad,2,grupos_consonanticos,gr,580,75.52,76.1
+04_grupos_consonanticos/gr/gro.wav,Gro,unidad,2,grupos_consonanticos,gr,585,76.305,76.89
+04_grupos_consonanticos/gr/gru.wav,Gru,unidad,2,grupos_consonanticos,gr,555,77.085,77.64
+04_grupos_consonanticos/pr/pra.wav,Pra,unidad,2,grupos_consonanticos,pr,465,78.28,78.745
+04_grupos_consonanticos/pr/pre.wav,Pre,unidad,2,grupos_consonanticos,pr,440,79.08,79.52
+04_grupos_consonanticos/pr/pri.wav,Pri,unidad,2,grupos_consonanticos,pr,445,79.805,80.25
+04_grupos_consonanticos/pr/pro.wav,Pro,unidad,2,grupos_consonanticos,pr,440,80.605,81.045
+04_grupos_consonanticos/pr/pru.wav,Pru,unidad,2,grupos_consonanticos,pr,410,81.305,81.715
+04_grupos_consonanticos/tr/tra.wav,Tra,unidad,2,grupos_consonanticos,tr,485,82.435,82.92
+04_grupos_consonanticos/tr/tre.wav,Tre,unidad,2,grupos_consonanticos,tr,485,83.46,83.945
+04_grupos_consonanticos/tr/tri.wav,Tri,unidad,2,grupos_consonanticos,tr,505,84.585,85.09
+04_grupos_consonanticos/tr/tro.wav,Tro,unidad,2,grupos_consonanticos,tr,515,85.83,86.345
+04_grupos_consonanticos/tr/tru.wav,Tru,unidad,2,grupos_consonanticos,tr,490,87.045,87.535
+04_grupos_consonanticos/bl/bla.wav,Bla,unidad,2,grupos_consonanticos,bl,562,88.165,88.728
+04_grupos_consonanticos/bl/ble.wav,Ble,unidad,2,grupos_consonanticos,bl,750,88.785,89.535
+04_grupos_consonanticos/bl/bli.wav,Bli,unidad,2,grupos_consonanticos,bl,685,89.68,90.365
+04_grupos_consonanticos/bl/blo.wav,Blo,unidad,2,grupos_consonanticos,bl,645,90.615,91.26
+04_grupos_consonanticos/bl/blu.wav,Blu,unidad,2,grupos_consonanticos,bl,580,91.505,92.085
+04_grupos_consonanticos/cl/cla.wav,Cla,unidad,2,grupos_consonanticos,cl,525,92.785,93.31
+04_grupos_consonanticos/cl/cle.wav,Cle,unidad,2,grupos_consonanticos,cl,515,93.575,94.09
+04_grupos_consonanticos/cl/cli.wav,Cli,unidad,2,grupos_consonanticos,cl,515,94.4,94.915
+04_grupos_consonanticos/cl/clo.wav,Clo,unidad,2,grupos_consonanticos,cl,530,95.245,95.775
+04_grupos_consonanticos/cl/clu.wav,Clu,unidad,2,grupos_consonanticos,cl,500,96.02,96.52
+04_grupos_consonanticos/fl/fla.wav,Fla,unidad,2,grupos_consonanticos,fl,585,97.13,97.715
+04_grupos_consonanticos/fl/fle.wav,Fle,unidad,2,grupos_consonanticos,fl,600,97.985,98.585
+04_grupos_consonanticos/fl/fli.wav,Fli,unidad,2,grupos_consonanticos,fl,610,98.865,99.475
+04_grupos_consonanticos/fl/flo.wav,Flo,unidad,2,grupos_consonanticos,fl,605,99.78,100.385
+04_grupos_consonanticos/fl/flu.wav,Flu,unidad,2,grupos_consonanticos,fl,565,100.675,101.24
+04_grupos_consonanticos/gl/gla.wav,Gla,unidad,2,grupos_consonanticos,gl,590,101.83,102.42
+04_grupos_consonanticos/gl/gle.wav,Gle,unidad,2,grupos_consonanticos,gl,620,102.835,103.455
+04_grupos_consonanticos/gl/gli.wav,Gli,unidad,2,grupos_consonanticos,gl,630,103.81,104.44
+04_grupos_consonanticos/gl/glo.wav,Glo,unidad,2,grupos_consonanticos,gl,640,104.785,105.425
+04_grupos_consonanticos/gl/glu.wav,Glu,unidad,2,grupos_consonanticos,gl,565,105.83,106.395
+04_grupos_consonanticos/pl/pla.wav,Pla,unidad,2,grupos_consonanticos,pl,520,107.115,107.635
+04_grupos_consonanticos/pl/ple.wav,Ple,unidad,2,grupos_consonanticos,pl,495,108.0,108.495
+04_grupos_consonanticos/pl/pli.wav,Pli,unidad,2,grupos_consonanticos,pl,445,108.93,109.375
+04_grupos_consonanticos/pl/plo.wav,Plo,unidad,2,grupos_consonanticos,pl,495,109.93,110.425
+04_grupos_consonanticos/pl/plu.wav,Plu,unidad,2,grupos_consonanticos,pl,475,110.95,111.425
+03_silabas_inversas/l/familia_l.wav,Al. El. Il. Ol. Ul.,familia,2,silabas_inversas,l,3765,0.0,3.75
+03_silabas_inversas/r/familia_r.wav,Ar. Er. Ir. Or. Ur.,familia,2,silabas_inversas,r,2325,4.4,6.725
+03_silabas_inversas/s/familia_s.wav,As. Es. Is. Os. Us.,familia,2,silabas_inversas,s,3545,7.395,10.94
+03_silabas_inversas/n/familia_n.wav,An. En. In. On. Un.,familia,2,silabas_inversas,n,3740,11.605,15.345
+03_silabas_inversas/m/familia_m.wav,Am. Em. Im. Om. Um.,familia,2,silabas_inversas,m,3865,15.935,19.8
+03_silabas_inversas/b/familia_b.wav,Ab. Eb. Ib. Ob. Ub.,familia,2,silabas_inversas,b,3300,20.4,23.7
+03_silabas_inversas/p/familia_p.wav,Ap. Ep. Ip. Op. Up.,familia,2,silabas_inversas,p,4120,24.425,28.545
+03_silabas_inversas/t/familia_t.wav,At. Et. It. Ot. Ut.,familia,2,silabas_inversas,t,2170,29.09,31.26
+03_silabas_inversas/c/familia_c.wav,Ac. Ec. Ic. Oc. Uc.,familia,2,silabas_inversas,c,5190,31.875,37.065
+03_silabas_inversas/d/familia_d.wav,Ad. Ed. Id. Od. Ud.,familia,2,silabas_inversas,d,2470,37.62,40.09
+03_silabas_inversas/f/familia_f.wav,Af. Ef. If. Of. Uf.,familia,2,silabas_inversas,f,4300,40.865,45.165
+03_silabas_inversas/g/familia_g.wav,Ag. Eg. Ig. Og. Ug.,familia,2,silabas_inversas,g,3740,45.88,49.62
+03_silabas_inversas/z/familia_z.wav,Az. Ez. Iz. Oz. Uz.,familia,2,silabas_inversas,z,5240,50.22,55.46
+04_grupos_consonanticos/br/familia_br.wav,Bra. Bre. Bri. Bro. Bru.,familia,2,grupos_consonanticos,br,3895,55.97,59.865
+04_grupos_consonanticos/cr/familia_cr.wav,Cra. Cre. Cri. Cro. Cru.,familia,2,grupos_consonanticos,cr,3525,60.55,64.075
+04_grupos_consonanticos/dr/familia_dr.wav,Dra. Dre. Dri. Dro. Dru.,familia,2,grupos_consonanticos,dr,3850,64.705,68.555
+04_grupos_consonanticos/fr/familia_fr.wav,Fra. Fre. Fri. Fro. Fru.,familia,2,grupos_consonanticos,fr,4115,69.27,73.385
+04_grupos_consonanticos/gr/familia_gr.wav,Gra. Gre. Gri. Gro. Gru.,familia,2,grupos_consonanticos,gr,3615,74.025,77.64
+04_grupos_consonanticos/pr/familia_pr.wav,Pra. Pre. Pri. Pro. Pru.,familia,2,grupos_consonanticos,pr,3435,78.28,81.715
+04_grupos_consonanticos/tr/familia_tr.wav,Tra. Tre. Tri. Tro. Tru.,familia,2,grupos_consonanticos,tr,5100,82.435,87.535
+04_grupos_consonanticos/bl/familia_bl.wav,Bla. Ble. Bli. Blo. Blu.,familia,2,grupos_consonanticos,bl,3920,88.165,92.085
+04_grupos_consonanticos/cl/familia_cl.wav,Cla. Cle. Cli. Clo. Clu.,familia,2,grupos_consonanticos,cl,3735,92.785,96.52
+04_grupos_consonanticos/fl/familia_fl.wav,Fla. Fle. Fli. Flo. Flu.,familia,2,grupos_consonanticos,fl,4110,97.13,101.24
+04_grupos_consonanticos/gl/familia_gl.wav,Gla. Gle. Gli. Glo. Glu.,familia,2,grupos_consonanticos,gl,4565,101.83,106.395
+04_grupos_consonanticos/pl/familia_pl.wav,Pla. Ple. Pli. Plo. Plu.,familia,2,grupos_consonanticos,pl,4310,107.115,111.425
+00_renders_bloques_completos/bloque_3_combinaciones_vocalicas_y_palabras_cortas.wav,Combinaciones vocálicas y palabras cortas,render_bloque,3,,,87062,,
+05_combinaciones_vocalicas/ai.wav,Ai,unidad,3,combinaciones_vocalicas,,605,0.025,0.63
+05_combinaciones_vocalicas/ei.wav,Ei,unidad,3,combinaciones_vocalicas,,565,0.875,1.44
+05_combinaciones_vocalicas/oi.wav,Oi,unidad,3,combinaciones_vocalicas,,600,1.805,2.405
+05_combinaciones_vocalicas/ui.wav,Ui,unidad,3,combinaciones_vocalicas,,555,2.63,3.185
+05_combinaciones_vocalicas/au.wav,Au,unidad,3,combinaciones_vocalicas,,570,3.465,4.035
+05_combinaciones_vocalicas/eu.wav,Eu,unidad,3,combinaciones_vocalicas,,610,4.7,5.31
+05_combinaciones_vocalicas/ou.wav,Ou,unidad,3,combinaciones_vocalicas,,595,5.41,6.005
+05_combinaciones_vocalicas/ia.wav,Ia,unidad,3,combinaciones_vocalicas,,610,6.33,6.94
+05_combinaciones_vocalicas/ie.wav,Ie,unidad,3,combinaciones_vocalicas,,590,7.245,7.835
+05_combinaciones_vocalicas/io.wav,Io,unidad,3,combinaciones_vocalicas,,565,8.15,8.715
+05_combinaciones_vocalicas/iu.wav,Iu,unidad,3,combinaciones_vocalicas,,610,9.39,10.0
+05_combinaciones_vocalicas/ua.wav,Ua,unidad,3,combinaciones_vocalicas,,605,10.135,10.74
+05_combinaciones_vocalicas/ue.wav,Ue,unidad,3,combinaciones_vocalicas,,570,11.065,11.635
+05_combinaciones_vocalicas/uo.wav,Uo,unidad,3,combinaciones_vocalicas,,540,11.895,12.435
+06_palabras_diptongos_hiatos/aereo.wav,Aéreo,unidad,3,palabras_diptongos_hiatos,,770,13.14,13.91
+06_palabras_diptongos_hiatos/poeta.wav,Poeta,unidad,3,palabras_diptongos_hiatos,,820,14.08,14.9
+06_palabras_diptongos_hiatos/teatro.wav,Teatro,unidad,3,palabras_diptongos_hiatos,,825,14.995,15.82
+06_palabras_diptongos_hiatos/pais.wav,País,unidad,3,palabras_diptongos_hiatos,,755,15.965,16.72
+06_palabras_diptongos_hiatos/raiz.wav,Raíz,unidad,3,palabras_diptongos_hiatos,,805,16.865,17.67
+06_palabras_diptongos_hiatos/baul.wav,Baúl,unidad,3,palabras_diptongos_hiatos,,780,18.365,19.145
+06_palabras_diptongos_hiatos/caida.wav,Caída,unidad,3,palabras_diptongos_hiatos,,800,19.475,20.275
+06_palabras_diptongos_hiatos/maiz.wav,Maíz,unidad,3,palabras_diptongos_hiatos,,865,20.54,21.405
+06_palabras_diptongos_hiatos/rio.wav,Río,unidad,3,palabras_diptongos_hiatos,,665,21.685,22.35
+06_palabras_diptongos_hiatos/dia.wav,Día,unidad,3,palabras_diptongos_hiatos,,670,23.025,23.695
+06_palabras_diptongos_hiatos/frio.wav,Frío,unidad,3,palabras_diptongos_hiatos,,725,23.885,24.61
+06_palabras_diptongos_hiatos/maria.wav,María,unidad,3,palabras_diptongos_hiatos,,845,24.89,25.735
+06_palabras_diptongos_hiatos/vehiculo.wav,Vehículo,unidad,3,palabras_diptongos_hiatos,,950,25.905,26.855
+06_palabras_diptongos_hiatos/ruido.wav,Ruido,unidad,3,palabras_diptongos_hiatos,,662,27.505,28.168
+06_palabras_diptongos_hiatos/ciudad.wav,Ciudad,unidad,3,palabras_diptongos_hiatos,,850,28.225,29.075
+06_palabras_diptongos_hiatos/cuidado.wav,Cuidado,unidad,3,palabras_diptongos_hiatos,,830,29.205,30.035
+06_palabras_diptongos_hiatos/causa.wav,Causa,unidad,3,palabras_diptongos_hiatos,,685,30.22,30.905
+06_palabras_diptongos_hiatos/peine.wav,Peine,unidad,3,palabras_diptongos_hiatos,,648,31.675,32.322
+06_palabras_diptongos_hiatos/cielo.wav,Cielo,unidad,3,palabras_diptongos_hiatos,,790,32.385,33.175
+06_palabras_diptongos_hiatos/puerta.wav,Puerta,unidad,3,palabras_diptongos_hiatos,,780,33.39,34.17
+06_palabras_diptongos_hiatos/fuego.wav,Fuego,unidad,3,palabras_diptongos_hiatos,,760,34.375,35.135
+07_palabras_cortas/casa.wav,Casa,unidad,3,palabras_cortas,,650,35.87,36.52
+07_palabras_cortas/cama.wav,Cama,unidad,3,palabras_cortas,,630,36.75,37.38
+07_palabras_cortas/cara.wav,Cara,unidad,3,palabras_cortas,,600,37.565,38.165
+07_palabras_cortas/calle.wav,Calle,unidad,3,palabras_cortas,,685,38.365,39.05
+07_palabras_cortas/carro.wav,Carro,unidad,3,palabras_cortas,,605,39.275,39.88
+07_palabras_cortas/perro.wav,Perro,unidad,3,palabras_cortas,,655,40.595,41.25
+07_palabras_cortas/gato.wav,Gato,unidad,3,palabras_cortas,,805,41.375,42.18
+07_palabras_cortas/mesa.wav,Mesa,unidad,3,palabras_cortas,,800,42.265,43.065
+07_palabras_cortas/silla.wav,Silla,unidad,3,palabras_cortas,,850,43.175,44.025
+07_palabras_cortas/puerta.wav,Puerta,unidad,3,palabras_cortas,,720,44.235,44.955
+07_palabras_cortas/ventana.wav,Ventana,unidad,3,palabras_cortas,,875,45.685,46.56
+07_palabras_cortas/pato.wav,Pato,unidad,3,palabras_cortas,,645,46.885,47.53
+07_palabras_cortas/pelota.wav,Pelota,unidad,3,palabras_cortas,,875,47.74,48.615
+07_palabras_cortas/pajaro.wav,Pájaro,unidad,3,palabras_cortas,,730,48.855,49.585
+07_palabras_cortas/mano.wav,Mano,unidad,3,palabras_cortas,,615,49.83,50.445
+07_palabras_cortas/dedo.wav,Dedo,unidad,3,palabras_cortas,,595,51.21,51.805
+07_palabras_cortas/cabeza.wav,Cabeza,unidad,3,palabras_cortas,,905,51.895,52.8
+07_palabras_cortas/boca.wav,Boca,unidad,3,palabras_cortas,,830,52.865,53.695
+07_palabras_cortas/nariz.wav,Nariz,unidad,3,palabras_cortas,,865,53.775,54.64
+07_palabras_cortas/ojo.wav,Ojo,unidad,3,palabras_cortas,,550,54.905,55.455
+07_palabras_cortas/oreja.wav,Oreja,unidad,3,palabras_cortas,,745,56.195,56.94
+07_palabras_cortas/sol.wav,Sol,unidad,3,palabras_cortas,,680,57.155,57.835
+07_palabras_cortas/luna.wav,Luna,unidad,3,palabras_cortas,,705,58.24,58.945
+07_palabras_cortas/cielo.wav,Cielo,unidad,3,palabras_cortas,,805,59.15,59.955
+07_palabras_cortas/tierra.wav,Tierra,unidad,3,palabras_cortas,,680,60.335,61.015
+07_palabras_cortas/agua.wav,Agua,unidad,3,palabras_cortas,,695,61.715,62.41
+07_palabras_cortas/fuego.wav,Fuego,unidad,3,palabras_cortas,,825,62.57,63.395
+07_palabras_cortas/aire.wav,Aire,unidad,3,palabras_cortas,,695,63.59,64.285
+07_palabras_cortas/mar.wav,Mar,unidad,3,palabras_cortas,,620,64.565,65.185
+07_palabras_cortas/rio.wav,Río,unidad,3,palabras_cortas,,655,65.415,66.07
+07_palabras_cortas/arbol.wav,Árbol,unidad,3,palabras_cortas,,725,66.76,67.485
+07_palabras_cortas/flor.wav,Flor,unidad,3,palabras_cortas,,735,67.645,68.38
+07_palabras_cortas/pan.wav,Pan,unidad,3,palabras_cortas,,580,68.73,69.31
+07_palabras_cortas/sal.wav,Sal,unidad,3,palabras_cortas,,710,69.57,70.28
+07_palabras_cortas/miel.wav,Miel,unidad,3,palabras_cortas,,765,70.545,71.31
+07_palabras_cortas/leche.wav,Leche,unidad,3,palabras_cortas,,745,71.905,72.65
+07_palabras_cortas/queso.wav,Queso,unidad,3,palabras_cortas,,745,73.06,73.805
+07_palabras_cortas/carne.wav,Carne,unidad,3,palabras_cortas,,765,74.02,74.785
+07_palabras_cortas/fruta.wav,Fruta,unidad,3,palabras_cortas,,810,75.125,75.935
+07_palabras_cortas/azucar.wav,Azúcar,unidad,3,palabras_cortas,,845,76.135,76.98
+07_palabras_cortas/cafe.wav,Café,unidad,3,palabras_cortas,,715,77.71,78.425
+07_palabras_cortas/te.wav,Té,unidad,3,palabras_cortas,,490,79.045,79.535
+07_palabras_cortas/libro.wav,Libro,unidad,3,palabras_cortas,,725,80.07,80.795
+07_palabras_cortas/hoja.wav,Hoja,unidad,3,palabras_cortas,,600,81.64,82.24
+07_palabras_cortas/lapiz.wav,Lápiz,unidad,3,palabras_cortas,,895,82.885,83.78
+07_palabras_cortas/papel.wav,Papel,unidad,3,palabras_cortas,,755,84.03,84.785
+07_palabras_cortas/llave.wav,Llave,unidad,3,palabras_cortas,,745,85.095,85.84
+07_palabras_cortas/reloj.wav,Reloj,unidad,3,palabras_cortas,,870,86.055,86.925
+00_renders_bloques_completos/bloque_4_palabras_medianas_largas_y_dificiles.wav,"Palabras medianas, largas y contextos difíciles",render_bloque,4,,,135209,,
+08_palabras_medianas_y_largas/computadora.wav,Computadora,unidad,4,palabras_largas,,1215,0.05,1.265
+08_palabras_medianas_y_largas/telefono.wav,Teléfono,unidad,4,palabras_largas,,960,1.535,2.495
+08_palabras_medianas_y_largas/pantalla.wav,Pantalla,unidad,4,palabras_largas,,1000,2.61,3.61
+08_palabras_medianas_y_largas/teclado.wav,Teclado,unidad,4,palabras_largas,,910,3.8,4.71
+08_palabras_medianas_y_largas/musica.wav,Música,unidad,4,palabras_largas,,880,4.895,5.775
+08_palabras_medianas_y_largas/pelicula.wav,Película,unidad,4,palabras_largas,,935,6.53,7.465
+08_palabras_medianas_y_largas/persona.wav,Persona,unidad,4,palabras_largas,,945,7.725,8.67
+08_palabras_medianas_y_largas/palabra.wav,Palabra,unidad,4,palabras_largas,,880,8.95,9.83
+08_palabras_medianas_y_largas/sonido.wav,Sonido,unidad,4,palabras_largas,,925,10.035,10.96
+08_palabras_medianas_y_largas/silencio.wav,Silencio,unidad,4,palabras_largas,,1045,11.155,12.2
+08_palabras_medianas_y_largas/manyana.wav,Mañana,unidad,4,palabras_largas,,905,12.85,13.755
+08_palabras_medianas_y_largas/tarde.wav,Tarde,unidad,4,palabras_largas,,680,14.08,14.76
+08_palabras_medianas_y_largas/noche.wav,Noche,unidad,4,palabras_largas,,830,15.01,15.84
+08_palabras_medianas_y_largas/temprano.wav,Temprano,unidad,4,palabras_largas,,910,16.135,17.045
+08_palabras_medianas_y_largas/lentamente.wav,Lentamente,unidad,4,palabras_largas,,1200,17.335,18.535
+08_palabras_medianas_y_largas/rapidamente.wav,Rápidamente,unidad,4,palabras_largas,,1235,19.185,20.42
+08_palabras_medianas_y_largas/cuidadosamente.wav,Cuidadosamente,unidad,4,palabras_largas,,1410,20.685,22.095
+08_palabras_medianas_y_largas/probablemente.wav,Probablemente,unidad,4,palabras_largas,,1245,22.495,23.74
+08_palabras_medianas_y_largas/completamente.wav,Completamente,unidad,4,palabras_largas,,1345,24.045,25.39
+08_palabras_medianas_y_largas/inteligencia.wav,Inteligencia,unidad,4,palabras_largas,,1260,25.75,27.01
+08_palabras_medianas_y_largas/pronunciacion.wav,Pronunciación,unidad,4,palabras_largas,,1248,27.825,29.073
+08_palabras_medianas_y_largas/comunicacion.wav,Comunicación,unidad,4,palabras_largas,,1242,29.145,30.387
+08_palabras_medianas_y_largas/tecnologia.wav,Tecnología,unidad,4,palabras_largas,,1130,30.445,31.575
+08_palabras_medianas_y_largas/conocimiento.wav,Conocimiento,unidad,4,palabras_largas,,1248,31.665,32.913
+08_palabras_medianas_y_largas/extraordinario.wav,Extraordinario,unidad,4,palabras_largas,,1325,32.975,34.3
+08_palabras_medianas_y_largas/responsabilidad.wav,Responsabilidad,unidad,4,palabras_largas,,1475,34.99,36.465
+08_palabras_medianas_y_largas/oportunidad.wav,Oportunidad,unidad,4,palabras_largas,,1228,36.56,37.788
+08_palabras_medianas_y_largas/imaginacion.wav,Imaginación,unidad,4,palabras_largas,,1212,37.85,39.062
+08_palabras_medianas_y_largas/ferrocarril.wav,Ferrocarril,unidad,4,palabras_largas,,1080,39.125,40.205
+08_palabras_medianas_y_largas/ferreteria.wav,Ferretería,unidad,4,palabras_largas,,1070,40.56,41.63
+08_palabras_medianas_y_largas/circunstancia.wav,Circunstancia,unidad,4,palabras_largas,,1438,42.295,43.733
+08_palabras_medianas_y_largas/infraestructura.wav,Infraestructura,unidad,4,palabras_largas,,1420,43.785,45.205
+08_palabras_medianas_y_largas/electricidad.wav,Electricidad,unidad,4,palabras_largas,,1285,45.28,46.565
+08_palabras_medianas_y_largas/transparencia.wav,Transparencia,unidad,4,palabras_largas,,1230,46.625,47.855
+08_palabras_medianas_y_largas/transformacion.wav,Transformación,unidad,4,palabras_largas,,1270,47.98,49.25
+08_palabras_medianas_y_largas/desafortunadamente.wav,Desafortunadamente,unidad,4,palabras_largas,,1855,49.97,51.825
+08_palabras_medianas_y_largas/incomprensible.wav,Incomprensible,unidad,4,palabras_largas,,1440,52.09,53.53
+08_palabras_medianas_y_largas/aproximadamente.wav,Aproximadamente,unidad,4,palabras_largas,,1625,53.795,55.42
+08_palabras_medianas_y_largas/extraordinariamente.wav,Extraordinariamente,unidad,4,palabras_largas,,1840,55.78,57.62
+08_palabras_medianas_y_largas/anticonstitucional.wav,Anticonstitucional,unidad,4,palabras_largas,,1770,57.73,59.5
+09_palabras_r_y_rr/rana.wav,Rana,unidad,4,palabras_r_rr,,690,60.07,60.76
+09_palabras_r_y_rr/rama.wav,Rama,unidad,4,palabras_r_rr,,770,61.07,61.84
+09_palabras_r_y_rr/rosa.wav,Rosa,unidad,4,palabras_r_rr,,845,62.02,62.865
+09_palabras_r_y_rr/rio.wav,Río,unidad,4,palabras_r_rr,,815,63.005,63.82
+09_palabras_r_y_rr/rueda.wav,Rueda,unidad,4,palabras_r_rr,,805,63.985,64.79
+09_palabras_r_y_rr/reloj.wav,Reloj,unidad,4,palabras_r_rr,,730,65.4,66.13
+09_palabras_r_y_rr/raton.wav,Ratón,unidad,4,palabras_r_rr,,785,66.425,67.21
+09_palabras_r_y_rr/rapido.wav,Rápido,unidad,4,palabras_r_rr,,795,67.605,68.4
+09_palabras_r_y_rr/realidad.wav,Realidad,unidad,4,palabras_r_rr,,935,68.7,69.635
+09_palabras_r_y_rr/riqueza.wav,Riqueza,unidad,4,palabras_r_rr,,865,69.96,70.825
+09_palabras_r_y_rr/cara.wav,Cara,unidad,4,palabras_r_rr,,575,71.59,72.165
+09_palabras_r_y_rr/pera.wav,Pera,unidad,4,palabras_r_rr,,570,72.435,73.005
+09_palabras_r_y_rr/loro.wav,Loro,unidad,4,palabras_r_rr,,670,73.27,73.94
+09_palabras_r_y_rr/arena.wav,Arena,unidad,4,palabras_r_rr,,720,74.175,74.895
+09_palabras_r_y_rr/corona.wav,Corona,unidad,4,palabras_r_rr,,735,75.11,75.845
+09_palabras_r_y_rr/mariposa.wav,Mariposa,unidad,4,palabras_r_rr,,1022,76.48,77.502
+09_palabras_r_y_rr/amarillo.wav,Amarillo,unidad,4,palabras_r_rr,,970,77.575,78.545
+09_palabras_r_y_rr/ahora.wav,Ahora,unidad,4,palabras_r_rr,,770,78.7,79.47
+09_palabras_r_y_rr/mirar.wav,Mirar,unidad,4,palabras_r_rr,,760,79.665,80.425
+09_palabras_r_y_rr/barato.wav,Barato,unidad,4,palabras_r_rr,,830,80.73,81.56
+09_palabras_r_y_rr/carro.wav,Carro,unidad,4,palabras_r_rr,,645,82.3,82.945
+09_palabras_r_y_rr/perro.wav,Perro,unidad,4,palabras_r_rr,,655,83.135,83.79
+09_palabras_r_y_rr/torre.wav,Torre,unidad,4,palabras_r_rr,,695,84.015,84.71
+09_palabras_r_y_rr/tierra.wav,Tierra,unidad,4,palabras_r_rr,,690,84.995,85.685
+09_palabras_r_y_rr/guitarra.wav,Guitarra,unidad,4,palabras_r_rr,,945,86.39,87.335
+09_palabras_r_y_rr/barrera.wav,Barrera,unidad,4,palabras_r_rr,,910,87.68,88.59
+09_palabras_r_y_rr/carrera.wav,Carrera,unidad,4,palabras_r_rr,,845,88.865,89.71
+09_palabras_r_y_rr/carretera.wav,Carretera,unidad,4,palabras_r_rr,,975,89.965,90.94
+10_palabras_contraste_bv_sz_gj/baca.wav,Baca,unidad,4,palabras_contraste,,765,91.565,92.33
+10_palabras_contraste_bv_sz_gj/vaca.wav,Vaca,unidad,4,palabras_contraste,,755,92.6,93.355
+10_palabras_contraste_bv_sz_gj/bello.wav,Bello,unidad,4,palabras_contraste,,775,93.595,94.37
+10_palabras_contraste_bv_sz_gj/vello.wav,Vello,unidad,4,palabras_contraste,,775,94.615,95.39
+10_palabras_contraste_bv_sz_gj/tubo.wav,Tubo,unidad,4,palabras_contraste,,595,95.68,96.275
+10_palabras_contraste_bv_sz_gj/tuvo.wav,Tuvo,unidad,4,palabras_contraste,,590,97.07,97.66
+10_palabras_contraste_bv_sz_gj/votar.wav,Votar,unidad,4,palabras_contraste,,810,97.74,98.55
+10_palabras_contraste_bv_sz_gj/botar.wav,Botar,unidad,4,palabras_contraste,,810,98.725,99.535
+10_palabras_contraste_bv_sz_gj/bienes.wav,Bienes,unidad,4,palabras_contraste,,915,99.75,100.665
+10_palabras_contraste_bv_sz_gj/vienes.wav,Vienes,unidad,4,palabras_contraste,,875,100.89,101.765
+10_palabras_contraste_bv_sz_gj/casa.wav,Casa,unidad,4,palabras_contraste,,738,102.475,103.213
+10_palabras_contraste_bv_sz_gj/caza.wav,Caza,unidad,4,palabras_contraste,,688,103.28,103.968
+10_palabras_contraste_bv_sz_gj/cocer.wav,Cocer,unidad,4,palabras_contraste,,800,104.02,104.82
+10_palabras_contraste_bv_sz_gj/coser.wav,Coser,unidad,4,palabras_contraste,,735,104.915,105.65
+10_palabras_contraste_bv_sz_gj/cima.wav,Cima,unidad,4,palabras_contraste,,680,105.815,106.495
+10_palabras_contraste_bv_sz_gj/sima.wav,Sima,unidad,4,palabras_contraste,,705,107.14,107.845
+10_palabras_contraste_bv_sz_gj/tasa.wav,Tasa,unidad,4,palabras_contraste,,645,108.2,108.845
+10_palabras_contraste_bv_sz_gj/taza.wav,Taza,unidad,4,palabras_contraste,,645,109.115,109.76
+10_palabras_contraste_bv_sz_gj/abrazar.wav,Abrazar,unidad,4,palabras_contraste,,925,109.985,110.91
+10_palabras_contraste_bv_sz_gj/abrasar.wav,Abrasar,unidad,4,palabras_contraste,,850,111.11,111.96
+10_palabras_contraste_bv_sz_gj/gente.wav,Gente,unidad,4,palabras_contraste,,812,112.67,113.483
+10_palabras_contraste_bv_sz_gj/gigante.wav,Gigante,unidad,4,palabras_contraste,,980,113.555,114.535
+10_palabras_contraste_bv_sz_gj/general.wav,General,unidad,4,palabras_contraste,,910,114.61,115.52
+10_palabras_contraste_bv_sz_gj/gimnasio.wav,Gimnasio,unidad,4,palabras_contraste,,1030,115.72,116.75
+10_palabras_contraste_bv_sz_gj/girasol.wav,Girasol,unidad,4,palabras_contraste,,910,116.92,117.83
+10_palabras_contraste_bv_sz_gj/guitarra.wav,Guitarra,unidad,4,palabras_contraste,,955,118.48,119.435
+10_palabras_contraste_bv_sz_gj/guerra.wav,Guerra,unidad,4,palabras_contraste,,765,119.785,120.55
+10_palabras_contraste_bv_sz_gj/guiso.wav,Guiso,unidad,4,palabras_contraste,,740,120.865,121.605
+10_palabras_contraste_bv_sz_gj/pinguino.wav,Pingüino,unidad,4,palabras_contraste,,920,121.91,122.83
+10_palabras_contraste_bv_sz_gj/verguenza.wav,Vergüenza,unidad,4,palabras_contraste,,1055,123.14,124.195
+10_palabras_contraste_bv_sz_gj/jamon.wav,Jamón,unidad,4,palabras_contraste,,775,124.855,125.63
+10_palabras_contraste_bv_sz_gj/jabon.wav,Jabón,unidad,4,palabras_contraste,,800,125.98,126.78
+10_palabras_contraste_bv_sz_gj/jardin.wav,Jardín,unidad,4,palabras_contraste,,870,127.175,128.045
+10_palabras_contraste_bv_sz_gj/jirafa.wav,Jirafa,unidad,4,palabras_contraste,,890,128.485,129.375
+10_palabras_contraste_bv_sz_gj/joven.wav,Joven,unidad,4,palabras_contraste,,695,129.74,130.435
+10_palabras_contraste_bv_sz_gj/jueves.wav,Jueves,unidad,4,palabras_contraste,,695,131.145,131.84
+10_palabras_contraste_bv_sz_gj/reloj.wav,Reloj,unidad,4,palabras_contraste,,790,131.855,132.645
+10_palabras_contraste_bv_sz_gj/trabajo.wav,Trabajo,unidad,4,palabras_contraste,,865,132.99,133.855
+10_palabras_contraste_bv_sz_gj/ejercicio.wav,Ejercicio,unidad,4,palabras_contraste,,1035,133.935,134.97
+00_renders_bloques_completos/bloque_5_frases_neutras_y_de_continuidad.wav,Frases neutras y de continuidad,render_bloque,5,,,112245,,
+11_frases_cortas/01_el_sol_sale_por_la_manyana.wav,El sol sale por la mañana.,unidad,5,frases_cortas,,1865,0.015,1.88
+11_frases_cortas/02_la_luna_aparece_por_la_noche.wav,La luna aparece por la noche.,unidad,5,frases_cortas,,1950,2.68,4.63
+11_frases_cortas/03_el_agua_esta_fria.wav,El agua está fría.,unidad,5,frases_cortas,,1285,4.73,6.015
+11_frases_cortas/04_la_casa_tiene_una_puerta_grande.wav,La casa tiene una puerta grande.,unidad,5,frases_cortas,,1912,6.865,8.777
+11_frases_cortas/05_el_perro_corre_por_el_jardin.wav,El perro corre por el jardín.,unidad,5,frases_cortas,,1955,8.84,10.795
+11_frases_cortas/06_el_gato_duerme_sobre_la_silla.wav,El gato duerme sobre la silla.,unidad,5,frases_cortas,,1880,11.045,12.925
+11_frases_cortas/07_la_ninya_juega_con_una_pelota.wav,La niña juega con una pelota.,unidad,5,frases_cortas,,1930,13.75,15.68
+11_frases_cortas/08_el_hombre_abre_la_ventana.wav,El hombre abre la ventana.,unidad,5,frases_cortas,,1705,15.965,17.67
+11_frases_cortas/09_la_musica_suena_suavemente.wav,La música suena suavemente.,unidad,5,frases_cortas,,2115,17.955,20.07
+11_frases_cortas/10_el_telefono_esta_sobre_la_mesa.wav,El teléfono está sobre la mesa.,unidad,5,frases_cortas,,1965,20.505,22.47
+11_frases_cortas/11_el_libro_tiene_muchas_paginas.wav,El libro tiene muchas páginas.,unidad,5,frases_cortas,,2040,22.735,24.775
+11_frases_cortas/12_la_computadora_esta_encendida.wav,La computadora está encendida.,unidad,5,frases_cortas,,2095,24.87,26.965
+12_parrafos/parrafo_1.wav,Estoy leyendo este texto con una voz natural. Cada palabra tiene un ritmo diferente. Algunas frases son cortas. Otras son mucho más largas y necesitan pequeñas pausas para que se entiendan correctamente.,parrafo,5,parrafos,,15590,27.335,42.925
+12_parrafos/oraciones/p1_01_estoy_leyendo_este_texto_con_una_voz_natural.wav,Estoy leyendo este texto con una voz natural.,unidad,5,parrafos,,3170,27.335,30.505
+12_parrafos/oraciones/p1_02_cada_palabra_tiene_un_ritmo_diferente.wav,Cada palabra tiene un ritmo diferente.,unidad,5,parrafos,,2550,30.92,33.47
+12_parrafos/oraciones/p1_03_algunas_frases_son_cortas.wav,Algunas frases son cortas.,unidad,5,parrafos,,2115,33.85,35.965
+12_parrafos/oraciones/p1_04_otras_son_mucho_mas_largas_y_necesitan_pequenyas_pausas.wav,Otras son mucho más largas y necesitan pequeñas pausas para que se entiendan correctamente.,unidad,5,parrafos,,6525,36.4,42.925
+12_parrafos/parrafo_2.wav,"La inteligencia artificial permite desarrollar nuevas herramientas para comunicarnos. Una voz sintética puede transformar un texto escrito en palabras habladas, utilizando sonidos, pausas y diferentes patrones de entonación.",parrafo,5,parrafos,,17745,43.635,61.38
+12_parrafos/oraciones/p2_01_la_inteligencia_artificial_permite_desarrollar_nuevas_h.wav,La inteligencia artificial permite desarrollar nuevas herramientas para comunicarnos.,unidad,5,parrafos,,6180,43.635,49.815
+12_parrafos/oraciones/p2_02_una_voz_sintetica_puede_transformar_un_texto_escrito_en.wav,"Una voz sintética puede transformar un texto escrito en palabras habladas, utilizando sonidos, pausas y diferentes patrones de entonación.",unidad,5,parrafos,,10940,50.44,61.38
+12_parrafos/parrafo_3.wav,"Cuando una persona lee un libro, no pronuncia todas las palabras de la misma manera. Cambia el ritmo, respira, hace pausas y adapta la entonación según el significado de cada oración.",parrafo,5,parrafos,,13505,62.22,75.725
+12_parrafos/oraciones/p3_01_cuando_una_persona_lee_un_libro_no_pronuncia_todas_las.wav,"Cuando una persona lee un libro, no pronuncia todas las palabras de la misma manera.",unidad,5,parrafos,,5240,62.22,67.46
+12_parrafos/oraciones/p3_02_cambia_el_ritmo_respira_hace_pausas_y_adapta_la_entonac.wav,"Cambia el ritmo, respira, hace pausas y adapta la entonación según el significado de cada oración.",unidad,5,parrafos,,7640,68.085,75.725
+12_parrafos/parrafo_4.wav,"La mañana comenzaba lentamente. Los primeros rayos del sol iluminaban las calles, mientras el viento movía las hojas de los árboles. A lo lejos, se escuchaba el ruido de un automóvil que avanzaba por una carretera casi vacía.",parrafo,5,parrafos,,16600,76.665,93.265
+12_parrafos/oraciones/p4_01_la_manyana_comenzaba_lentamente.wav,La mañana comenzaba lentamente.,unidad,5,parrafos,,2300,76.665,78.965
+12_parrafos/oraciones/p4_02_los_primeros_rayos_del_sol_iluminaban_las_calles_mientr.wav,"Los primeros rayos del sol iluminaban las calles, mientras el viento movía las hojas de los árboles.",unidad,5,parrafos,,6360,79.445,85.805
+12_parrafos/oraciones/p4_03_a_lo_lejos_se_escuchaba_el_ruido_de_un_automovil_que_av.wav,"A lo lejos, se escuchaba el ruido de un automóvil que avanzaba por una carretera casi vacía.",unidad,5,parrafos,,6860,86.405,93.265
+12_parrafos/parrafo_5.wav,"La tecnología ha cambiado la manera en que las personas acceden a la información. Actualmente, los dispositivos electrónicos permiten almacenar miles de libros, consultar documentos y escuchar contenidos en cualquier momento.",parrafo,5,parrafos,,17800,94.21,112.01
+12_parrafos/oraciones/p5_01_la_tecnologia_ha_cambiado_la_manera_en_que_las_personas.wav,La tecnología ha cambiado la manera en que las personas acceden a la información.,unidad,5,parrafos,,6070,94.21,100.28
+12_parrafos/oraciones/p5_02_actualmente_los_dispositivos_electronicos_permiten_alma.wav,"Actualmente, los dispositivos electrónicos permiten almacenar miles de libros, consultar documentos y escuchar contenidos en cualquier momento.",unidad,5,parrafos,,10780,101.23,112.01
+00_renders_bloques_completos/bloque_6_preguntas_y_exclamaciones.wav,Variante prosódica: preguntas y exclamaciones,render_bloque,6,,,25124,,
+13_preguntas/01_donde_estas.wav,¿Dónde estás?,unidad,6,preguntas,,1130,0.135,1.265
+13_preguntas/02_que_estas_haciendo.wav,¿Qué estás haciendo?,unidad,6,preguntas,,1285,1.525,2.81
+13_preguntas/03_cuando_vas_a_volver.wav,¿Cuándo vas a volver?,unidad,6,preguntas,,1330,3.15,4.48
+13_preguntas/04_por_que_paso_eso.wav,¿Por qué pasó eso?,unidad,6,preguntas,,1290,4.865,6.155
+13_preguntas/05_como_podemos_solucionarlo.wav,¿Cómo podemos solucionarlo?,unidad,6,preguntas,,1790,6.545,8.335
+13_preguntas/06_quien_llamo_por_telefono.wav,¿Quién llamó por teléfono?,unidad,6,preguntas,,1570,8.67,10.24
+13_preguntas/07_cuanto_tiempo_tenemos.wav,¿Cuánto tiempo tenemos?,unidad,6,preguntas,,1580,10.585,12.165
+13_preguntas/08_cual_es_la_respuesta_correcta.wav,¿Cuál es la respuesta correcta?,unidad,6,preguntas,,1880,12.505,14.385
+14_exclamaciones/01_que_alegria_verte.wav,¡Qué alegría verte!,unidad,6,exclamaciones,,1405,14.7,16.105
+14_exclamaciones/02_no_puedo_creerlo.wav,¡No puedo creerlo!,unidad,6,exclamaciones,,1470,16.345,17.815
+14_exclamaciones/03_eso_es_increible.wav,¡Eso es increíble!,unidad,6,exclamaciones,,1670,18.16,19.83
+14_exclamaciones/04_cuidado.wav,¡Cuidado!,unidad,6,exclamaciones,,1010,20.21,21.22
+14_exclamaciones/05_detente_ahora.wav,¡Detente ahora!,unidad,6,exclamaciones,,1640,21.425,23.065
+14_exclamaciones/06_que_hermoso_dia.wav,¡Qué hermoso día!,unidad,6,exclamaciones,,1535,23.39,24.925
