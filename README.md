@@ -1,42 +1,50 @@
 # Voces para la app de abecedario y pronunciación en español
 
-Audios generados con ElevenLabs (voz **Martin Osborne – Deep and Passionate**, modelo `eleven_multilingual_v2`,
-WAV 48 kHz mono 16 bits) para enseñar a los niños las vocales, las sílabas, las palabras y la pronunciación.
+Audios generados con ElevenLabs (modelo `eleven_multilingual_v2`) para enseñar a los chicos las vocales, las sílabas,
+las palabras y la pronunciación, con una voz masculina y una femenina:
 
-- **`probar_voces.html`**: página para importar el zip (o elegir esta carpeta) y probar letras, sílabas,
-  palabras, frases y textos libres.
-- **`biblioteca/`**: audios sueltos listos para la app (vocales, sílabas, palabras, frases), con `manifest.json`,
+| Voz | Carpeta | Zip para la app |
+|---|---|---|
+| Martin Osborne – Deep and Passionate | `voces/martin_osborne/` | `voces_martin_osborne.zip` |
+| Sara Martin – Gentle and Layered | `voces/sara_martin/` | `voces_sara_martin.zip` |
+
+Las voces pendientes (Salva y Gabo) y cómo agregar una nueva están en [`VOCES.md`](VOCES.md).
+
+## Estructura
+
+- **`probar_voces.html`**: página para importar el zip de una o varias voces (o elegir la carpeta) y probar letras,
+  sílabas, palabras, frases y textos libres. Con varias voces aparece un selector para compararlas.
+- **`voces/<voz>/biblioteca/`**: audios sueltos (vocales, sílabas, palabras, frases), con `manifest.json`,
   `manifest.csv` y `README.md`.
-- **`lectura/`**: lectura encadenada (unir sílabas y armar oraciones en cualquier orden): palabras en versión
-  "medio" y "final", sílabas y dífonos, cada grupo en un solo archivo con su índice, más `lector.js` para la app y
-  ejemplos. Detalle en [`lectura/README.md`](lectura/README.md). Se genera con `herramientas/lectura.py` y
-  `herramientas/difonos.py`.
-- **`herramientas/`**: scripts que generan, recortan, verifican y empaquetan los audios.
-- **`fuente/`**: para cada bloque, el texto enviado, los ajustes de voz, las tomas y la alineación por carácter
-  que devolvió ElevenLabs, que se usa para recortar.
+- **`voces/<voz>/lectura/`**: lectura encadenada (unir sílabas y armar oraciones en cualquier orden). Tiene las
+  palabras en versión "medio" y "final", las sílabas y los dífonos, cada grupo en un solo archivo con su índice,
+  más `lector.js` para la app y ejemplos. Detalle en
+  [`voces/martin_osborne/lectura/README.md`](voces/martin_osborne/lectura/README.md).
+- **`voces/<voz>/fuente/`**: para cada bloque, el texto enviado, los ajustes, las tomas y la alineación por carácter
+  que devolvió ElevenLabs.
+- **`herramientas/`**: scripts que generan, recortan, verifican y empaquetan. La voz y sus correcciones se
+  definen en `herramientas/voces.py`.
 
-Acá están los originales en WAV 48 kHz (sin pérdida). El zip para la app (`herramientas/empaquetar.py`) los convierte
+Acá están los originales en WAV 48 kHz (sin pérdida). El zip de cada voz (`herramientas/empaquetar.py`) los convierte
 a MP3: pesa unos 15 MB en lugar de 113 MB.
 
-En [`biblioteca/README.md`](biblioteca/README.md) está el detalle de las carpetas, los nombres de archivo, cómo se grabó
-y el control de calidad.
-
-## Regenerar
+## Regenerar una voz
 
 ```bash
 pip install requests numpy
-export ELEVENLABS_API_KEY=...            # tu clave de ElevenLabs
-python3 herramientas/generar.py          # genera los 6 bloques (bloques 1-4 en tomas cortas)
-python3 herramientas/recortar.py         # recorta cada unidad y arma biblioteca/ + manifest
-python3 herramientas/verificar.py        # control de calidad con ElevenLabs Scribe
-python3 herramientas/lectura.py generar   # palabras para encadenar (unos 2.300 caracteres)
-python3 herramientas/difonos.py           # palabras inventadas para los dífonos (unos 2.650 caracteres)
-python3 herramientas/lectura.py armar     # arma lectura/ (palabras, sílabas, dífonos, índice y ejemplos)
-python3 herramientas/empaquetar.py       # probar_voces.html y zip unificado en MP3
+export ELEVENLABS_API_KEY=...              # tu clave de ElevenLabs
+export VOZ=sara                            # martin, sara (ver herramientas/voces.py)
+python3 herramientas/generar.py            # biblioteca: 6 bloques (bloques 1-4 en tomas cortas)
+python3 herramientas/recortar.py           # recorta cada unidad y arma voces/<voz>/biblioteca/
+python3 herramientas/verificar.py          # control de calidad con ElevenLabs Scribe
+python3 herramientas/lectura.py generar    # palabras para encadenar
+python3 herramientas/difonos.py            # palabras inventadas para los dífonos
+python3 herramientas/lectura.py armar      # arma voces/<voz>/lectura/
+python3 herramientas/lectura.py verificar
+python3 herramientas/empaquetar.py         # probar_voces.html y trabajo/voces_<voz>.zip en MP3
 ```
 
-- **Textos y carpetas:** se definen en `herramientas/bloques.py`. Ahí también están las tomas corregidas
-  (`SEMILLA_POR_TOMA`, `TEXTO_TTS`, `TOMAS_COMPUESTAS`).
-- **Otra voz:** basta con cambiar `VOZ_ID` en `bloques.py` y volver a correr todos los pasos.
-- **Costo de volver a generar:** unos 4.700 caracteres de ElevenLabs la biblioteca y unos 5.000 la lectura. El audio puede variar un poco respecto de la
-  versión entregada, así que conviene volver a verificarlo.
+- **Textos y carpetas:** se definen en `herramientas/bloques.py`.
+- **Correcciones de cada voz** (semillas, tomas compuestas): en su perfil de `herramientas/voces.py`.
+- **Costo:** generar una voz completa cuesta unos 10.000 caracteres de ElevenLabs. Con la caché de `trabajo/`, volver
+  a armar no cuesta nada.

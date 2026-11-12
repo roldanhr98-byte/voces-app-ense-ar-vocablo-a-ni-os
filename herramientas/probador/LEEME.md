@@ -1,6 +1,6 @@
 # Voces de la app: guía rápida
 
-Este zip tiene todo lo de la voz **Martin Osborne**, organizado en una sola carpeta.
+Este zip tiene todo lo de la voz **{VOZ_NOMBRE}**, organizado en una sola carpeta.
 
 | Qué | Para qué |
 |---|---|
@@ -12,7 +12,8 @@ Este zip tiene todo lo de la voz **Martin Osborne**, organizado en una sola carp
 
 1. Abrí `probar_voces.html` con doble clic (Chrome, Edge, Safari o Firefox actualizados).
 2. Tocá **Importar zip** y elegí **este mismo zip**. No hace falta descomprimirlo. Si ya lo descomprimiste, usá
-   **Elegir carpeta descomprimida** y elegí la carpeta `voces_martin_osborne`.
+   **Elegir carpeta descomprimida** y elegí la carpeta `{CARPETA}`. Si tenés los zips de varias voces, importalos juntos (o uno después del otro) y
+   cambiá de voz con el selector para compararlas.
 3. Usá las pestañas:
    - **Letras y sílabas:** cada vocal y sílaba. La ficha con la letra en grande lee la familia (Ba, Be, Bi, Bo, Bu).
    - **Palabras y frases:** palabras, frases, preguntas, exclamaciones y los bloques completos.

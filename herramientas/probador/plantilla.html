@@ -54,6 +54,8 @@ p { margin: 0; }
 .importar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .estado { font-size: 0.92rem; color: var(--gris); flex: 1 1 260px; min-width: 0; }
 .estado.ok { color: var(--ok); }
+.elegir-voz { display: inline-flex; align-items: center; gap: 6px; font: 500 0.95rem var(--f-display); flex: 1 1 260px; min-width: 0; max-width: 100%; }
+.elegir-voz select { font: inherit; padding: 8px 10px; border-radius: 10px; border: 1px solid var(--linea); background: var(--hoja); color: var(--tinta); flex: 1 1 auto; min-width: 0; width: 100%; text-overflow: ellipsis; }
 .btn {
   font: 500 0.95rem var(--f-display); padding: 9px 14px; border-radius: 10px; cursor: pointer;
   border: 1px solid var(--linea); background: var(--hoja); color: var(--tinta);
@@ -114,12 +116,13 @@ textarea {
 <div class="hoja">
   <header class="cab">
     <h1>Probador de voces</h1>
-    <p>Importá el zip de audios y tocá cualquier letra, sílaba o palabra. También podés escribir un texto o armar una oración en el orden que quieras.</p>
+    <p>Importá el zip de una voz (o los de varias, para compararlas) y tocá cualquier letra, sílaba o palabra. También podés escribir un texto o armar una oración en el orden que quieras.</p>
     <div class="importar">
       <label class="btn prim" for="zip">Importar zip</label>
       <input type="file" id="zip" accept=".zip,application/zip" multiple hidden>
       <label class="btn" for="carpeta">Elegir carpeta descomprimida</label>
       <input type="file" id="carpeta" webkitdirectory multiple hidden>
+      <label class="elegir-voz" id="elegir-voz" for="voz" hidden>Voz <select id="voz"></select></label>
       <span class="estado" id="estado">Todavía no importaste ningún zip: podés ver todo, pero para escuchar tenés que importarlo.</span>
     </div>
   </header>
@@ -202,6 +205,7 @@ const LETRA_A_GRUPO = { "ñ": "ny" };
 
 let BIB = BIB_EMB, LEC = LEC_EMB;
 let vfs = null, ctx = null, lector = null, fuente = null, botonActivo = null, avisoTimer = null;
+let voces = [], vozActual = -1;
 let oracion = ["a", "la", "casa", "de", "mi", "tío", "hoy", "me", "voy", "de", "vacaciones"];
 const cacheBib = new Map();
 
@@ -253,39 +257,69 @@ async function abrirZip(file) {
 }
 
 async function importar(archivos, esCarpeta) {
-  const mapa = new Map();
   try {
     asegurarCtx();
+    const mapa = new Map();
     if (esCarpeta) {
       for (const f of archivos) mapa.set(f.webkitRelativePath || f.name, () => f.arrayBuffer());
     } else {
       for (const f of archivos) for (const [k, v] of await abrirZip(f)) mapa.set(k, v);
     }
-    const rutas = [...mapa.keys()];
-    const mBib = rutas.find((r) => r.endsWith("manifest.json") && (mapa.has(r.slice(0, -13) + "01_vocales/a.wav") || mapa.has(r.slice(0, -13) + "01_vocales/a.mp3")));
-    const mLec = rutas.find((r) => r.endsWith("manifest_lectura.json"));
-    if (!mBib && !mLec) throw new Error("No encontré los audios en lo que elegiste. Importá el zip «voces_…zip» completo.");
-    const json = async (r) => JSON.parse(new TextDecoder().decode(await mapa.get(r)()));
-    vfs = { mapa, raizBib: mBib ? mBib.slice(0, -13) : null, raizLec: mLec ? mLec.slice(0, -21) : null };
-    cacheBib.clear();
-    if (mBib) BIB = compactar(await json(mBib));
-    let carga = null;
-    if (mLec) {
-      $("#estado").textContent = "Preparando la lectura…";
-      const t0 = performance.now();
-      lector = await Lector.desdeArchivos((rel) => leer(vfs.raizLec + rel), { ctx });
-      LEC = lector.m;
-      carga = (performance.now() - t0) / 1000;
+    if (!vfs) vfs = { mapa: new Map(), raizBib: null, raizLec: null };
+    for (const [k, v] of mapa) vfs.mapa.set(k, v);
+    // cada voz es una carpeta raíz con biblioteca/ y/o lectura/ adentro
+    const encontradas = new Map();
+    const de = (raiz) => (encontradas.has(raiz) ? encontradas.get(raiz) : encontradas.set(raiz, {}).get(raiz));
+    for (const r of mapa.keys()) {
+      if (r.endsWith("manifest.json") && /\.(wav|mp3)$/.test([...mapa.keys()].find((x) => x.startsWith(r.slice(0, -13) + "01_vocales/")) || "")) {
+        de(r.slice(0, -13).replace(/biblioteca\/$/, "")).raizBib = r.slice(0, -13);
+      }
+      if (r.endsWith("manifest_lectura.json")) de(r.slice(0, -21).replace(/lectura\/$/, "")).raizLec = r.slice(0, -21);
     }
-    const wavs = rutas.filter((r) => /\.(wav|mp3)$/.test(r)).length;
-    const partes = [mBib ? "biblioteca" : null, mLec ? "lectura" : null].filter(Boolean).join(" y ");
-    $("#estado").textContent = `Listo: ${wavs.toLocaleString("es")} audios (${partes})${LEC ? " · voz " + LEC.voz : ""}${carga !== null ? ` · lectura preparada en ${carga.toFixed(1).replace(".", ",")} s` : ""}. Tocá cualquier ficha.`;
-    $("#estado").classList.add("ok");
-    renderTodo();
+    if (!encontradas.size) throw new Error("No encontré los audios en lo que elegiste. Importá el zip «voces_…zip» completo.");
+    const json = async (r) => JSON.parse(new TextDecoder().decode(await vfs.mapa.get(r)()));
+    let ultima = -1;
+    for (const [raiz, d] of encontradas) {
+      $("#estado").textContent = "Preparando la voz…";
+      $("#estado").classList.remove("ok");
+      const v = { raiz, raizBib: d.raizBib || null, raizLec: d.raizLec || null, BIB: null, LEC: null, lector: null, carga: null };
+      if (v.raizBib) v.BIB = compactar(await json(v.raizBib + "manifest.json"));
+      if (v.raizLec) {
+        const t0 = performance.now();
+        v.lector = await Lector.desdeArchivos((rel) => leer(v.raizLec + rel), { ctx });
+        v.LEC = v.lector.m;
+        v.carga = (performance.now() - t0) / 1000;
+      }
+      v.nombre = v.LEC ? v.LEC.voz : (raiz.replace(/\/$/, "").split("/").pop() || "voz");
+      v.audios = [...vfs.mapa.keys()].filter((r) => r.startsWith(raiz) && /\.(wav|mp3)$/.test(r)).length;
+      const k = voces.findIndex((x) => x.raiz === raiz);
+      if (k >= 0) voces[k] = v; else voces.push(v);
+      ultima = voces.findIndex((x) => x.raiz === raiz);
+    }
+    elegirVoz(ultima);
   } catch (e) {
     $("#estado").textContent = e.message;
     $("#estado").classList.remove("ok");
   }
+}
+
+function elegirVoz(i) {
+  detener();
+  vozActual = i;
+  const v = voces[i];
+  if (v.BIB) BIB = v.BIB;
+  if (v.LEC) LEC = v.LEC;
+  lector = v.lector;
+  vfs.raizBib = v.raizBib;
+  vfs.raizLec = v.raizLec;
+  $("#voz").innerHTML = voces.map((x, k) => `<option value="${k}">${esc(x.nombre)}</option>`).join("");
+  $("#voz").value = String(i);
+  $("#elegir-voz").hidden = voces.length < 2;
+  const partes = [v.raizBib ? "biblioteca" : null, v.raizLec ? "lectura" : null].filter(Boolean).join(" y ");
+  const carga = v.carga !== null ? ` · lectura preparada en ${v.carga.toFixed(1).replace(".", ",")} s` : "";
+  $("#estado").textContent = `Listo: voz ${v.nombre} · ${v.audios.toLocaleString("es")} audios (${partes})${carga}.${voces.length > 1 ? " Cambiá de voz arriba para comparar." : " Tocá cualquier ficha."}`;
+  $("#estado").classList.add("ok");
+  renderTodo();
 }
 
 function leer(ruta) {
@@ -335,12 +369,13 @@ async function reproducir(muestras, boton) {
 }
 
 function audioBib(rel) {
-  if (!cacheBib.has(rel)) {
-    const p = leer(vfs.raizBib + rel).then((b) => ctx.decodeAudioData(b)).then((ab) => ab.getChannelData(0));
-    p.catch(() => cacheBib.delete(rel));
-    cacheBib.set(rel, p);
+  const ruta = vfs.raizBib + rel;
+  if (!cacheBib.has(ruta)) {
+    const p = leer(ruta).then((b) => ctx.decodeAudioData(b)).then((ab) => ab.getChannelData(0));
+    p.catch(() => cacheBib.delete(ruta));
+    cacheBib.set(ruta, p);
   }
-  return cacheBib.get(rel);
+  return cacheBib.get(ruta);
 }
 
 function audioLec(rel) {
@@ -512,6 +547,7 @@ document.addEventListener("click", async (ev) => {
 
 $("#zip").addEventListener("change", (e) => { if (e.target.files.length) importar([...e.target.files], false); e.target.value = ""; });
 $("#carpeta").addEventListener("change", (e) => { if (e.target.files.length) importar([...e.target.files], true); e.target.value = ""; });
+$("#voz").addEventListener("change", (e) => elegirVoz(Number(e.target.value)));
 $("#texto-libre").addEventListener("input", renderDiag);
 document.addEventListener("dragover", (e) => e.preventDefault());
 document.addEventListener("drop", (e) => {

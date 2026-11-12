@@ -64,7 +64,7 @@ def evaluar(texto, ajustes, prev, semilla, es_silaba):
     segs = R.segmentar(db, spans, 0, len(x) / R.SR)
     pegadas = sum(1 for k in range(len(segs) - 1) if segs[k][1] >= segs[k + 1][0])
     clips = [R.extraer(x, *s)[0] for s in segs]
-    jor = [A.jorobas_graves(c) for c in clips] if es_silaba else []
+    jor = [A.jorobas_graves(c) if len(c) > 2400 else 0 for c in clips] if es_silaba else []
     oido = stt_bytes(audio)
     esperado = " ".join(u.rstrip(".") for u in unidades)
     ok_stt = grueso(oido) == grueso(esperado)

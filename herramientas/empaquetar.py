@@ -14,10 +14,21 @@ import zipfile
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
-BIB = RAIZ / "biblioteca"
-LEC = RAIZ / "lectura"
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from voces import BIBLIOTECA as BIB, LECTURA as LEC, NOMBRE_ZIP, VOZ  # noqa: E402
+
+
+def plantilla(ruta):
+    """Lee un README y completa los datos de la voz."""
+    t = Path(ruta).read_text(encoding="utf-8")
+    for k, v in {"{VOZ_NOMBRE}": VOZ["nombre"], "{CARPETA}": NOMBRE_ZIP,
+                 "{CORRECCIONES}": VOZ.get("correcciones") or "- Ninguna por ahora.",
+                 "{ATENCION}": VOZ.get("atencion") or "las familias inversas."}.items():
+        t = t.replace(k, v)
+    return t
+
 PROBADOR = RAIZ / "herramientas" / "probador"
-NOMBRE = "voces_martin_osborne"
+NOMBRE = NOMBRE_ZIP
 
 
 def construir_pagina():
@@ -67,7 +78,8 @@ def a_mp3(origen, opciones):
 def main():
     from concurrent.futures import ThreadPoolExecutor
     destino = Path(sys.argv[1]) if len(sys.argv) > 1 else RAIZ / "trabajo" / f"{NOMBRE}.zip"
-    shutil.copy(RAIZ / "herramientas" / "LEEME_audios.md", BIB / "README.md")
+    (BIB / "README.md").write_text(plantilla(RAIZ / "herramientas" / "LEEME_audios.md"), encoding="utf-8")
+    (LEC / "README.md").write_text(plantilla(RAIZ / "herramientas" / "lectura_app" / "README.md"), encoding="utf-8")
     web, archivo = construir_pagina()
     (RAIZ / "probar_voces.html").write_text(archivo, encoding="utf-8")
     (RAIZ / "trabajo").mkdir(exist_ok=True)
@@ -92,7 +104,7 @@ def main():
     destino.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(destino, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as z:
         z.write(RAIZ / "probar_voces.html", f"{NOMBRE}/probar_voces.html")
-        z.write(PROBADOR / "LEEME.md", f"{NOMBRE}/LEEME.md")
+        z.writestr(f"{NOMBRE}/LEEME.md", plantilla(PROBADOR / "LEEME.md").encode("utf-8"))
         for rel, origen in entradas:
             if isinstance(origen, bytes):
                 z.writestr(rel, origen)

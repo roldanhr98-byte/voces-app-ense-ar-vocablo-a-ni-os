@@ -1,6 +1,6 @@
 # Voces para la app: vocales, sílabas, palabras y frases en español
 
-- **Voz:** Martin Osborne – Deep and Passionate (ElevenLabs, español de España)
+- **Voz:** Martin Osborne - Deep and Passionate (ElevenLabs, español de España)
 - **Modelo:** `eleven_multilingual_v2`
 - **Formato:** en el zip, MP3 mono de 64 kbps (48 kHz), liviano para la app. Los originales en WAV 48 kHz 16 bits
   (sin pérdida) están en GitHub, en la carpeta `biblioteca/`.
@@ -95,8 +95,9 @@ Por eso se rehízo cada bloque en tomas de hasta 5 unidades: cada familia (Ba-Be
 
 **Tomas corregidas:**
 
+- **Dra:** "Dra." es la abreviatura de *Doctora* y la voz la leía "doctora". Se envía como "Drá." (suena "dra").
 - **Af, Az:** tenían una vocal agregada ("afe", "a-ce…"). Se regrabaron con otra semilla.
-- **Dra:** "Dra." es la abreviatura de *Doctora* y la voz leía "doctora". Se envió como "Drá." (suena "dra") y quedó bien.
+- **Dra, Dre…:** con la semilla original "Dra" y "Dre" quedaban pegadas. Se regrabó con otra semilla.
 - **Ac, Ec, Ic, Oc, Uc:** la voz decía "az" y "uke". Cada sílaba se tomó de la mejor de varias tomas (con K, que suena igual) y ahora suenan /ak/, /ek/, /ik/, /ok/, /uk/.
 - **Sima, Tasa, Taza, Abrazar, Abrasar:** se regrabaron con otra semilla porque "Abrasar" arrancaba con una "a" de más.
 

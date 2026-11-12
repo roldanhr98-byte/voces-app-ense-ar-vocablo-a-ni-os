@@ -40,8 +40,7 @@ from fonetica import (clave_difono, clave_fonetica, fonemas, normalizar_silaba, 
 from generar import obtener_toma  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
-SALIDA = RAIZ / "lectura"
-BIBLIOTECA = RAIZ / "biblioteca"
+from voces import BIBLIOTECA, LECTURA as SALIDA  # noqa: E402
 
 CONTEXTO = "Ella dijo que"   # previous_text: la palabra se dice a mitad de oración
 PORTADOR = "todo"            # palabra que sigue y se corta (su "t" deja un silencio limpio)

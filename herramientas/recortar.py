@@ -18,9 +18,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bloques import BLOQUES  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
-CRUDO = RAIZ / "trabajo" / "crudo"
-FUENTE = RAIZ / "fuente"
-SALIDA = RAIZ / "biblioteca"
+from voces import BIBLIOTECA as SALIDA, FUENTE, TRABAJO  # noqa: E402
+CRUDO = TRABAJO / "crudo"
 
 SR = 48000
 HOP = 0.005            # resolución del análisis de energía (5 ms)

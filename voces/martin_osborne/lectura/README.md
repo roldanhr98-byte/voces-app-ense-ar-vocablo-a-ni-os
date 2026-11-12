@@ -6,7 +6,7 @@ Este paquete sirve para dos secciones de la app:
 2. **Armar oraciones:** el chico ordena palabras (o escribe) como quiera y la app lee lo que armó, fluido.
 
 No hay frases grabadas. `lector.js` arma la lectura en el momento, en cualquier orden, con tres tipos de piezas, todas
-con la misma voz (Martin Osborne – Deep and Passionate, ElevenLabs `eleven_multilingual_v2`):
+con la misma voz (Martin Osborne - Deep and Passionate, ElevenLabs `eleven_multilingual_v2`):
 
 | Archivo | Qué tiene |
 |---|---|
@@ -36,14 +36,15 @@ archivos suman unos 2,5 MB. Los originales en WAV 48 kHz están en GitHub.
   - vocal con vocal ("de‿agua"): se funden con un solape de 35 ms;
   - el resto: solape de 15–20 ms.
   Todos los solapes usan fundido de potencia constante, así no hay bajones de volumen.
-- **Resultado:** "hoy me voy de vacaciones a la casa de mi tío" armada palabra por palabra dura 3,46 s y tiene 3
-  silencios cortos. La misma oración leída de corrido por la voz dura 3,28 s y también tiene 3. Antes de este
-  ajuste duraba 4,22 s y tenía 11 cortes.
+- **Resultado (voz de Martin):** "hoy me voy de vacaciones a la casa de mi tío" armada palabra por palabra dura
+  3,46 s y tiene 3 silencios cortos. La misma oración leída de corrido por la voz dura 3,28 s y también tiene 3. Antes
+  de este ajuste duraba 4,22 s y tenía 11 cortes. Con Sara, la oración armada también tiene 3 silencios cortos.
 - **Última palabra:** usa su versión "final", con el cierre de oración.
 - **Palabras que no están grabadas:** se arman con dífonos, usando la versión acentuada en la sílaba que corresponde
   (to-**ma**-te).
-  En la prueba, las 16 palabras nuevas armadas así se entendieron como palabras enteras ("dinosaurio",
-  "cumpleaños", "naranja"…). Armadas por sílabas se entendían 13, y sonaban cortadas.
+  En la prueba con 16 palabras nuevas, transcritas dos veces cada una, las armadas con dífonos se entendieron
+  30 de 32 veces con Martin y 28 de 32 con Sara (con ella fallan "ardilla" y "naranja"). Armadas por sílabas,
+  con Martin se entendían 13 de 16 y sonaban cortadas.
 
 ## Qué pasa con lo que escriben los chicos
 

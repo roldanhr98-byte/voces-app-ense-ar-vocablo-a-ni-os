@@ -20,8 +20,8 @@ from bloques import (BLOQUES, FORMATO, MODELO, SEMILLA, SEMILLA_POR_TOMA, TOMAS_
                      VOZ_ID, VOZ_NOMBRE, construir_texto, texto_tts)
 
 RAIZ = Path(__file__).resolve().parent.parent
-CRUDO = RAIZ / "trabajo" / "crudo"
-FUENTE = RAIZ / "fuente"
+from voces import FUENTE, TRABAJO  # noqa: E402
+CRUDO = TRABAJO / "crudo"
 API = "https://api.elevenlabs.io/v1"
 
 

@@ -93,8 +93,9 @@ def clase(s):
     return "v" if s[0] in VOC else ("c" if s[0] in CORTE_EN_CIERRE else "o")
 
 
-def extraer(voz=None):
-    """Corta los dífonos de las tomas del caché. Devuelve {clave: (audio, sonido_ini, sonido_fin)}."""
+def extraer(voz=None, con_origen=False, refinar_vocales=True):
+    """Corta los dífonos de las tomas del caché. Devuelve {clave: (audio, sonido_ini, sonido_fin)}
+    (con_origen=True agrega la palabra inventada de la que salió y todos los candidatos)."""
     import io
     import sys
     from pathlib import Path
@@ -144,6 +145,13 @@ def extraer(voz=None):
                     fa = max(0, R.t2f(t0 - 0.02))
                     fb = min(len(db), max(fa + 1, R.t2f(t0 + 0.7 * (t1 - t0))))
                     cortes.append((fa + int(np.argmin(db[fa:fb]))) * R.HOP + 0.0025)
+                elif refinar_vocales and s in VOC:
+                    # centro de la zona de máxima energía de la vocal (su núcleo), no el centro de la alineación
+                    fa = max(0, R.t2f(t0 - 0.015))
+                    fb = min(len(db), max(fa + 1, R.t2f(t1 + 0.015)))
+                    seg = db[fa:fb]
+                    meseta = np.where(seg >= seg.max() - 3)[0]
+                    cortes.append((fa + (meseta[0] + meseta[-1]) / 2) * R.HOP)
                 else:
                     cortes.append((t0 + t1) / 2)
             seq = [("_", False, v_ini)] + [(s, ac, c) for (s, ac, _, _), c in zip(fon, cortes)] + [("_", False, v_fin)]
@@ -156,7 +164,7 @@ def extraer(voz=None):
     for k, cs in candidatos.items():
         durs = np.array([len(c[0]) for c in cs])
         elegido = cs[int(np.argmin(np.abs(durs - np.median(durs))))]
-        inventario[k] = elegido[:3]
+        inventario[k] = (elegido + (cs,)) if con_origen else elegido[:3]
     return inventario
 
 

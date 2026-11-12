@@ -13,35 +13,22 @@ Estructura:
 """
 
 MODELO = "eleven_multilingual_v2"
-VOZ_ID = "Vpv1YgvVd6CHIzOTiTt8"  # Martin Osborne - Deep and Passionate (es-ES)
-VOZ_NOMBRE = "Martin Osborne - Deep and Passionate"
+import sys as _sys  # noqa: E402
+from pathlib import Path as _Path  # noqa: E402
+_sys.path.insert(0, str(_Path(__file__).resolve().parent))
+from voces import VOZ as _VOZ  # noqa: E402  (voz elegida con la variable VOZ; ver voces.py)
+
+VOZ_ID = _VOZ["id"]
+VOZ_NOMBRE = _VOZ["nombre"]
 FORMATO = "wav_48000"  # WAV PCM 16 bits, mono, 48 kHz (sin pérdida)
 SEMILLA = 1234
-# Tomas que se regeneraron con otra semilla porque la original tenía un defecto
-# (vocal agregada, sílabas pegadas, respiración). Clave: texto de la toma.
-SEMILLA_POR_TOMA = {
-    "Az. Ez. Iz. Oz. Uz.": 7,                    # con 1234 "Az" sonaba "a-ce-..." (vocal agregada)
-    "Af. Ef. If. Of. Uf.": 7,                    # con 1234 "Af" sonaba "afe"
-    "Drá. Dre. Dri. Dro. Dru.": 7,               # con 1234 "Dra/Dre" quedaban pegadas
-    "Sima. Tasa. Taza. Abrazar. Abrasar.": 42,   # con 1234 "Abrasar" arrancaba con una "a" de más
-}
+# Tomas regeneradas con otra semilla y tomas compuestas: propias de cada voz (voces.py).
+SEMILLA_POR_TOMA = _VOZ["semilla_por_toma"]
+TOMAS_COMPUESTAS = _VOZ["tomas_compuestas"]
 
 # Texto que se envía a la voz cuando difiere de la unidad escrita (el archivo conserva el nombre original).
 TEXTO_TTS = {
     "Dra": "Drá.",  # "Dra." es la abreviatura de "Doctora": la voz leía "doctora"
-}
-
-# Tomas armadas eligiendo cada sílaba de la mejor toma candidata (texto_fuente, semilla, índice).
-# Familia inversa con C: la voz castellana dice "Ac" como [aθ] y agrega vocal en "Uc" ("uke");
-# se usan tomas escritas con K (suena igual: /k/) y una toma de repetición para "Uc".
-TOMAS_COMPUESTAS = {
-    "Ac. Ec. Ic. Oc. Uc.": [
-        ("Ak.\n\nEk.\n\nIk.\n\nOk.\n\nUk.", 2024, 0),  # Ac  -> [ak] con explosión final
-        ("Ac.\n\nEc.\n\nIc.\n\nOc.\n\nUc.", 7, 1),     # Ec
-        ("Ak.\n\nEk.\n\nIk.\n\nOk.\n\nUk.", 7, 2),     # Ic  -> [ik]
-        ("Ac.\n\nEc.\n\nIc.\n\nOc.\n\nUc.", 7, 3),     # Oc
-        ("Uc.\n\nUc.\n\nUc.", 7, 1),                       # Uc  -> [uk] sin vocal agregada
-    ],
 }
 
 AJUSTES_NEUTROS = {
