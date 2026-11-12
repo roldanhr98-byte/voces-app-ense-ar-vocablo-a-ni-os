@@ -2,7 +2,7 @@
  * Lector encadenado — arma y reproduce sílabas, palabras y oraciones con los audios de esta carpeta.
  *
  *   import { Lector } from "./lector.js";
- *   const lector = await Lector.crear("audios_lectura/");          // carpeta donde está manifest_lectura.json
+ *   const lector = await Lector.crear("lectura/");                 // carpeta donde está manifest_lectura.json
  *   await lector.leerOracion("hoy me voy de vacaciones a la casa de mi tío");   // cualquier orden
  *   await lector.leerSilabas("vaca");                                // va - ca
  *   await lector.leerPalabra("vaca");                                // vaca
@@ -99,11 +99,21 @@ export class Lector {
     return new Lector(base, await r.json(), ctx || new (window.AudioContext || window.webkitAudioContext)());
   }
 
-  constructor(base, manifest, ctx) {
+  // Para leer los audios desde otro lado (por ejemplo, un zip): leer(ruta) -> Promise<ArrayBuffer>
+  static async desdeArchivos(leer, ctx = null) {
+    const m = JSON.parse(new TextDecoder().decode(await leer("manifest_lectura.json")));
+    return new Lector("", m, ctx || new (window.AudioContext || window.webkitAudioContext)(), leer);
+  }
+
+  constructor(base, manifest, ctx, leer = null) {
     this.base = base;
     this.m = manifest;
     this.ctx = ctx;
-    this.sr = ctx.sampleRate;
+    this.sr = ctx ? ctx.sampleRate : manifest.sr;
+    this.leer = leer || ((rel) => fetch(base + rel).then((r) => {
+      if (!r.ok) throw new Error("No se encontró " + base + rel);
+      return r.arrayBuffer();
+    }));
     this.p = manifest.parametros;
     this.cache = new Map();
     this.porTilde = new Map();
@@ -123,12 +133,23 @@ export class Lector {
     return this.porClave.get(claveFonetica(w)) || null;
   }
 
+  // Cómo se va a leer cada palabra: [{palabra, como: "grabada"|"suena_igual"|"silabas", usa}]
+  diagnostico(texto) {
+    return (texto.match(/[\p{L}]+/gu) || []).map((w) => {
+      const pal = this.buscar(w);
+      if (pal && sinTildes(pal) === sinTildes(w.toLowerCase())) return { palabra: w, como: "grabada", usa: pal };
+      if (pal) return { palabra: w, como: "suena_igual", usa: pal };
+      return { palabra: w, como: "silabas", usa: silabear(w).join("-") };
+    });
+  }
+
   async _audio(rel) {
     if (!this.cache.has(rel)) {
-      this.cache.set(rel, fetch(this.base + rel)
-        .then((r) => r.arrayBuffer())
+      const p = this.leer(rel)
         .then((b) => this.ctx.decodeAudioData(b))
-        .then((ab) => ab.getChannelData(0)));
+        .then((ab) => ab.getChannelData(0));
+      p.catch(() => this.cache.delete(rel));
+      this.cache.set(rel, p);
     }
     return this.cache.get(rel);
   }

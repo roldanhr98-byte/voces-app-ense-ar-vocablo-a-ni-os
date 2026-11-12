@@ -20,7 +20,7 @@ from bloques import BLOQUES  # noqa: E402
 RAIZ = Path(__file__).resolve().parent.parent
 CRUDO = RAIZ / "trabajo" / "crudo"
 FUENTE = RAIZ / "fuente"
-SALIDA = RAIZ / "audios"
+SALIDA = RAIZ / "biblioteca"
 
 SR = 48000
 HOP = 0.005            # resolución del análisis de energía (5 ms)

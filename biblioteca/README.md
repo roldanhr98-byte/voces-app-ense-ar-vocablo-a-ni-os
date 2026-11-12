@@ -4,7 +4,7 @@
 - **Modelo:** `eleven_multilingual_v2`
 - **Formato:** WAV PCM, 16 bits, mono, 48 kHz (sin pérdida)
 
-Abrí **`escuchar.html`** en el navegador para escuchar todo: tocás una letra, sílaba o palabra y suena, igual que en la app.
+Para escuchar todo, abrí **`probar_voces.html`** (en la carpeta de arriba) e importá el zip: tocás una letra, sílaba o palabra y suena, igual que en la app.
 
 ---
 
@@ -51,16 +51,16 @@ Abrí **`escuchar.html`** en el navegador para escuchar todo: tocás una letra, 
 
 ```js
 // Al tocar la letra B: la familia completa
-new Audio("audios/02_silabas_directas/b/familia_b.wav").play();
+new Audio("biblioteca/02_silabas_directas/b/familia_b.wav").play();
 
 // Al tocar una sílaba o palabra puntual
-new Audio("audios/02_silabas_directas/b/ba.wav").play();
-new Audio("audios/07_palabras_cortas/casa.wav").play();
+new Audio("biblioteca/02_silabas_directas/b/ba.wav").play();
+new Audio("biblioteca/07_palabras_cortas/casa.wav").play();
 
 // Buscar por texto usando el manifest
-const manifest = await (await fetch("audios/manifest.json")).json();
+const manifest = await (await fetch("biblioteca/manifest.json")).json();
 const porTexto = Object.fromEntries(manifest.map(m => [m.texto, m.archivo]));
-new Audio("audios/" + porTexto["Pájaro"]).play();
+new Audio("biblioteca/" + porTexto["Pájaro"]).play();
 ```
 
 ## Cómo quedó cada clip

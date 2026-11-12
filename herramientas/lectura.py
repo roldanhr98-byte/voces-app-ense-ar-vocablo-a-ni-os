@@ -14,7 +14,6 @@ Si una palabra no está grabada (o el chico la escribe mal), el lector la arma c
   python3 herramientas/lectura.py generar     # pide a ElevenLabs lo que falte (usa caché)
   python3 herramientas/lectura.py armar       # corta, normaliza, copia sílabas, manifest, ejemplos
   python3 herramientas/lectura.py verificar   # transcribe los ejemplos y las palabras finales
-  python3 herramientas/lectura.py zip
 """
 import io
 import json
@@ -22,7 +21,6 @@ import re
 import shutil
 import sys
 import unicodedata
-import zipfile
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -34,9 +32,8 @@ from bloques import AJUSTES_NEUTROS, SEMILLA, VOZ_ID, VOZ_NOMBRE  # noqa: E402
 from generar import obtener_toma  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
-SALIDA = RAIZ / "audios_lectura"
-BIBLIOTECA = RAIZ / "audios"
-NOMBRE_ZIP = "lectura_encadenada_martin_osborne"
+SALIDA = RAIZ / "lectura"
+BIBLIOTECA = RAIZ / "biblioteca"
 
 CONTEXTO = "Ella dijo que"   # previous_text: la palabra se dice a mitad de oración
 PORTADOR = "todo"            # palabra que sigue y se corta (su "t" deja un silencio limpio)
@@ -432,6 +429,8 @@ def armar(voz=VOZ_ID, voz_nombre=VOZ_NOMBRE):
             R.escribir_wav(SALIDA / rel, recorte_justo(R.leer_wav(f)))
             man["silabas"][nombre] = rel
 
+    man["ejemplos"] = [{"archivo": f"ejemplos/{n}.wav",
+                        "texto": " → ".join(t for _, t in pasos)} for n, pasos in EJEMPLOS]
     (SALIDA / "manifest_lectura.json").write_text(json.dumps(man, ensure_ascii=False, indent=1), encoding="utf-8")
 
     # 3) ejemplos armados con el mismo lector que usa la app
@@ -442,12 +441,6 @@ def armar(voz=VOZ_ID, voz_nombre=VOZ_NOMBRE):
     # 4) lector.js, página de prueba y README
     for f in ["lector.js", "README.md"]:
         shutil.copy(RAIZ / "herramientas" / "lectura_app" / f, SALIDA / f)
-    import html as _h
-    pasos_txt = {"silabas": "sílabas", "palabra": "palabra", "oracion": "oración"}
-    ej = "".join(f'<div><b>{_h.escape(" → ".join(f"{t} ({pasos_txt[k]})" for k, t in pasos))}</b>'
-                 f'<audio controls preload="none" src="ejemplos/{n}.wav"></audio></div>' for n, pasos in EJEMPLOS)
-    pagina = (RAIZ / "herramientas" / "lectura_app" / "probar.html").read_text(encoding="utf-8")
-    (SALIDA / "probar.html").write_text(pagina.replace("<!--EJEMPLOS-->", ej), encoding="utf-8")
     print(f"{len(man['palabras'])} palabras, {len(man['silabas'])} sílabas, ganancia {g:+.1f} dB")
     for a in avisos:
         print("  aviso:", a)
@@ -477,15 +470,6 @@ def verificar():
     print(f"  {sum('final' in d for d in man['palabras'].values()) - len(malas)} coinciden; distintas: {malas}")
 
 
-def empaquetar(destino=None):
-    destino = Path(destino) if destino else RAIZ / "trabajo" / f"{NOMBRE_ZIP}.zip"
-    with zipfile.ZipFile(destino, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
-        for f in sorted(SALIDA.rglob("*")):
-            if f.is_file():
-                z.write(f, f"{NOMBRE_ZIP}/{f.relative_to(SALIDA)}")
-    print(f"zip: {destino} ({destino.stat().st_size / 1e6:.1f} MB)")
-
-
 if __name__ == "__main__":
     accion = sys.argv[1] if len(sys.argv) > 1 else "armar"
-    {"generar": generar, "armar": armar, "verificar": verificar, "zip": empaquetar}[accion]()
+    {"generar": generar, "armar": armar, "verificar": verificar}[accion]()

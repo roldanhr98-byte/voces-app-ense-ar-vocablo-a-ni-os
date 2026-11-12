@@ -1521,5 +1521,35 @@
   "ue": "silabas/ue.wav",
   "ui": "silabas/ui.wav",
   "uo": "silabas/uo.wav"
- }
+ },
+ "ejemplos": [
+  {
+   "archivo": "ejemplos/01_unir_silabas_vaca.wav",
+   "texto": "vaca → vaca → la vaca → la vaca come pasto"
+  },
+  {
+   "archivo": "ejemplos/02_oracion.wav",
+   "texto": "hoy me voy de vacaciones a la casa de mi tío"
+  },
+  {
+   "archivo": "ejemplos/03_oracion_desordenada.wav",
+   "texto": "a la casa de mi tío hoy me voy de vacaciones"
+  },
+  {
+   "archivo": "ejemplos/04_otro_orden.wav",
+   "texto": "de vacaciones me voy hoy a la casa de mi tío"
+  },
+  {
+   "archivo": "ejemplos/05_mal_escrita.wav",
+   "texto": "la baca come pazto"
+  },
+  {
+   "archivo": "ejemplos/06_oracion_parque.wav",
+   "texto": "el perro juega con la pelota en el parque"
+  },
+  {
+   "archivo": "ejemplos/07_unir_silabas_casa.wav",
+   "texto": "casa → casa → mi casa → mi casa es grande"
+  }
+ ]
 }

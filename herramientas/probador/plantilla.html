@@ -1,0 +1,516 @@
+<title>Probador de voces</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap">
+<style>
+/* Hoja de cuaderno: margen rojo a la izquierda; como en las cartillas de lectura, vocales en rojo y consonantes en tinta. */
+:root {
+  --papel: #f6f7fa;
+  --hoja: #ffffff;
+  --tinta: #1b2332;
+  --gris: #5d6677;
+  --linea: #dde2eb;
+  --azul: #2350c4;
+  --azul-fg: #ffffff;
+  --vocal: #c3362c;
+  --margen: #e0685f;
+  --suave: #e9effc;
+  --aviso: #1b2332;
+  --aviso-fg: #ffffff;
+  --ok: #1d7a46;
+  --medio: #9a6a00;
+  --f-display: "Lexend", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-texto: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --papel: #141922; --hoja: #1c232f; --tinta: #e7ebf2; --gris: #9ba4b4; --linea: #2c3443;
+    --azul: #88a9ff; --azul-fg: #0e1730; --vocal: #ff8e81; --margen: #c45a52; --suave: #212c42;
+    --aviso: #e7ebf2; --aviso-fg: #141922; --ok: #5fd08f; --medio: #e6b54a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --papel: #141922; --hoja: #1c232f; --tinta: #e7ebf2; --gris: #9ba4b4; --linea: #2c3443;
+  --azul: #88a9ff; --azul-fg: #0e1730; --vocal: #ff8e81; --margen: #c45a52; --suave: #212c42;
+  --aviso: #e7ebf2; --aviso-fg: #141922; --ok: #5fd08f; --medio: #e6b54a; color-scheme: dark;
+}
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+[hidden] { display: none !important; }
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--papel); color: var(--tinta); font: 16px/1.5 var(--f-texto);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 96px;
+}
+.hoja { max-width: 1040px; margin: 0 auto; display: grid; gap: 18px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; }
+h1 { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 1.15rem; font-weight: 600; }
+h3 { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gris); }
+p { margin: 0; }
+.cab { border-left: 3px solid var(--margen); padding-left: 16px; display: grid; gap: 10px; }
+.cab p { color: var(--gris); max-width: 62ch; }
+.importar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.estado { font-size: 0.92rem; color: var(--gris); flex: 1 1 260px; min-width: 0; }
+.estado.ok { color: var(--ok); }
+.btn {
+  font: 500 0.95rem var(--f-display); padding: 9px 14px; border-radius: 10px; cursor: pointer;
+  border: 1px solid var(--linea); background: var(--hoja); color: var(--tinta);
+}
+.btn:hover { border-color: var(--azul); }
+.btn.prim { background: var(--azul); color: var(--azul-fg); border-color: var(--azul); }
+button:focus-visible, .btn:focus-within, textarea:focus-visible { outline: 3px solid var(--azul); outline-offset: 2px; }
+.pestanas { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; background: var(--hoja); border: 1px solid var(--linea); border-radius: 12px; padding: 5px; }
+.pestanas button {
+  font: 500 0.95rem var(--f-display); border: 0; background: transparent; color: var(--gris);
+  padding: 9px 6px; border-radius: 8px; cursor: pointer;
+}
+.pestanas button[aria-selected="true"] { background: var(--suave); color: var(--tinta); }
+@media (max-width: 560px) { .pestanas { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.panel { display: grid; gap: 22px; }
+.bloque { display: grid; gap: 8px; }
+.bloque > .sub { color: var(--gris); font-size: 0.92rem; }
+.fila { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 8px 0; border-top: 1px solid var(--linea); }
+.ficha {
+  font: 500 1.2rem var(--f-display); min-width: 3rem; padding: 7px 12px; border-radius: 10px; cursor: pointer;
+  border: 1px solid var(--linea); background: var(--hoja); color: var(--tinta); text-align: center;
+}
+.ficha .v { color: var(--vocal); }
+.ficha:hover { border-color: var(--azul); }
+.ficha.chica { font-size: 1rem; min-width: 0; }
+.ficha.larga { font: 400 0.95rem var(--f-texto); text-align: left; max-width: 100%; }
+.ficha.letra { background: var(--suave); font-weight: 700; min-width: 3.4rem; }
+.ficha.fam { font: 500 0.85rem var(--f-display); color: var(--gris); background: transparent; }
+.ficha.sonando, .ficha.sonando .v { background: var(--azul); color: var(--azul-fg); border-color: var(--azul); }
+.grupo-etq { width: 100%; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gris); }
+textarea {
+  width: 100%; font: 400 1.3rem/1.4 var(--f-display); padding: 12px 14px; border-radius: 12px;
+  border: 1px solid var(--linea); background: var(--hoja); color: var(--tinta); resize: vertical;
+}
+.acciones { display: flex; flex-wrap: wrap; gap: 8px; }
+.prueba { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; color: var(--gris); font-size: 0.92rem; }
+.chip { font: 400 0.9rem var(--f-texto); padding: 5px 10px; border-radius: 999px; border: 1px solid var(--linea); background: var(--hoja); color: var(--tinta); cursor: pointer; }
+.diag { display: flex; flex-wrap: wrap; gap: 6px; }
+.diag span { font-size: 0.88rem; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--linea); background: var(--hoja); }
+.diag .grabada b { color: var(--ok); }
+.diag .suena_igual b { color: var(--azul); }
+.diag .silabas b { color: var(--medio); }
+.oracion {
+  min-height: 64px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 10px;
+  background: var(--hoja); border: 1px dashed var(--linea); border-radius: 12px;
+}
+.oracion:empty::before { content: "Tocá palabras de abajo para armar la oración."; color: var(--gris); }
+.oracion .ficha::after { content: " ×"; color: var(--gris); font-size: 0.8em; }
+.leyenda { color: var(--gris); font-size: 0.9rem; max-width: 70ch; }
+.aviso {
+  position: fixed; left: 0; right: 0; bottom: 0; display: flex; justify-content: center; pointer-events: none;
+  padding: 0 max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+}
+.aviso span { background: var(--aviso); color: var(--aviso-fg); padding: 9px 16px; border-radius: 10px; font-size: 0.95rem; max-width: 100%; }
+@media (prefers-reduced-motion: no-preference) { .ficha, .btn { transition: background-color .12s, border-color .12s; } }
+</style>
+<!--@CUERPO@-->
+<div class="hoja">
+  <header class="cab">
+    <h1>Probador de voces</h1>
+    <p>Importá el zip de audios y tocá cualquier letra, sílaba o palabra. También podés escribir un texto o armar una oración en el orden que quieras.</p>
+    <div class="importar">
+      <label class="btn prim" for="zip">Importar zip</label>
+      <input type="file" id="zip" accept=".zip,application/zip" multiple hidden>
+      <label class="btn" for="carpeta">Elegir carpeta descomprimida</label>
+      <input type="file" id="carpeta" webkitdirectory multiple hidden>
+      <span class="estado" id="estado">Todavía no importaste ningún zip: podés ver todo, pero para escuchar tenés que importarlo.</span>
+    </div>
+  </header>
+
+  <nav class="pestanas" role="tablist" aria-label="Secciones">
+    <button role="tab" id="t-letras" data-tab="letras" aria-selected="true">Letras y sílabas</button>
+    <button role="tab" id="t-palabras" data-tab="palabras" aria-selected="false">Palabras y frases</button>
+    <button role="tab" id="t-escribir" data-tab="escribir" aria-selected="false">Escribir</button>
+    <button role="tab" id="t-armar" data-tab="armar" aria-selected="false">Armar oración</button>
+  </nav>
+
+  <section class="panel" id="p-letras" role="tabpanel" aria-labelledby="t-letras"></section>
+  <section class="panel" id="p-palabras" role="tabpanel" aria-labelledby="t-palabras" hidden></section>
+
+  <section class="panel" id="p-escribir" role="tabpanel" aria-labelledby="t-escribir" hidden>
+    <div class="bloque">
+      <h2><label for="texto-libre">Escribí una letra, sílaba, palabra o texto</label></h2>
+      <textarea id="texto-libre" rows="3">la vaca come pasto</textarea>
+      <div class="acciones">
+        <button class="btn prim" data-accion="leer">Leer</button>
+        <button class="btn" data-accion="silabas">Leer por sílabas</button>
+        <button class="btn" data-accion="paso">Sílabas y después de corrido</button>
+      </div>
+      <div class="prueba">Probá:
+        <button class="chip" data-texto="la vaca come pasto">la vaca come pasto</button>
+        <button class="chip" data-texto="hoy me voy de vacaciones a la casa de mi tío">hoy me voy de vacaciones…</button>
+        <button class="chip" data-texto="la baca come pazto">la baca come pazto (con errores)</button>
+        <button class="chip" data-texto="b">b</button>
+        <button class="chip" data-texto="tra">tra</button>
+      </div>
+    </div>
+    <div class="bloque">
+      <h3>Cómo se va a leer</h3>
+      <div class="diag" id="diag"></div>
+      <p class="leyenda"><b style="color:var(--ok)">grabada</b>: está en el banco y suena natural. <b style="color:var(--azul)">suena igual</b>: escrita distinto pero suena igual (baca → vaca). <b style="color:var(--medio)">por sílabas</b>: no está grabada; se arma con sílabas y suena menos natural.</p>
+    </div>
+    <div class="bloque">
+      <h3>Ejemplos ya armados</h3>
+      <div class="fila" id="ejemplos"></div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-armar" role="tabpanel" aria-labelledby="t-armar" hidden>
+    <div class="bloque">
+      <h2>Armá la oración en el orden que quieras</h2>
+      <div class="oracion" id="oracion" aria-live="polite"></div>
+      <div class="acciones">
+        <button class="btn prim" data-accion="leer-armada">Leer</button>
+        <button class="btn" data-accion="mezclar">Mezclar</button>
+        <button class="btn" data-accion="borrar">Borrar</button>
+      </div>
+      <p class="leyenda">Tocá una palabra de abajo para sumarla. Tocá una palabra de la oración para sacarla.</p>
+    </div>
+    <div class="bloque" id="banco"></div>
+  </section>
+</div>
+<div class="aviso" id="aviso" role="status" hidden><span id="aviso-txt"></span></div>
+
+<script>
+"use strict";
+/*@LECTOR@*/
+const BIB_EMB = /*@BIB@*/null;
+const LEC_EMB = /*@LEC@*/null;
+
+const TITULOS = {
+  "01_vocales": "Vocales", "02_silabas_directas": "Sílabas directas", "03_silabas_inversas": "Sílabas inversas",
+  "04_grupos_consonanticos": "Grupos consonánticos", "05_combinaciones_vocalicas": "Combinaciones vocálicas",
+  "06_palabras_diptongos_hiatos": "Palabras con diptongos e hiatos", "07_palabras_cortas": "Palabras cortas",
+  "08_palabras_medianas_y_largas": "Palabras medianas y largas", "09_palabras_r_y_rr": "Palabras con R y RR",
+  "10_palabras_contraste_bv_sz_gj": "Contrastes B/V, S/Z, G/J", "11_frases_cortas": "Frases cortas",
+  "12_parrafos": "Párrafos", "13_preguntas": "Preguntas", "14_exclamaciones": "Exclamaciones",
+  "00_renders_bloques_completos": "Bloques completos (render)"
+};
+const CATEGORIAS = {
+  funcion: "Artículos y conectores", pronombres: "Pronombres", personas: "Personas", animales: "Animales",
+  lugares: "Lugares", cosas: "Cosas", verbos: "Verbos", adjetivos: "Cómo es", tiempo_y_otros: "Tiempo y otras"
+};
+const LETRA_A_GRUPO = { "ñ": "ny" };
+
+let BIB = BIB_EMB, LEC = LEC_EMB;
+let vfs = null, ctx = null, lector = null, fuente = null, botonActivo = null, avisoTimer = null;
+let oracion = ["a", "la", "casa", "de", "mi", "tío", "hoy", "me", "voy", "de", "vacaciones"];
+const cacheBib = new Map();
+
+const $ = (s) => document.querySelector(s);
+const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const pintar = (t) => [...t].map((c) => /[aeiouáéíóúü]/i.test(c) ? `<span class="v">${esc(c)}</span>` : esc(c)).join("");
+
+function avisar(t, ms = 2600) {
+  $("#aviso-txt").textContent = t;
+  $("#aviso").hidden = false;
+  clearTimeout(avisoTimer);
+  avisoTimer = setTimeout(() => { $("#aviso").hidden = true; }, ms);
+}
+
+/* ---------- zip: lectura directa en el navegador (sin descomprimir) ---------- */
+async function abrirZip(file) {
+  const cola = Math.min(file.size, 65557);
+  const dv = new DataView(await file.slice(file.size - cola).arrayBuffer());
+  let eocd = -1;
+  for (let i = dv.byteLength - 22; i >= 0; i--) if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+  if (eocd < 0) throw new Error(`"${file.name}" no parece un zip.`);
+  const total = dv.getUint16(eocd + 10, true), tam = dv.getUint32(eocd + 12, true), ini = dv.getUint32(eocd + 16, true);
+  const cd = new DataView(await file.slice(ini, ini + tam).arrayBuffer());
+  const dec = new TextDecoder();
+  const mapa = new Map();
+  let p = 0;
+  for (let k = 0; k < total && p + 46 <= cd.byteLength; k++) {
+    if (cd.getUint32(p, true) !== 0x02014b50) break;
+    const metodo = cd.getUint16(p + 10, true), comp = cd.getUint32(p + 20, true);
+    const nl = cd.getUint16(p + 28, true), el = cd.getUint16(p + 30, true), cl = cd.getUint16(p + 32, true);
+    const off = cd.getUint32(p + 42, true);
+    const nombre = dec.decode(new Uint8Array(cd.buffer, cd.byteOffset + p + 46, nl));
+    if (!nombre.endsWith("/")) {
+      mapa.set(nombre, async () => {
+        const h = new DataView(await file.slice(off, off + 30).arrayBuffer());
+        const d = off + 30 + h.getUint16(26, true) + h.getUint16(28, true);
+        const datos = file.slice(d, d + comp);
+        if (metodo === 0) return datos.arrayBuffer();
+        if (metodo === 8) {
+          if (typeof DecompressionStream === "undefined") throw new Error("Este navegador no puede abrir zips. Descomprimilo y usá «Elegir carpeta descomprimida».");
+          return new Response(datos.stream().pipeThrough(new DecompressionStream("deflate-raw"))).arrayBuffer();
+        }
+        throw new Error("Formato de compresión no soportado.");
+      });
+    }
+    p += 46 + nl + el + cl;
+  }
+  return mapa;
+}
+
+async function importar(archivos, esCarpeta) {
+  const mapa = new Map();
+  try {
+    asegurarCtx();
+    if (esCarpeta) {
+      for (const f of archivos) mapa.set(f.webkitRelativePath || f.name, () => f.arrayBuffer());
+    } else {
+      for (const f of archivos) for (const [k, v] of await abrirZip(f)) mapa.set(k, v);
+    }
+    const rutas = [...mapa.keys()];
+    const mBib = rutas.find((r) => r.endsWith("manifest.json") && mapa.has(r.slice(0, -13) + "01_vocales/a.wav"));
+    const mLec = rutas.find((r) => r.endsWith("manifest_lectura.json"));
+    if (!mBib && !mLec) throw new Error("No encontré los audios en lo que elegiste. Importá el zip «voces_…zip» completo.");
+    const json = async (r) => JSON.parse(new TextDecoder().decode(await mapa.get(r)()));
+    vfs = { mapa, raizBib: mBib ? mBib.slice(0, -13) : null, raizLec: mLec ? mLec.slice(0, -21) : null };
+    cacheBib.clear();
+    if (mBib) BIB = compactar(await json(mBib));
+    if (mLec) {
+      LEC = await json(mLec);
+      lector = new Lector("", LEC, ctx, (rel) => leer(vfs.raizLec + rel));
+    }
+    const wavs = rutas.filter((r) => r.endsWith(".wav")).length;
+    const partes = [mBib ? "biblioteca" : null, mLec ? "lectura" : null].filter(Boolean).join(" y ");
+    $("#estado").textContent = `Listo: ${wavs.toLocaleString("es")} audios (${partes})${LEC ? " · voz " + LEC.voz : ""}. Tocá cualquier ficha.`;
+    $("#estado").classList.add("ok");
+    renderTodo();
+  } catch (e) {
+    $("#estado").textContent = e.message;
+    $("#estado").classList.remove("ok");
+  }
+}
+
+function leer(ruta) {
+  const f = vfs && vfs.mapa.get(ruta);
+  if (!f) return Promise.reject(new Error("Falta el archivo " + ruta));
+  return f();
+}
+
+function compactar(m) {
+  return m.slice().sort((a, b) => (a.orden ?? 0) - (b.orden ?? 0)).map((x) => [x.archivo, x.texto, x.tipo, x.grupo || null]);
+}
+
+/* ---------- audio ---------- */
+function asegurarCtx() {
+  if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+  if (ctx.state === "suspended") ctx.resume();
+  return ctx;
+}
+
+function marcar(b) {
+  if (botonActivo) botonActivo.classList.remove("sonando");
+  botonActivo = b || null;
+  if (botonActivo) botonActivo.classList.add("sonando");
+}
+
+function detener() {
+  if (fuente) { try { fuente.stop(); } catch (e) { /* ya terminó */ } fuente = null; }
+  marcar(null);
+}
+
+async function reproducir(muestras, boton) {
+  detener();
+  if (!muestras || !muestras.length) { avisar("No hay nada para leer."); return; }
+  if (ctx.state === "suspended") await ctx.resume();
+  const buf = ctx.createBuffer(1, muestras.length, ctx.sampleRate);
+  buf.copyToChannel(muestras, 0);
+  const s = ctx.createBufferSource();
+  s.buffer = buf;
+  s.connect(ctx.destination);
+  fuente = s;
+  marcar(boton);
+  s.onended = () => { if (fuente === s) { fuente = null; marcar(null); } };
+  s.start();
+}
+
+function audioBib(rel) {
+  if (!cacheBib.has(rel)) {
+    const p = leer(vfs.raizBib + rel).then((b) => ctx.decodeAudioData(b)).then((ab) => ab.getChannelData(0));
+    p.catch(() => cacheBib.delete(rel));
+    cacheBib.set(rel, p);
+  }
+  return cacheBib.get(rel);
+}
+
+function audioLec(rel) {
+  return leer(vfs.raizLec + rel).then((b) => ctx.decodeAudioData(b)).then((ab) => ab.getChannelData(0));
+}
+
+function necesitaZip(parte) {
+  if (!vfs) { avisar("Primero importá el zip (botón «Importar zip» de arriba)."); return true; }
+  if (parte === "bib" && !vfs.raizBib) { avisar("El zip que importaste no trae la biblioteca de letras y palabras."); return true; }
+  if (parte === "lec" && !lector) { avisar("El zip que importaste no trae la parte de lectura (palabras para encadenar)."); return true; }
+  return false;
+}
+
+/* ---------- pantallas ---------- */
+function porCarpeta() {
+  const out = new Map();
+  for (const it of BIB) {
+    const c = it[0].split("/")[0];
+    if (!out.has(c)) out.set(c, []);
+    out.get(c).push(it);
+  }
+  return out;
+}
+
+function renderLetras() {
+  const carpetas = porCarpeta();
+  let h = "";
+  for (const c of ["01_vocales", "02_silabas_directas", "03_silabas_inversas", "04_grupos_consonanticos", "05_combinaciones_vocalicas"]) {
+    const items = carpetas.get(c) || [];
+    h += `<div class="bloque"><h2>${TITULOS[c]}</h2>`;
+    const grupos = new Map();
+    for (const it of items) {
+      const g = it[3] || "_";
+      if (!grupos.has(g)) grupos.set(g, { fam: null, us: [] });
+      if (it[2] === "familia") grupos.get(g).fam = it; else grupos.get(g).us.push(it);
+    }
+    for (const [g, { fam, us }] of grupos) {
+      h += `<div class="fila">`;
+      if (fam) {
+        const etiqueta = g === "vocales" ? "AEIOU" : (g === "ny" ? "Ñ" : g.toUpperCase());
+        h += `<button class="ficha letra" data-bib="${esc(fam[0])}" title="${esc(fam[1])}">${esc(etiqueta)}</button>`;
+      }
+      for (const it of us) h += `<button class="ficha" data-bib="${esc(it[0])}">${pintar(it[1])}</button>`;
+      if (fam) h += `<button class="ficha fam" data-bib="${esc(fam[0])}">▶ todas</button>`;
+      h += `</div>`;
+    }
+    h += `</div>`;
+  }
+  $("#p-letras").innerHTML = h + `<p class="leyenda">La ficha con la letra en grande lee la familia completa, por ejemplo Ba, Be, Bi, Bo, Bu.</p>`;
+}
+
+function renderPalabras() {
+  const carpetas = porCarpeta();
+  let h = "";
+  for (const c of ["06_palabras_diptongos_hiatos", "07_palabras_cortas", "08_palabras_medianas_y_largas", "09_palabras_r_y_rr",
+    "10_palabras_contraste_bv_sz_gj", "11_frases_cortas", "12_parrafos", "13_preguntas", "14_exclamaciones", "00_renders_bloques_completos"]) {
+    const items = carpetas.get(c) || [];
+    if (!items.length) continue;
+    const largas = c >= "11" || c.startsWith("00");
+    h += `<div class="bloque"><h2>${TITULOS[c]}</h2><div class="fila">`;
+    for (const it of items) {
+      h += largas
+        ? `<button class="ficha larga" data-bib="${esc(it[0])}">${esc(it[1])}</button>`
+        : `<button class="ficha chica" data-bib="${esc(it[0])}">${pintar(it[1])}</button>`;
+    }
+    h += `</div></div>`;
+  }
+  $("#p-palabras").innerHTML = h;
+}
+
+function renderBanco() {
+  if (!LEC) { $("#banco").innerHTML = ""; return; }
+  const cats = new Map();
+  for (const [w, d] of Object.entries(LEC.palabras)) {
+    if (!cats.has(d.categoria)) cats.set(d.categoria, []);
+    cats.get(d.categoria).push(w);
+  }
+  let h = "";
+  for (const [c, ws] of cats) {
+    h += `<div class="fila"><span class="grupo-etq">${esc(CATEGORIAS[c] || c)}</span>`;
+    for (const w of ws) h += `<button class="ficha chica" data-agregar="${esc(w)}">${pintar(w)}</button>`;
+    h += `</div>`;
+  }
+  $("#banco").innerHTML = h;
+  $("#ejemplos").innerHTML = (LEC.ejemplos || []).map((e) =>
+    `<button class="ficha larga" data-lec="${esc(e.archivo)}">${esc(e.texto)}</button>`).join("");
+}
+
+function renderOracion() {
+  $("#oracion").innerHTML = oracion.map((w, i) => `<button class="ficha chica" data-quitar="${i}" aria-label="Sacar ${esc(w)}">${pintar(w)}</button>`).join("");
+}
+
+function renderDiag() {
+  const t = $("#texto-libre").value;
+  if (!LEC) { $("#diag").innerHTML = ""; return; }
+  const sola = familiaDeLetra(t);
+  if (sola) { $("#diag").innerHTML = `<span class="grabada">${esc(t.trim())} → <b>${sola[2] === "familia" ? "familia" : "vocal"} ${esc(sola[1])}</b></span>`; return; }
+  const d = new Lector("", LEC, null).diagnostico(t);
+  const como = { grabada: "grabada", suena_igual: "suena igual a", silabas: "por sílabas" };
+  $("#diag").innerHTML = d.map((x) => `<span class="${x.como}">${esc(x.palabra)} · <b>${como[x.como]}</b>${x.como === "grabada" ? "" : " " + esc(x.usa)}</span>`).join("");
+}
+
+function renderTodo() { renderLetras(); renderPalabras(); renderBanco(); renderOracion(); renderDiag(); }
+
+/* Si se escribe una sola consonante (b, ch, ñ...), se lee su familia: Ba, Be, Bi, Bo, Bu. */
+function familiaDeLetra(t) {
+  const l = t.trim().toLowerCase();
+  if (!/^(ch|ll|rr|[a-zñ])$/.test(l) || !BIB) return null;
+  const g = LETRA_A_GRUPO[l] || l;
+  return BIB.find((it) => it[2] === "familia" && it[0].startsWith("02_silabas_directas/" + g + "/"))
+    || BIB.find((it) => it[0] === "01_vocales/" + l + ".wav") || null;
+}
+
+/* ---------- acciones ---------- */
+async function accion(nombre, boton) {
+  const texto = $("#texto-libre").value.trim();
+  try {
+    if (nombre === "leer" || nombre === "silabas" || nombre === "paso") {
+      if (!texto) { avisar("Escribí algo primero."); return; }
+      const fam = familiaDeLetra(texto);
+      if (fam) { if (!necesitaZip("bib")) await reproducir(await audioBib(fam[0]), boton); return; }
+      if (necesitaZip("lec")) return;
+      let m;
+      if (nombre === "leer") m = await lector.oracion(texto);
+      else if (nombre === "silabas") m = await lector.silabeo(texto);
+      else {
+        const una = (texto.match(/[\p{L}]+/gu) || []).length === 1;
+        m = await lector.secuencia(una ? [["silabas", texto], ["palabra", texto]] : [["silabas", texto], ["oracion", texto]]);
+      }
+      await reproducir(m, boton);
+    } else if (nombre === "leer-armada") {
+      if (!oracion.length) { avisar("La oración está vacía: tocá palabras de abajo."); return; }
+      if (necesitaZip("lec")) return;
+      await reproducir(await lector.oracion(oracion.join(" ")), boton);
+    } else if (nombre === "mezclar") {
+      for (let i = oracion.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [oracion[i], oracion[j]] = [oracion[j], oracion[i]]; }
+      renderOracion();
+    } else if (nombre === "borrar") {
+      oracion = []; renderOracion();
+    }
+  } catch (e) {
+    avisar(e.message || "No se pudo reproducir.");
+  }
+}
+
+document.addEventListener("click", async (ev) => {
+  if (ctx && ctx.state === "suspended") ctx.resume();
+  const b = ev.target.closest("button");
+  if (!b) return;
+  if (b.dataset.tab) {
+    for (const t of document.querySelectorAll("[data-tab]")) {
+      const sel = t === b;
+      t.setAttribute("aria-selected", String(sel));
+      $("#p-" + t.dataset.tab).hidden = !sel;
+    }
+    return;
+  }
+  try {
+    if (b.dataset.bib !== undefined) { if (!necesitaZip("bib")) await reproducir(await audioBib(b.dataset.bib), b); }
+    else if (b.dataset.lec !== undefined) { if (!necesitaZip("lec")) await reproducir(await audioLec(b.dataset.lec), b); }
+    else if (b.dataset.agregar !== undefined) { oracion.push(b.dataset.agregar); renderOracion(); }
+    else if (b.dataset.quitar !== undefined) { oracion.splice(Number(b.dataset.quitar), 1); renderOracion(); }
+    else if (b.dataset.texto !== undefined) { $("#texto-libre").value = b.dataset.texto; renderDiag(); }
+    else if (b.dataset.accion) await accion(b.dataset.accion, b);
+  } catch (e) {
+    avisar(e.message || "No se pudo reproducir.");
+  }
+});
+
+$("#zip").addEventListener("change", (e) => { if (e.target.files.length) importar([...e.target.files], false); e.target.value = ""; });
+$("#carpeta").addEventListener("change", (e) => { if (e.target.files.length) importar([...e.target.files], true); e.target.value = ""; });
+$("#texto-libre").addEventListener("input", renderDiag);
+document.addEventListener("dragover", (e) => e.preventDefault());
+document.addEventListener("drop", (e) => {
+  e.preventDefault();
+  const fs = [...(e.dataTransfer?.files || [])].filter((f) => /\.zip$/i.test(f.name));
+  if (fs.length) importar(fs, false);
+});
+
+renderTodo();
+</script>

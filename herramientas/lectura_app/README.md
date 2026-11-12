@@ -14,8 +14,8 @@ junta en el momento, en cualquier orden.
 ## Probar
 
 - **`ejemplos/`:** oraciones ya armadas por el lector. Escuchalas directamente.
-- **`probar.html`:** tocás palabras, las mezclás o escribís lo que quieras, y la escuchás. Para que funcione, abrí
-  una terminal en esta carpeta, ejecutá `python3 -m http.server` y entrá a `http://localhost:8000/probar.html`.
+- **`probar_voces.html`** (en la carpeta de arriba): importás el zip y probás todo, incluidas las pestañas
+  **Escribir** y **Armar oración**, que usan este lector.
 
 ## Qué hay adentro
 
@@ -27,7 +27,6 @@ junta en el momento, en cualquier orden.
 | `ejemplos/` | Ejemplos armados con el lector |
 | `manifest_lectura.json` | Índice: palabra → archivos, sílaba → archivo, y los parámetros de empalme |
 | `lector.js` | El lector para la app (JavaScript, Web Audio) |
-| `probar.html` | Página de prueba |
 
 ## Cómo se logró que suene fluido
 
@@ -54,8 +53,8 @@ junta en el momento, en cualquier orden.
 ## Usarlo en la app (JavaScript)
 
 ```js
-import { Lector } from "./audios_lectura/lector.js";
-const lector = await Lector.crear("audios_lectura/");
+import { Lector } from "./lectura/lector.js";
+const lector = await Lector.crear("lectura/");
 
 // Sección "armar oraciones": leer lo que ordenó el chico
 await lector.leerOracion(fichasEnOrden.join(" "));

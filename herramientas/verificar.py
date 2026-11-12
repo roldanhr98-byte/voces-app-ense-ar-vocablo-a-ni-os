@@ -58,7 +58,7 @@ def stt(ruta):
 
 
 def revisar(m):
-    ruta = RAIZ / "audios" / m["archivo"]
+    ruta = RAIZ / "biblioteca" / m["archivo"]
     x = R.leer_wav(ruta)
     db = R.energia_db(x)
     res = {"archivo": m["archivo"], "texto": m["texto"], "tipo": m["tipo"], "problemas": []}
@@ -88,7 +88,7 @@ def revisar(m):
 
 
 def main():
-    man = json.loads((RAIZ / "audios" / "manifest.json").read_text(encoding="utf-8"))
+    man = json.loads((RAIZ / "biblioteca" / "manifest.json").read_text(encoding="utf-8"))
     with ThreadPoolExecutor(4) as ex:
         res = list(ex.map(revisar, man))
     (RAIZ / "trabajo" / "verificacion.json").write_text(json.dumps(res, ensure_ascii=False, indent=1),
