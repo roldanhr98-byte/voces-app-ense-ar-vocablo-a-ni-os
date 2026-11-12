@@ -100,7 +100,7 @@ textarea {
 .diag span { font-size: 0.88rem; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--linea); background: var(--hoja); }
 .diag .grabada b { color: var(--ok); }
 .diag .suena_igual b { color: var(--azul); }
-.diag .silabas b { color: var(--medio); }
+.diag .difonos b { color: var(--medio); }
 .oracion {
   min-height: 64px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 10px;
   background: var(--hoja); border: 1px dashed var(--linea); border-radius: 12px;
@@ -154,6 +154,7 @@ textarea {
         <button class="chip" data-texto="la vaca come pasto">la vaca come pasto</button>
         <button class="chip" data-texto="hoy me voy de vacaciones a la casa de mi tío">hoy me voy de vacaciones…</button>
         <button class="chip" data-texto="la baca come pazto">la baca come pazto (con errores)</button>
+        <button class="chip" data-texto="el dinosaurio come tomate y chocolate">el dinosaurio come tomate… (no grabadas)</button>
         <button class="chip" data-texto="b">b</button>
         <button class="chip" data-texto="tra">tra</button>
       </div>
@@ -161,7 +162,7 @@ textarea {
     <div class="bloque">
       <h3>Cómo se va a leer</h3>
       <div class="diag" id="diag"></div>
-      <p class="leyenda"><b style="color:var(--ok)">grabada</b>: está en el banco y suena natural. <b style="color:var(--azul)">suena igual</b>: escrita distinto pero suena igual (baca → vaca). <b style="color:var(--medio)">por sílabas</b>: no está grabada; se arma con sílabas y suena menos natural.</p>
+      <p class="leyenda"><b style="color:var(--ok)">grabada</b>: está en el banco y suena natural. <b style="color:var(--azul)">suena igual</b>: escrita distinto pero suena igual (baca → vaca). <b style="color:var(--medio)">armada con sonidos</b>: no está grabada; se arma uniendo sus sonidos (dífonos). Se entiende bien, pero suena un poco menos natural que una palabra grabada.</p>
     </div>
     <div class="bloque">
       <h3>Ejemplos ya armados</h3>
@@ -191,34 +192,39 @@ textarea {
  * Lector encadenado — arma y reproduce sílabas, palabras y oraciones con los audios de esta carpeta.
  *
  *   import { Lector } from "./lector.js";
- *   const lector = await Lector.crear("lectura/");                 // carpeta donde está manifest_lectura.json
+ *   const lector = await Lector.crear("lectura/");      // carga los 3 audios una sola vez (~1 s la primera vez)
  *   await lector.leerOracion("hoy me voy de vacaciones a la casa de mi tío");   // cualquier orden
- *   await lector.leerSilabas("vaca");                                // va - ca
- *   await lector.leerPalabra("vaca");                                // vaca
+ *   await lector.leerSilabas("vaca");                     // va - ca
+ *   await lector.leerPalabra("vaca");                     // vaca
  *   await lector.leerSecuencia([["silabas", "vaca"], ["palabra", "vaca"],
  *                               ["silabas", "la vaca"], ["oracion", "la vaca come pasto"]]);
  *
- * - Las palabras del banco suenan con su versión "medio" y la última de la oración con su versión "final".
- * - Si una palabra no está grabada o viene mal escrita, se busca sin tildes y por sonido (b=v, h muda,
- *   ll=y...). Si igual no aparece, se arma con sílabas.
- * - En móviles el audio solo arranca después de un toque del usuario (regla del navegador).
+ * Cómo arma la lectura:
+ *  - Palabras del banco: versión "medio" (como suena dentro de una oración) y "final" para la última.
+ *  - Palabras que no están grabadas o mal escritas: primero se busca una que suene igual (baca → vaca);
+ *    si no hay, se arma con dífonos (transiciones entre sonidos) respetando la sílaba acentuada.
+ *  - Empalmes según los sonidos que se tocan: antes de p/t/k/ch un silencio corto (el de esa consonante),
+ *    vocal + vocal se funden, el resto con un solape corto y fundido de potencia constante.
+ *  - Todo se arma en memoria, sin esperas: después de crear el lector cada lectura es instantánea.
+ *
+ * Mismas reglas que herramientas/fonetica.py y herramientas/lectura.py (los ejemplos se arman con esos).
+ * En móviles el audio solo arranca después de un toque del usuario (regla del navegador).
  */
 
 const VOCALES = "aeiouáéíóúü";
 const FUERTES = "aeoáéíóú";
 const INSEPARABLES = new Set(["pr", "br", "tr", "dr", "cr", "kr", "gr", "fr", "pl", "bl", "cl", "kl", "gl", "fl"]);
+const TILDE = { "á": "a", "é": "e", "í": "i", "ó": "o", "ú": "u", "ü": "u" };
+const VOC = "aeiou";
+const CORTE_EN_CIERRE = "ptkC";
+const SUSTITUTOS = { R: "r", r: "R", N: "n", Y: "J", C: "t", Z: "s", J: "x", x: "J" };
 
+const muestras = (seg, sr) => Math.floor(seg * sr + 0.5);
+const clase = (s) => (VOC.includes(s[0]) ? "v" : CORTE_EN_CIERRE.includes(s[0]) ? "c" : "o");
+
+/* ------------------------------------------------------------------ texto -> sonidos */
 function sinTildes(t) {
   return t.replace(/ñ/g, "\0").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\0/g, "ñ");
-}
-
-function claveFonetica(w) {
-  let t = sinTildes(w.toLowerCase().replace(/gü/g, "gw"));
-  const reglas = [[/ch/g, "C"], [/ll/g, "y"], [/rr/g, "R"], [/qu/g, "k"], [/gu(?=[ei])/g, "G"],
-    [/g(?=[ei])/g, "j"], [/G/g, "g"], [/c(?=[ei])/g, "z"], [/c/g, "k"], [/h/g, ""], [/v/g, "b"],
-    [/w/g, "u"], [/x/g, "ks"], [/y$/, "i"], [/^r/, "R"]];
-  for (const [a, b] of reglas) t = t.replace(a, b);
-  return t;
 }
 
 function silabear(palabra) {
@@ -273,6 +279,73 @@ function silabear(palabra) {
   return res;
 }
 
+function posicionAcento(palabra) {
+  const w = palabra.toLowerCase();
+  for (let i = 0; i < w.length; i++) if ("áéíóú".includes(w[i])) return i;
+  const sil = silabear(w);
+  if (!sil.length) return -1;
+  const base = sinTildes(w);
+  const llana = base ? "aeiouns".includes(base[base.length - 1]) : true;
+  const k = llana && sil.length > 1 ? sil.length - 2 : sil.length - 1;
+  let ini = 0;
+  for (let i = 0; i < k; i++) ini += sil[i].length;
+  const s = sil[k];
+  const vocs = [];
+  for (let j = 0; j < s.length; j++) {
+    const c = s[j];
+    const uMuda = c === "u" && j > 0 && "qg".includes(s[j - 1]) && j + 1 < s.length && "ei".includes(s[j + 1]);
+    if ("aeiou".includes(c) && !uMuda) vocs.push(j);
+  }
+  if (!vocs.length) return -1;
+  const fuertes = vocs.filter((j) => "aeo".includes(s[j]));
+  return ini + (fuertes.length ? fuertes[0] : vocs[vocs.length - 1]);
+}
+
+/* Sonidos: a e i o u, p b t d k g f s m n l, Z (z/ce/ci), J (j/ge/gi), Y (y/ll), C (ch), N (ñ), r, R (rr) */
+function fonemas(palabra, acentuada = true) {
+  const w = palabra.toLowerCase();
+  const acento = acentuada ? posicionAcento(w) : -1;
+  const res = [];
+  let i = 0;
+  while (i < w.length) {
+    const c = w[i], sig = w[i + 1] || "", sig2 = w[i + 2] || "";
+    if (w.startsWith("ch", i)) { res.push(["C", false]); i += 2; continue; }
+    if (w.startsWith("ll", i)) { res.push(["Y", false]); i += 2; continue; }
+    if (w.startsWith("rr", i)) { res.push(["R", false]); i += 2; continue; }
+    if (c === "q") { res.push(["k", false]); i += sig === "u" ? 2 : 1; continue; }
+    if (c === "g" && sig === "u" && sig2 && "eiéí".includes(sig2)) { res.push(["g", false]); i += 2; continue; }
+    if (c === "g" && sig === "ü") { res.push(["g", false]); res.push(["u", false]); i += 2; continue; }
+    if (VOCALES.includes(c)) { res.push([TILDE[c] || c, i === acento]); i += 1; continue; }
+    if (c === "c") res.push([sig && "eiéí".includes(sig) ? "Z" : "k", false]);
+    else if (c === "z") res.push(["Z", false]);
+    else if (c === "g") res.push([sig && "eiéí".includes(sig) ? "J" : "g", false]);
+    else if (c === "j") res.push(["J", false]);
+    else if (c === "h") { /* muda */ }
+    else if (c === "v") res.push(["b", false]);
+    else if (c === "w") res.push(["u", false]);
+    else if (c === "x") { if (i === 0) res.push(["s", false]); else { res.push(["k", false]); res.push(["s", false]); } }
+    else if (c === "y") {
+      if (i === w.length - 1 || !(sig && VOCALES.includes(sig))) res.push(["i", i === acento]);
+      else res.push(["Y", false]);
+    }
+    else if (c === "ñ") res.push(["N", false]);
+    else if (c === "r") res.push([i === 0 || "nls".includes(w[i - 1]) ? "R" : "r", false]);
+    else if (c === "k") res.push(["k", false]);
+    else if ("pbtdfsmnl".includes(c)) res.push([c, false]);
+    i += 1;
+  }
+  return res;
+}
+
+function claveFonetica(w) {
+  let t = sinTildes(w.toLowerCase().replace(/gü/g, "gw"));
+  const reglas = [[/ch/g, "C"], [/ll/g, "y"], [/rr/g, "R"], [/qu/g, "k"], [/gu(?=[ei])/g, "G"],
+    [/g(?=[ei])/g, "j"], [/G/g, "g"], [/c(?=[ei])/g, "z"], [/c/g, "k"], [/h/g, ""], [/v/g, "b"],
+    [/w/g, "u"], [/x/g, "ks"], [/y$/, "i"], [/^r/, "R"]];
+  for (const [a, b] of reglas) t = t.replace(a, b);
+  return t;
+}
+
 function normalizarSilaba(s) {
   let t = sinTildes(s.toLowerCase()).replace(/ch/g, "C").replace(/h/g, "").replace(/C/g, "ch");
   t = t.replace(/^g(?=[ei])/, "j").replace(/gü/g, "gu").replace(/ü/g, "u").replace(/^z(?=[ei])/, "c");
@@ -280,31 +353,65 @@ function normalizarSilaba(s) {
   return t;
 }
 
+function claveDifono(a, b) {
+  const k = ([s, ac]) => s + (ac && VOC.includes(s) ? "1" : "");
+  return `${k(a)}-${k(b)}`;
+}
+
+/* ------------------------------------------------------------------ mezcla */
+// piezas: [[audio, junta]]; junta > 0 = muestras de silencio antes; < 0 = muestras de solape con fundido
+function mezclar(piezas) {
+  let pos = 0;
+  const inicios = [];
+  piezas.forEach(([y, junta], k) => {
+    let ini;
+    if (k === 0) ini = 0;
+    else if (junta >= 0) ini = pos + junta;
+    else ini = pos - Math.min(-junta, piezas[k - 1][0].length, y.length);
+    inicios.push(ini);
+    pos = ini + y.length;
+  });
+  const out = new Float32Array(Math.max(pos, 0));
+  piezas.forEach(([y, junta], k) => {
+    const ini = inicios[k];
+    let n = 0;
+    if (k > 0 && junta < 0) n = Math.min(-junta, piezas[k - 1][0].length, y.length);
+    for (let i = 0; i < n; i++) {
+      const ang = (i + 0.5) / n * (Math.PI / 2);
+      out[ini + i] = out[ini + i] * Math.cos(ang) + y[i] * Math.sin(ang);
+    }
+    for (let i = n; i < y.length; i++) out[ini + i] += y[i];
+  });
+  return out;
+}
+
+/* ------------------------------------------------------------------ lector */
 class Lector {
-  static async crear(base = "./", ctx = null) {
+  static async crear(base = "./", opciones = {}) {
     if (base && !base.endsWith("/")) base += "/";
-    const r = await fetch(base + "manifest_lectura.json");
-    if (!r.ok) throw new Error("No se encontró manifest_lectura.json en " + base);
-    return new Lector(base, await r.json(), ctx || new (window.AudioContext || window.webkitAudioContext)());
-  }
-
-  // Para leer los audios desde otro lado (por ejemplo, un zip): leer(ruta) -> Promise<ArrayBuffer>
-  static async desdeArchivos(leer, ctx = null) {
-    const m = JSON.parse(new TextDecoder().decode(await leer("manifest_lectura.json")));
-    return new Lector("", m, ctx || new (window.AudioContext || window.webkitAudioContext)(), leer);
-  }
-
-  constructor(base, manifest, ctx, leer = null) {
-    this.base = base;
-    this.m = manifest;
-    this.ctx = ctx;
-    this.sr = ctx ? ctx.sampleRate : manifest.sr;
-    this.leer = leer || ((rel) => fetch(base + rel).then((r) => {
+    const leer = (rel) => fetch(base + rel).then((r) => {
       if (!r.ok) throw new Error("No se encontró " + base + rel);
       return r.arrayBuffer();
-    }));
+    });
+    return Lector.desdeArchivos(leer, opciones);
+  }
+
+  // leer(ruta) -> Promise<ArrayBuffer>. Sirve para leer desde un zip u otra fuente.
+  static async desdeArchivos(leer, opciones = {}) {
+    const m = JSON.parse(new TextDecoder().decode(await leer("manifest_lectura.json")));
+    const ctx = opciones.ctx || new (window.AudioContext || window.webkitAudioContext)({ sampleRate: opciones.sampleRate || 24000 });
+    const lector = new Lector(m, ctx);
+    await lector.cargar(leer);
+    return lector;
+  }
+
+  constructor(manifest, ctx = null) {
+    this.m = manifest;
     this.p = manifest.parametros;
-    this.cache = new Map();
+    this.ctx = ctx;
+    this.sr = ctx ? ctx.sampleRate : manifest.sr;
+    this.audios = {};
+    this.desfase = {};
     this.porTilde = new Map();
     this.porClave = new Map();
     for (const [w, d] of Object.entries(manifest.palabras)) {
@@ -314,146 +421,152 @@ class Lector {
     this.fuente = null;
   }
 
+  // Carga y decodifica los 3 audios en paralelo. Corrige el pequeño desfase que agregan algunos formatos (MP3).
+  async cargar(leer) {
+    await Promise.all(Object.entries(this.m.audios).map(async ([nombre, ruta]) => {
+      const buf = await this.ctx.decodeAudioData(await leer(ruta));
+      const x = buf.getChannelData(0);
+      const deltas = [];
+      for (const marca of this.m.marcas[nombre] || []) {
+        // el MP3 solo puede atrasar el audio (retardo del codificador), nunca adelantarlo
+        const a = Math.max(0, muestras(marca - 0.02, this.sr)), b = Math.min(x.length, muestras(marca + 0.12, this.sr));
+        for (let i = a; i < b; i++) if (Math.abs(x[i]) > 0.05) { deltas.push(i / this.sr - marca); break; }
+      }
+      deltas.sort((p, q) => p - q);
+      this.desfase[nombre] = deltas.length ? deltas[Math.floor(deltas.length / 2)] : 0;
+      this.audios[nombre] = x;
+    }));
+    return this;
+  }
+
+  _corte(archivo, [ini, dur]) {
+    const a = muestras(ini + (this.desfase[archivo] || 0), this.sr);
+    return this.audios[archivo].subarray(Math.max(0, a), Math.max(0, a) + muestras(dur, this.sr));
+  }
+
   buscar(w) {
     w = w.toLowerCase();
     if (this.m.palabras[w]) return w;
-    const a = this.porTilde.get(sinTildes(w));
-    if (a) return a;
-    return this.porClave.get(claveFonetica(w)) || null;
+    return this.porTilde.get(sinTildes(w)) || this.porClave.get(claveFonetica(w)) || null;
   }
 
-  // Cómo se va a leer cada palabra: [{palabra, como: "grabada"|"suena_igual"|"silabas", usa}]
-  diagnostico(texto) {
-    return (texto.match(/[\p{L}]+/gu) || []).map((w) => {
-      const pal = this.buscar(w);
-      if (pal && sinTildes(pal) === sinTildes(w.toLowerCase())) return { palabra: w, como: "grabada", usa: pal };
-      if (pal) return { palabra: w, como: "suena_igual", usa: pal };
-      return { palabra: w, como: "silabas", usa: silabear(w).join("-") };
-    });
-  }
-
-  async _audio(rel) {
-    if (!this.cache.has(rel)) {
-      const p = this.leer(rel)
-        .then((b) => this.ctx.decodeAudioData(b))
-        .then((ab) => ab.getChannelData(0));
-      p.catch(() => this.cache.delete(rel));
-      this.cache.set(rel, p);
+  _buscarDifono(s1, a1, s2, a2) {
+    const inv = this.m.difonos;
+    for (const [x1, x2] of [[a1, a2], [!a1, a2], [a1, !a2], [!a1, !a2]]) {
+      const k = claveDifono([s1, x1], [s2, x2]);
+      if (inv[k]) return inv[k];
     }
-    return this.cache.get(rel);
-  }
-
-  async _silaba(s) {
-    const inv = this.m.silabas;
-    const t = normalizarSilaba(s);
-    const solape = this.p.solape_coda_ms / 1000;
-    if (inv[t]) return [[await this._audio(inv[t]), 0]];
-    const m = t.match(/^([^aeiou]*)([aeiou]+)([^aeiou]*)$/);
-    if (!m) return [];
-    const [, ataque, nucleo, coda] = m;
-    const piezas = [];
-    if (inv[ataque + nucleo]) piezas.push([await this._audio(inv[ataque + nucleo]), 0]);
-    else {
-      if (inv[ataque + nucleo[0]]) piezas.push([await this._audio(inv[ataque + nucleo[0]]), 0]);
-      const resto = nucleo.slice(1);
-      if (resto) {
-        const clave = inv[resto] ? resto : resto.slice(-1);
-        if (inv[clave]) piezas.push([await this._audio(inv[clave]), solape]);
+    for (const [t1, t2] of [[SUSTITUTOS[s1] || s1, s2], [s1, SUSTITUTOS[s2] || s2]]) {
+      for (const [x1, x2] of [[a1, a2], [!a1, a2], [a1, !a2]]) {
+        const k = claveDifono([t1, x1], [t2, x2]);
+        if (inv[k]) return inv[k];
       }
     }
-    if (coda) {
-      const vc = nucleo.slice(-1) + coda[0];
-      if (inv[vc]) piezas.push([await this._audio(inv[vc]), solape]);
-    }
-    return piezas;
+    return null;
   }
 
-  async _palabra(w, final) {
+  difonos(fon) {
+    const seq = [["_", false], ...fon, ["_", false]];
+    const piezas = [];
+    for (let i = 0; i + 1 < seq.length; i++) {
+      const d = this._buscarDifono(seq[i][0], seq[i][1], seq[i + 1][0], seq[i + 1][1]);
+      if (!d) continue;
+      const y = this._corte("difonos", d);
+      piezas.push([y, piezas.length ? -muestras(this.p.fundido_difono_ms[clase(d[2])] / 1000, this.sr) : 0]);
+    }
+    return piezas.length ? mezclar(piezas) : new Float32Array(0);
+  }
+
+  palabra(w, final) {
     const pal = this.buscar(w);
+    let fon, y;
     if (pal) {
       const d = this.m.palabras[pal];
-      return [[await this._audio(final && d.final ? d.final : d.medio), 0]];
+      fon = fonemas(pal);
+      y = this._corte("palabras", final && d.final ? d.final : d.medio);
+    } else {
+      fon = fonemas(w);
+      y = this.difonos(fon);
     }
-    let piezas = [];
-    for (const s of silabear(w)) piezas = piezas.concat(await this._silaba(s));
-    return piezas;
+    if (!fon.length) return null;
+    return [y, fon[0][0], fon[fon.length - 1][0]];
   }
 
-  _unir(piezas, pausa) {
-    const f = Math.round(this.p.fundido_ms / 1000 * this.sr);
-    let out = new Float32Array(0);
-    let ultimo = 0;
-    piezas.forEach(([y, solape], k) => {
-      if (k === 0) { out = Float32Array.from(y); ultimo = y.length; return; }
-      if (solape > 0) {
-        // fusión: la vocal compartida suena una sola vez ("pa" + "an" -> "pan")
-        const fr = this.p.fusion_recorte;
-        out = out.subarray(0, out.length - Math.floor(fr * ultimo));
-        y = y.subarray(Math.floor(fr * y.length));
-        const n = Math.min(Math.round(solape * this.sr), out.length, y.length);
-        const nuevo = new Float32Array(out.length + y.length - n);
-        nuevo.set(out);
-        const o = out.length - n;
-        for (let i = 0; i < n; i++) nuevo[o + i] = out[o + i] * (1 - i / n) + y[i] * (i / n);
-        nuevo.set(y.subarray(n), out.length);
-        out = nuevo;
-      } else {
-        const z = Math.round(pausa * this.sr);
-        const nuevo = new Float32Array(out.length + z + y.length);
-        nuevo.set(out);
-        nuevo.set(y, out.length + z);
-        out = nuevo;
-      }
-      ultimo = y.length;
-    });
-    for (let i = 0; i < Math.min(f, out.length); i++) out[out.length - 1 - i] *= i / f;
-    return out;
+  _junta(prevFin, sigIni) {
+    if (CORTE_EN_CIERRE.includes(sigIni)) return muestras(this.p.hueco_oclusiva_ms / 1000, this.sr);
+    if (VOC.includes(sigIni)) return -muestras((VOC.includes(prevFin) ? this.p.solape_vocales_ms : this.p.solape_vocal_ms) / 1000, this.sr);
+    return -muestras(this.p.solape_ms / 1000, this.sr);
   }
 
-  async oracion(texto) {
-    const tokens = texto.match(/[\p{L}]+|[.,;:!?¡¿]/gu) || [];
+  oracion(texto) {
+    const tokens = texto.match(/\p{L}+|[.,;:!?¡¿]/gu) || [];
     const total = tokens.filter((t) => /\p{L}/u.test(t)).length;
     const piezas = [];
-    let vistas = 0;
+    let vistas = 0, ultimo = null, pausa = 0;
     for (const t of tokens) {
       if (!/\p{L}/u.test(t)) {
-        if (piezas.length && ",;:".includes(t)) piezas.push([new Float32Array(Math.round(this.p.pausa_coma_ms / 1000 * this.sr)), 0]);
-        else if (piezas.length && ".!?".includes(t)) piezas.push([new Float32Array(Math.round(this.p.pausa_punto_ms / 1000 * this.sr)), 0]);
+        if (piezas.length && ",;:".includes(t)) pausa = Math.max(pausa, muestras(this.p.pausa_coma_ms / 1000, this.sr));
+        else if (piezas.length && ".!?".includes(t)) pausa = Math.max(pausa, muestras(this.p.pausa_punto_ms / 1000, this.sr));
         continue;
       }
       vistas += 1;
-      const pw = await this._palabra(t, vistas === total);
-      if (pw.length) piezas.push([pw.length > 1 ? this._unir(pw, 0) : pw[0][0], 0]);
+      const r = this.palabra(t, vistas === total);
+      if (!r || !r[0].length) continue;
+      const [y, ini, fin] = r;
+      const junta = !piezas.length ? 0 : (pausa || this._junta(ultimo, ini));
+      piezas.push([y, junta]);
+      ultimo = fin; pausa = 0;
     }
-    return this._unir(piezas, this.p.pausa_entre_palabras_ms / 1000);
+    return piezas.length ? mezclar(piezas) : new Float32Array(0);
   }
 
-  async silabeo(texto) {
+  silaba(s) {
+    const t = normalizarSilaba(s);
+    if (this.m.silabas[t]) return this._corte("silabas", this.m.silabas[t]);
+    return this.difonos(fonemas(s));   // sílaba que no está grabada: con dífonos
+  }
+
+  silabeo(texto) {
     const piezas = [];
-    for (const w of texto.toLowerCase().match(/[\p{L}]+/gu) || []) {
+    for (const w of texto.toLowerCase().match(/\p{L}+/gu) || []) {
       for (const s of silabear(w)) {
-        const ps = await this._silaba(s);
-        if (ps.length) piezas.push([this._unir(ps, 0), 0]);
+        const y = this.silaba(s);
+        if (y.length) piezas.push([y, piezas.length ? muestras(this.p.pausa_entre_silabas_ms / 1000, this.sr) : 0]);
       }
     }
-    return this._unir(piezas, this.p.pausa_entre_silabas_ms / 1000);
+    return piezas.length ? mezclar(piezas) : new Float32Array(0);
   }
 
-  async secuencia(pasos) {
-    const audios = [];
-    for (const [tipo, texto] of pasos) audios.push([tipo === "silabas" ? await this.silabeo(texto) : await this.oracion(texto), 0]);
-    return this._unir(audios, this.p.pausa_entre_pasos_ms / 1000);
+  secuencia(pasos) {
+    const piezas = [];
+    for (const [tipo, texto] of pasos) {
+      const y = tipo === "silabas" ? this.silabeo(texto) : this.oracion(texto);
+      if (y.length) piezas.push([y, piezas.length ? muestras(this.p.pausa_entre_pasos_ms / 1000, this.sr) : 0]);
+    }
+    return piezas.length ? mezclar(piezas) : new Float32Array(0);
   }
 
+  // Cómo se va a leer cada palabra: [{palabra, como: "grabada"|"suena_igual"|"difonos", usa}]
+  diagnostico(texto) {
+    return (texto.match(/\p{L}+/gu) || []).map((w) => {
+      const pal = this.buscar(w);
+      if (pal && sinTildes(pal) === sinTildes(w.toLowerCase())) return { palabra: w, como: "grabada", usa: pal };
+      if (pal) return { palabra: w, como: "suena_igual", usa: pal };
+      return { palabra: w, como: "difonos", usa: silabear(w).join("-") };
+    });
+  }
+
+  /* ---- reproducción ---- */
   detener() {
     if (this.fuente) { try { this.fuente.stop(); } catch (e) { /* ya terminó */ } this.fuente = null; }
   }
 
-  async reproducir(muestras) {
+  async reproducir(m) {
     this.detener();
+    if (!m.length) return;
     if (this.ctx.state === "suspended") await this.ctx.resume();
-    const buf = this.ctx.createBuffer(1, Math.max(1, muestras.length), this.sr);
-    buf.copyToChannel(muestras, 0);
+    const buf = this.ctx.createBuffer(1, m.length, this.sr);
+    buf.copyToChannel(m, 0);
     const src = this.ctx.createBufferSource();
     src.buffer = buf;
     src.connect(this.ctx.destination);
@@ -461,16 +574,16 @@ class Lector {
     return new Promise((ok) => { src.onended = ok; src.start(); });
   }
 
-  async leerOracion(texto) { return this.reproducir(await this.oracion(texto)); }
-  async leerPalabra(texto) { return this.reproducir(await this.oracion(texto)); }
-  async leerSilabas(texto) { return this.reproducir(await this.silabeo(texto)); }
-  async leerSecuencia(pasos) { return this.reproducir(await this.secuencia(pasos)); }
+  leerOracion(texto) { return this.reproducir(this.oracion(texto)); }
+  leerPalabra(texto) { return this.reproducir(this.oracion(texto)); }
+  leerSilabas(texto) { return this.reproducir(this.silabeo(texto)); }
+  leerSecuencia(pasos) { return this.reproducir(this.secuencia(pasos)); }
 }
 
 if (typeof window !== "undefined") window.Lector = Lector;
 
 const BIB_EMB = [["00_renders_bloques_completos/bloque_1_vocales_y_silabas_directas.wav","Vocales y sílabas directas","render_bloque",null],["01_vocales/a.wav","A","unidad","vocales"],["01_vocales/e.wav","E","unidad","vocales"],["01_vocales/i.wav","I","unidad","vocales"],["01_vocales/o.wav","O","unidad","vocales"],["01_vocales/u.wav","U","unidad","vocales"],["02_silabas_directas/b/ba.wav","Ba","unidad","b"],["02_silabas_directas/b/be.wav","Be","unidad","b"],["02_silabas_directas/b/bi.wav","Bi","unidad","b"],["02_silabas_directas/b/bo.wav","Bo","unidad","b"],["02_silabas_directas/b/bu.wav","Bu","unidad","b"],["02_silabas_directas/p/pa.wav","Pa","unidad","p"],["02_silabas_directas/p/pe.wav","Pe","unidad","p"],["02_silabas_directas/p/pi.wav","Pi","unidad","p"],["02_silabas_directas/p/po.wav","Po","unidad","p"],["02_silabas_directas/p/pu.wav","Pu","unidad","p"],["02_silabas_directas/m/ma.wav","Ma","unidad","m"],["02_silabas_directas/m/me.wav","Me","unidad","m"],["02_silabas_directas/m/mi.wav","Mi","unidad","m"],["02_silabas_directas/m/mo.wav","Mo","unidad","m"],["02_silabas_directas/m/mu.wav","Mu","unidad","m"],["02_silabas_directas/f/fa.wav","Fa","unidad","f"],["02_silabas_directas/f/fe.wav","Fe","unidad","f"],["02_silabas_directas/f/fi.wav","Fi","unidad","f"],["02_silabas_directas/f/fo.wav","Fo","unidad","f"],["02_silabas_directas/f/fu.wav","Fu","unidad","f"],["02_silabas_directas/v/va.wav","Va","unidad","v"],["02_silabas_directas/v/ve.wav","Ve","unidad","v"],["02_silabas_directas/v/vi.wav","Vi","unidad","v"],["02_silabas_directas/v/vo.wav","Vo","unidad","v"],["02_silabas_directas/v/vu.wav","Vu","unidad","v"],["02_silabas_directas/t/ta.wav","Ta","unidad","t"],["02_silabas_directas/t/te.wav","Te","unidad","t"],["02_silabas_directas/t/ti.wav","Ti","unidad","t"],["02_silabas_directas/t/to.wav","To","unidad","t"],["02_silabas_directas/t/tu.wav","Tu","unidad","t"],["02_silabas_directas/d/da.wav","Da","unidad","d"],["02_silabas_directas/d/de.wav","De","unidad","d"],["02_silabas_directas/d/di.wav","Di","unidad","d"],["02_silabas_directas/d/do.wav","Do","unidad","d"],["02_silabas_directas/d/du.wav","Du","unidad","d"],["02_silabas_directas/n/na.wav","Na","unidad","n"],["02_silabas_directas/n/ne.wav","Ne","unidad","n"],["02_silabas_directas/n/ni.wav","Ni","unidad","n"],["02_silabas_directas/n/no.wav","No","unidad","n"],["02_silabas_directas/n/nu.wav","Nu","unidad","n"],["02_silabas_directas/ny/nya.wav","Ña","unidad","ny"],["02_silabas_directas/ny/nye.wav","Ñe","unidad","ny"],["02_silabas_directas/ny/nyi.wav","Ñi","unidad","ny"],["02_silabas_directas/ny/nyo.wav","Ño","unidad","ny"],["02_silabas_directas/ny/nyu.wav","Ñu","unidad","ny"],["02_silabas_directas/l/la.wav","La","unidad","l"],["02_silabas_directas/l/le.wav","Le","unidad","l"],["02_silabas_directas/l/li.wav","Li","unidad","l"],["02_silabas_directas/l/lo.wav","Lo","unidad","l"],["02_silabas_directas/l/lu.wav","Lu","unidad","l"],["02_silabas_directas/r/ra.wav","Ra","unidad","r"],["02_silabas_directas/r/re.wav","Re","unidad","r"],["02_silabas_directas/r/ri.wav","Ri","unidad","r"],["02_silabas_directas/r/ro.wav","Ro","unidad","r"],["02_silabas_directas/r/ru.wav","Ru","unidad","r"],["02_silabas_directas/s/sa.wav","Sa","unidad","s"],["02_silabas_directas/s/se.wav","Se","unidad","s"],["02_silabas_directas/s/si.wav","Si","unidad","s"],["02_silabas_directas/s/so.wav","So","unidad","s"],["02_silabas_directas/s/su.wav","Su","unidad","s"],["02_silabas_directas/j/ja.wav","Ja","unidad","j"],["02_silabas_directas/j/je.wav","Je","unidad","j"],["02_silabas_directas/j/ji.wav","Ji","unidad","j"],["02_silabas_directas/j/jo.wav","Jo","unidad","j"],["02_silabas_directas/j/ju.wav","Ju","unidad","j"],["02_silabas_directas/ch/cha.wav","Cha","unidad","ch"],["02_silabas_directas/ch/che.wav","Che","unidad","ch"],["02_silabas_directas/ch/chi.wav","Chi","unidad","ch"],["02_silabas_directas/ch/cho.wav","Cho","unidad","ch"],["02_silabas_directas/ch/chu.wav","Chu","unidad","ch"],["02_silabas_directas/y/ya.wav","Ya","unidad","y"],["02_silabas_directas/y/ye.wav","Ye","unidad","y"],["02_silabas_directas/y/yi.wav","Yi","unidad","y"],["02_silabas_directas/y/yo.wav","Yo","unidad","y"],["02_silabas_directas/y/yu.wav","Yu","unidad","y"],["02_silabas_directas/c/ca.wav","Ca","unidad","c"],["02_silabas_directas/c/que.wav","Que","unidad","c"],["02_silabas_directas/c/qui.wav","Qui","unidad","c"],["02_silabas_directas/c/co.wav","Co","unidad","c"],["02_silabas_directas/c/cu.wav","Cu","unidad","c"],["02_silabas_directas/g/ga.wav","Ga","unidad","g"],["02_silabas_directas/g/gue.wav","Gue","unidad","g"],["02_silabas_directas/g/gui.wav","Gui","unidad","g"],["02_silabas_directas/g/go.wav","Go","unidad","g"],["02_silabas_directas/g/gu.wav","Gu","unidad","g"],["02_silabas_directas/z/za.wav","Za","unidad","z"],["02_silabas_directas/z/ce.wav","Ce","unidad","z"],["02_silabas_directas/z/ci.wav","Ci","unidad","z"],["02_silabas_directas/z/zo.wav","Zo","unidad","z"],["02_silabas_directas/z/zu.wav","Zu","unidad","z"],["02_silabas_directas/k/ka.wav","Ka","unidad","k"],["02_silabas_directas/k/ke.wav","Ke","unidad","k"],["02_silabas_directas/k/ki.wav","Ki","unidad","k"],["02_silabas_directas/k/ko.wav","Ko","unidad","k"],["02_silabas_directas/k/ku.wav","Ku","unidad","k"],["02_silabas_directas/w/wa.wav","Wa","unidad","w"],["02_silabas_directas/w/we.wav","We","unidad","w"],["02_silabas_directas/w/wi.wav","Wi","unidad","w"],["02_silabas_directas/w/wo.wav","Wo","unidad","w"],["02_silabas_directas/w/wu.wav","Wu","unidad","w"],["02_silabas_directas/ll/lla.wav","Lla","unidad","ll"],["02_silabas_directas/ll/lle.wav","Lle","unidad","ll"],["02_silabas_directas/ll/lli.wav","Lli","unidad","ll"],["02_silabas_directas/ll/llo.wav","Llo","unidad","ll"],["02_silabas_directas/ll/llu.wav","Llu","unidad","ll"],["02_silabas_directas/rr/rra.wav","Rra","unidad","rr"],["02_silabas_directas/rr/rre.wav","Rre","unidad","rr"],["02_silabas_directas/rr/rri.wav","Rri","unidad","rr"],["02_silabas_directas/rr/rro.wav","Rro","unidad","rr"],["02_silabas_directas/rr/rru.wav","Rru","unidad","rr"],["01_vocales/vocales_a_e_i_o_u.wav","A. E. I. O. U.","familia","vocales"],["02_silabas_directas/b/familia_b.wav","Ba. Be. Bi. Bo. Bu.","familia","b"],["02_silabas_directas/p/familia_p.wav","Pa. Pe. Pi. Po. Pu.","familia","p"],["02_silabas_directas/m/familia_m.wav","Ma. Me. Mi. Mo. Mu.","familia","m"],["02_silabas_directas/f/familia_f.wav","Fa. Fe. Fi. Fo. Fu.","familia","f"],["02_silabas_directas/v/familia_v.wav","Va. Ve. Vi. Vo. Vu.","familia","v"],["02_silabas_directas/t/familia_t.wav","Ta. Te. Ti. To. Tu.","familia","t"],["02_silabas_directas/d/familia_d.wav","Da. De. Di. Do. Du.","familia","d"],["02_silabas_directas/n/familia_n.wav","Na. Ne. Ni. No. Nu.","familia","n"],["02_silabas_directas/ny/familia_ny.wav","Ña. Ñe. Ñi. Ño. Ñu.","familia","ny"],["02_silabas_directas/l/familia_l.wav","La. Le. Li. Lo. Lu.","familia","l"],["02_silabas_directas/r/familia_r.wav","Ra. Re. Ri. Ro. Ru.","familia","r"],["02_silabas_directas/s/familia_s.wav","Sa. Se. Si. So. Su.","familia","s"],["02_silabas_directas/j/familia_j.wav","Ja. Je. Ji. Jo. Ju.","familia","j"],["02_silabas_directas/ch/familia_ch.wav","Cha. Che. Chi. Cho. Chu.","familia","ch"],["02_silabas_directas/y/familia_y.wav","Ya. Ye. Yi. Yo. Yu.","familia","y"],["02_silabas_directas/c/familia_c.wav","Ca. Que. Qui. Co. Cu.","familia","c"],["02_silabas_directas/g/familia_g.wav","Ga. Gue. Gui. Go. Gu.","familia","g"],["02_silabas_directas/z/familia_z.wav","Za. Ce. Ci. Zo. Zu.","familia","z"],["02_silabas_directas/k/familia_k.wav","Ka. Ke. Ki. Ko. Ku.","familia","k"],["02_silabas_directas/w/familia_w.wav","Wa. We. Wi. Wo. Wu.","familia","w"],["02_silabas_directas/ll/familia_ll.wav","Lla. Lle. Lli. Llo. Llu.","familia","ll"],["02_silabas_directas/rr/familia_rr.wav","Rra. Rre. Rri. Rro. Rru.","familia","rr"],["00_renders_bloques_completos/bloque_2_silabas_inversas_y_grupos_consonanticos.wav","Sílabas inversas y grupos consonánticos","render_bloque",null],["03_silabas_inversas/l/al.wav","Al","unidad","l"],["03_silabas_inversas/l/el.wav","El","unidad","l"],["03_silabas_inversas/l/il.wav","Il","unidad","l"],["03_silabas_inversas/l/ol.wav","Ol","unidad","l"],["03_silabas_inversas/l/ul.wav","Ul","unidad","l"],["03_silabas_inversas/r/ar.wav","Ar","unidad","r"],["03_silabas_inversas/r/er.wav","Er","unidad","r"],["03_silabas_inversas/r/ir.wav","Ir","unidad","r"],["03_silabas_inversas/r/or.wav","Or","unidad","r"],["03_silabas_inversas/r/ur.wav","Ur","unidad","r"],["03_silabas_inversas/s/as.wav","As","unidad","s"],["03_silabas_inversas/s/es.wav","Es","unidad","s"],["03_silabas_inversas/s/is.wav","Is","unidad","s"],["03_silabas_inversas/s/os.wav","Os","unidad","s"],["03_silabas_inversas/s/us.wav","Us","unidad","s"],["03_silabas_inversas/n/an.wav","An","unidad","n"],["03_silabas_inversas/n/en.wav","En","unidad","n"],["03_silabas_inversas/n/in.wav","In","unidad","n"],["03_silabas_inversas/n/on.wav","On","unidad","n"],["03_silabas_inversas/n/un.wav","Un","unidad","n"],["03_silabas_inversas/m/am.wav","Am","unidad","m"],["03_silabas_inversas/m/em.wav","Em","unidad","m"],["03_silabas_inversas/m/im.wav","Im","unidad","m"],["03_silabas_inversas/m/om.wav","Om","unidad","m"],["03_silabas_inversas/m/um.wav","Um","unidad","m"],["03_silabas_inversas/b/ab.wav","Ab","unidad","b"],["03_silabas_inversas/b/eb.wav","Eb","unidad","b"],["03_silabas_inversas/b/ib.wav","Ib","unidad","b"],["03_silabas_inversas/b/ob.wav","Ob","unidad","b"],["03_silabas_inversas/b/ub.wav","Ub","unidad","b"],["03_silabas_inversas/p/ap.wav","Ap","unidad","p"],["03_silabas_inversas/p/ep.wav","Ep","unidad","p"],["03_silabas_inversas/p/ip.wav","Ip","unidad","p"],["03_silabas_inversas/p/op.wav","Op","unidad","p"],["03_silabas_inversas/p/up.wav","Up","unidad","p"],["03_silabas_inversas/t/at.wav","At","unidad","t"],["03_silabas_inversas/t/et.wav","Et","unidad","t"],["03_silabas_inversas/t/it.wav","It","unidad","t"],["03_silabas_inversas/t/ot.wav","Ot","unidad","t"],["03_silabas_inversas/t/ut.wav","Ut","unidad","t"],["03_silabas_inversas/c/ac.wav","Ac","unidad","c"],["03_silabas_inversas/c/ec.wav","Ec","unidad","c"],["03_silabas_inversas/c/ic.wav","Ic","unidad","c"],["03_silabas_inversas/c/oc.wav","Oc","unidad","c"],["03_silabas_inversas/c/uc.wav","Uc","unidad","c"],["03_silabas_inversas/d/ad.wav","Ad","unidad","d"],["03_silabas_inversas/d/ed.wav","Ed","unidad","d"],["03_silabas_inversas/d/id.wav","Id","unidad","d"],["03_silabas_inversas/d/od.wav","Od","unidad","d"],["03_silabas_inversas/d/ud.wav","Ud","unidad","d"],["03_silabas_inversas/f/af.wav","Af","unidad","f"],["03_silabas_inversas/f/ef.wav","Ef","unidad","f"],["03_silabas_inversas/f/if.wav","If","unidad","f"],["03_silabas_inversas/f/of.wav","Of","unidad","f"],["03_silabas_inversas/f/uf.wav","Uf","unidad","f"],["03_silabas_inversas/g/ag.wav","Ag","unidad","g"],["03_silabas_inversas/g/eg.wav","Eg","unidad","g"],["03_silabas_inversas/g/ig.wav","Ig","unidad","g"],["03_silabas_inversas/g/og.wav","Og","unidad","g"],["03_silabas_inversas/g/ug.wav","Ug","unidad","g"],["03_silabas_inversas/z/az.wav","Az","unidad","z"],["03_silabas_inversas/z/ez.wav","Ez","unidad","z"],["03_silabas_inversas/z/iz.wav","Iz","unidad","z"],["03_silabas_inversas/z/oz.wav","Oz","unidad","z"],["03_silabas_inversas/z/uz.wav","Uz","unidad","z"],["04_grupos_consonanticos/br/bra.wav","Bra","unidad","br"],["04_grupos_consonanticos/br/bre.wav","Bre","unidad","br"],["04_grupos_consonanticos/br/bri.wav","Bri","unidad","br"],["04_grupos_consonanticos/br/bro.wav","Bro","unidad","br"],["04_grupos_consonanticos/br/bru.wav","Bru","unidad","br"],["04_grupos_consonanticos/cr/cra.wav","Cra","unidad","cr"],["04_grupos_consonanticos/cr/cre.wav","Cre","unidad","cr"],["04_grupos_consonanticos/cr/cri.wav","Cri","unidad","cr"],["04_grupos_consonanticos/cr/cro.wav","Cro","unidad","cr"],["04_grupos_consonanticos/cr/cru.wav","Cru","unidad","cr"],["04_grupos_consonanticos/dr/dra.wav","Dra","unidad","dr"],["04_grupos_consonanticos/dr/dre.wav","Dre","unidad","dr"],["04_grupos_consonanticos/dr/dri.wav","Dri","unidad","dr"],["04_grupos_consonanticos/dr/dro.wav","Dro","unidad","dr"],["04_grupos_consonanticos/dr/dru.wav","Dru","unidad","dr"],["04_grupos_consonanticos/fr/fra.wav","Fra","unidad","fr"],["04_grupos_consonanticos/fr/fre.wav","Fre","unidad","fr"],["04_grupos_consonanticos/fr/fri.wav","Fri","unidad","fr"],["04_grupos_consonanticos/fr/fro.wav","Fro","unidad","fr"],["04_grupos_consonanticos/fr/fru.wav","Fru","unidad","fr"],["04_grupos_consonanticos/gr/gra.wav","Gra","unidad","gr"],["04_grupos_consonanticos/gr/gre.wav","Gre","unidad","gr"],["04_grupos_consonanticos/gr/gri.wav","Gri","unidad","gr"],["04_grupos_consonanticos/gr/gro.wav","Gro","unidad","gr"],["04_grupos_consonanticos/gr/gru.wav","Gru","unidad","gr"],["04_grupos_consonanticos/pr/pra.wav","Pra","unidad","pr"],["04_grupos_consonanticos/pr/pre.wav","Pre","unidad","pr"],["04_grupos_consonanticos/pr/pri.wav","Pri","unidad","pr"],["04_grupos_consonanticos/pr/pro.wav","Pro","unidad","pr"],["04_grupos_consonanticos/pr/pru.wav","Pru","unidad","pr"],["04_grupos_consonanticos/tr/tra.wav","Tra","unidad","tr"],["04_grupos_consonanticos/tr/tre.wav","Tre","unidad","tr"],["04_grupos_consonanticos/tr/tri.wav","Tri","unidad","tr"],["04_grupos_consonanticos/tr/tro.wav","Tro","unidad","tr"],["04_grupos_consonanticos/tr/tru.wav","Tru","unidad","tr"],["04_grupos_consonanticos/bl/bla.wav","Bla","unidad","bl"],["04_grupos_consonanticos/bl/ble.wav","Ble","unidad","bl"],["04_grupos_consonanticos/bl/bli.wav","Bli","unidad","bl"],["04_grupos_consonanticos/bl/blo.wav","Blo","unidad","bl"],["04_grupos_consonanticos/bl/blu.wav","Blu","unidad","bl"],["04_grupos_consonanticos/cl/cla.wav","Cla","unidad","cl"],["04_grupos_consonanticos/cl/cle.wav","Cle","unidad","cl"],["04_grupos_consonanticos/cl/cli.wav","Cli","unidad","cl"],["04_grupos_consonanticos/cl/clo.wav","Clo","unidad","cl"],["04_grupos_consonanticos/cl/clu.wav","Clu","unidad","cl"],["04_grupos_consonanticos/fl/fla.wav","Fla","unidad","fl"],["04_grupos_consonanticos/fl/fle.wav","Fle","unidad","fl"],["04_grupos_consonanticos/fl/fli.wav","Fli","unidad","fl"],["04_grupos_consonanticos/fl/flo.wav","Flo","unidad","fl"],["04_grupos_consonanticos/fl/flu.wav","Flu","unidad","fl"],["04_grupos_consonanticos/gl/gla.wav","Gla","unidad","gl"],["04_grupos_consonanticos/gl/gle.wav","Gle","unidad","gl"],["04_grupos_consonanticos/gl/gli.wav","Gli","unidad","gl"],["04_grupos_consonanticos/gl/glo.wav","Glo","unidad","gl"],["04_grupos_consonanticos/gl/glu.wav","Glu","unidad","gl"],["04_grupos_consonanticos/pl/pla.wav","Pla","unidad","pl"],["04_grupos_consonanticos/pl/ple.wav","Ple","unidad","pl"],["04_grupos_consonanticos/pl/pli.wav","Pli","unidad","pl"],["04_grupos_consonanticos/pl/plo.wav","Plo","unidad","pl"],["04_grupos_consonanticos/pl/plu.wav","Plu","unidad","pl"],["03_silabas_inversas/l/familia_l.wav","Al. El. Il. Ol. Ul.","familia","l"],["03_silabas_inversas/r/familia_r.wav","Ar. Er. Ir. Or. Ur.","familia","r"],["03_silabas_inversas/s/familia_s.wav","As. Es. Is. Os. Us.","familia","s"],["03_silabas_inversas/n/familia_n.wav","An. En. In. On. Un.","familia","n"],["03_silabas_inversas/m/familia_m.wav","Am. Em. Im. Om. Um.","familia","m"],["03_silabas_inversas/b/familia_b.wav","Ab. Eb. Ib. Ob. Ub.","familia","b"],["03_silabas_inversas/p/familia_p.wav","Ap. Ep. Ip. Op. Up.","familia","p"],["03_silabas_inversas/t/familia_t.wav","At. Et. It. Ot. Ut.","familia","t"],["03_silabas_inversas/c/familia_c.wav","Ac. Ec. Ic. Oc. Uc.","familia","c"],["03_silabas_inversas/d/familia_d.wav","Ad. Ed. Id. Od. Ud.","familia","d"],["03_silabas_inversas/f/familia_f.wav","Af. Ef. If. Of. Uf.","familia","f"],["03_silabas_inversas/g/familia_g.wav","Ag. Eg. Ig. Og. Ug.","familia","g"],["03_silabas_inversas/z/familia_z.wav","Az. Ez. Iz. Oz. Uz.","familia","z"],["04_grupos_consonanticos/br/familia_br.wav","Bra. Bre. Bri. Bro. Bru.","familia","br"],["04_grupos_consonanticos/cr/familia_cr.wav","Cra. Cre. Cri. Cro. Cru.","familia","cr"],["04_grupos_consonanticos/dr/familia_dr.wav","Dra. Dre. Dri. Dro. Dru.","familia","dr"],["04_grupos_consonanticos/fr/familia_fr.wav","Fra. Fre. Fri. Fro. Fru.","familia","fr"],["04_grupos_consonanticos/gr/familia_gr.wav","Gra. Gre. Gri. Gro. Gru.","familia","gr"],["04_grupos_consonanticos/pr/familia_pr.wav","Pra. Pre. Pri. Pro. Pru.","familia","pr"],["04_grupos_consonanticos/tr/familia_tr.wav","Tra. Tre. Tri. Tro. Tru.","familia","tr"],["04_grupos_consonanticos/bl/familia_bl.wav","Bla. Ble. Bli. Blo. Blu.","familia","bl"],["04_grupos_consonanticos/cl/familia_cl.wav","Cla. Cle. Cli. Clo. Clu.","familia","cl"],["04_grupos_consonanticos/fl/familia_fl.wav","Fla. Fle. Fli. Flo. Flu.","familia","fl"],["04_grupos_consonanticos/gl/familia_gl.wav","Gla. Gle. Gli. Glo. Glu.","familia","gl"],["04_grupos_consonanticos/pl/familia_pl.wav","Pla. Ple. Pli. Plo. Plu.","familia","pl"],["00_renders_bloques_completos/bloque_3_combinaciones_vocalicas_y_palabras_cortas.wav","Combinaciones vocálicas y palabras cortas","render_bloque",null],["05_combinaciones_vocalicas/ai.wav","Ai","unidad",null],["05_combinaciones_vocalicas/ei.wav","Ei","unidad",null],["05_combinaciones_vocalicas/oi.wav","Oi","unidad",null],["05_combinaciones_vocalicas/ui.wav","Ui","unidad",null],["05_combinaciones_vocalicas/au.wav","Au","unidad",null],["05_combinaciones_vocalicas/eu.wav","Eu","unidad",null],["05_combinaciones_vocalicas/ou.wav","Ou","unidad",null],["05_combinaciones_vocalicas/ia.wav","Ia","unidad",null],["05_combinaciones_vocalicas/ie.wav","Ie","unidad",null],["05_combinaciones_vocalicas/io.wav","Io","unidad",null],["05_combinaciones_vocalicas/iu.wav","Iu","unidad",null],["05_combinaciones_vocalicas/ua.wav","Ua","unidad",null],["05_combinaciones_vocalicas/ue.wav","Ue","unidad",null],["05_combinaciones_vocalicas/uo.wav","Uo","unidad",null],["06_palabras_diptongos_hiatos/aereo.wav","Aéreo","unidad",null],["06_palabras_diptongos_hiatos/poeta.wav","Poeta","unidad",null],["06_palabras_diptongos_hiatos/teatro.wav","Teatro","unidad",null],["06_palabras_diptongos_hiatos/pais.wav","País","unidad",null],["06_palabras_diptongos_hiatos/raiz.wav","Raíz","unidad",null],["06_palabras_diptongos_hiatos/baul.wav","Baúl","unidad",null],["06_palabras_diptongos_hiatos/caida.wav","Caída","unidad",null],["06_palabras_diptongos_hiatos/maiz.wav","Maíz","unidad",null],["06_palabras_diptongos_hiatos/rio.wav","Río","unidad",null],["06_palabras_diptongos_hiatos/dia.wav","Día","unidad",null],["06_palabras_diptongos_hiatos/frio.wav","Frío","unidad",null],["06_palabras_diptongos_hiatos/maria.wav","María","unidad",null],["06_palabras_diptongos_hiatos/vehiculo.wav","Vehículo","unidad",null],["06_palabras_diptongos_hiatos/ruido.wav","Ruido","unidad",null],["06_palabras_diptongos_hiatos/ciudad.wav","Ciudad","unidad",null],["06_palabras_diptongos_hiatos/cuidado.wav","Cuidado","unidad",null],["06_palabras_diptongos_hiatos/causa.wav","Causa","unidad",null],["06_palabras_diptongos_hiatos/peine.wav","Peine","unidad",null],["06_palabras_diptongos_hiatos/cielo.wav","Cielo","unidad",null],["06_palabras_diptongos_hiatos/puerta.wav","Puerta","unidad",null],["06_palabras_diptongos_hiatos/fuego.wav","Fuego","unidad",null],["07_palabras_cortas/casa.wav","Casa","unidad",null],["07_palabras_cortas/cama.wav","Cama","unidad",null],["07_palabras_cortas/cara.wav","Cara","unidad",null],["07_palabras_cortas/calle.wav","Calle","unidad",null],["07_palabras_cortas/carro.wav","Carro","unidad",null],["07_palabras_cortas/perro.wav","Perro","unidad",null],["07_palabras_cortas/gato.wav","Gato","unidad",null],["07_palabras_cortas/mesa.wav","Mesa","unidad",null],["07_palabras_cortas/silla.wav","Silla","unidad",null],["07_palabras_cortas/puerta.wav","Puerta","unidad",null],["07_palabras_cortas/ventana.wav","Ventana","unidad",null],["07_palabras_cortas/pato.wav","Pato","unidad",null],["07_palabras_cortas/pelota.wav","Pelota","unidad",null],["07_palabras_cortas/pajaro.wav","Pájaro","unidad",null],["07_palabras_cortas/mano.wav","Mano","unidad",null],["07_palabras_cortas/dedo.wav","Dedo","unidad",null],["07_palabras_cortas/cabeza.wav","Cabeza","unidad",null],["07_palabras_cortas/boca.wav","Boca","unidad",null],["07_palabras_cortas/nariz.wav","Nariz","unidad",null],["07_palabras_cortas/ojo.wav","Ojo","unidad",null],["07_palabras_cortas/oreja.wav","Oreja","unidad",null],["07_palabras_cortas/sol.wav","Sol","unidad",null],["07_palabras_cortas/luna.wav","Luna","unidad",null],["07_palabras_cortas/cielo.wav","Cielo","unidad",null],["07_palabras_cortas/tierra.wav","Tierra","unidad",null],["07_palabras_cortas/agua.wav","Agua","unidad",null],["07_palabras_cortas/fuego.wav","Fuego","unidad",null],["07_palabras_cortas/aire.wav","Aire","unidad",null],["07_palabras_cortas/mar.wav","Mar","unidad",null],["07_palabras_cortas/rio.wav","Río","unidad",null],["07_palabras_cortas/arbol.wav","Árbol","unidad",null],["07_palabras_cortas/flor.wav","Flor","unidad",null],["07_palabras_cortas/pan.wav","Pan","unidad",null],["07_palabras_cortas/sal.wav","Sal","unidad",null],["07_palabras_cortas/miel.wav","Miel","unidad",null],["07_palabras_cortas/leche.wav","Leche","unidad",null],["07_palabras_cortas/queso.wav","Queso","unidad",null],["07_palabras_cortas/carne.wav","Carne","unidad",null],["07_palabras_cortas/fruta.wav","Fruta","unidad",null],["07_palabras_cortas/azucar.wav","Azúcar","unidad",null],["07_palabras_cortas/cafe.wav","Café","unidad",null],["07_palabras_cortas/te.wav","Té","unidad",null],["07_palabras_cortas/libro.wav","Libro","unidad",null],["07_palabras_cortas/hoja.wav","Hoja","unidad",null],["07_palabras_cortas/lapiz.wav","Lápiz","unidad",null],["07_palabras_cortas/papel.wav","Papel","unidad",null],["07_palabras_cortas/llave.wav","Llave","unidad",null],["07_palabras_cortas/reloj.wav","Reloj","unidad",null],["00_renders_bloques_completos/bloque_4_palabras_medianas_largas_y_dificiles.wav","Palabras medianas, largas y contextos difíciles","render_bloque",null],["08_palabras_medianas_y_largas/computadora.wav","Computadora","unidad",null],["08_palabras_medianas_y_largas/telefono.wav","Teléfono","unidad",null],["08_palabras_medianas_y_largas/pantalla.wav","Pantalla","unidad",null],["08_palabras_medianas_y_largas/teclado.wav","Teclado","unidad",null],["08_palabras_medianas_y_largas/musica.wav","Música","unidad",null],["08_palabras_medianas_y_largas/pelicula.wav","Película","unidad",null],["08_palabras_medianas_y_largas/persona.wav","Persona","unidad",null],["08_palabras_medianas_y_largas/palabra.wav","Palabra","unidad",null],["08_palabras_medianas_y_largas/sonido.wav","Sonido","unidad",null],["08_palabras_medianas_y_largas/silencio.wav","Silencio","unidad",null],["08_palabras_medianas_y_largas/manyana.wav","Mañana","unidad",null],["08_palabras_medianas_y_largas/tarde.wav","Tarde","unidad",null],["08_palabras_medianas_y_largas/noche.wav","Noche","unidad",null],["08_palabras_medianas_y_largas/temprano.wav","Temprano","unidad",null],["08_palabras_medianas_y_largas/lentamente.wav","Lentamente","unidad",null],["08_palabras_medianas_y_largas/rapidamente.wav","Rápidamente","unidad",null],["08_palabras_medianas_y_largas/cuidadosamente.wav","Cuidadosamente","unidad",null],["08_palabras_medianas_y_largas/probablemente.wav","Probablemente","unidad",null],["08_palabras_medianas_y_largas/completamente.wav","Completamente","unidad",null],["08_palabras_medianas_y_largas/inteligencia.wav","Inteligencia","unidad",null],["08_palabras_medianas_y_largas/pronunciacion.wav","Pronunciación","unidad",null],["08_palabras_medianas_y_largas/comunicacion.wav","Comunicación","unidad",null],["08_palabras_medianas_y_largas/tecnologia.wav","Tecnología","unidad",null],["08_palabras_medianas_y_largas/conocimiento.wav","Conocimiento","unidad",null],["08_palabras_medianas_y_largas/extraordinario.wav","Extraordinario","unidad",null],["08_palabras_medianas_y_largas/responsabilidad.wav","Responsabilidad","unidad",null],["08_palabras_medianas_y_largas/oportunidad.wav","Oportunidad","unidad",null],["08_palabras_medianas_y_largas/imaginacion.wav","Imaginación","unidad",null],["08_palabras_medianas_y_largas/ferrocarril.wav","Ferrocarril","unidad",null],["08_palabras_medianas_y_largas/ferreteria.wav","Ferretería","unidad",null],["08_palabras_medianas_y_largas/circunstancia.wav","Circunstancia","unidad",null],["08_palabras_medianas_y_largas/infraestructura.wav","Infraestructura","unidad",null],["08_palabras_medianas_y_largas/electricidad.wav","Electricidad","unidad",null],["08_palabras_medianas_y_largas/transparencia.wav","Transparencia","unidad",null],["08_palabras_medianas_y_largas/transformacion.wav","Transformación","unidad",null],["08_palabras_medianas_y_largas/desafortunadamente.wav","Desafortunadamente","unidad",null],["08_palabras_medianas_y_largas/incomprensible.wav","Incomprensible","unidad",null],["08_palabras_medianas_y_largas/aproximadamente.wav","Aproximadamente","unidad",null],["08_palabras_medianas_y_largas/extraordinariamente.wav","Extraordinariamente","unidad",null],["08_palabras_medianas_y_largas/anticonstitucional.wav","Anticonstitucional","unidad",null],["09_palabras_r_y_rr/rana.wav","Rana","unidad",null],["09_palabras_r_y_rr/rama.wav","Rama","unidad",null],["09_palabras_r_y_rr/rosa.wav","Rosa","unidad",null],["09_palabras_r_y_rr/rio.wav","Río","unidad",null],["09_palabras_r_y_rr/rueda.wav","Rueda","unidad",null],["09_palabras_r_y_rr/reloj.wav","Reloj","unidad",null],["09_palabras_r_y_rr/raton.wav","Ratón","unidad",null],["09_palabras_r_y_rr/rapido.wav","Rápido","unidad",null],["09_palabras_r_y_rr/realidad.wav","Realidad","unidad",null],["09_palabras_r_y_rr/riqueza.wav","Riqueza","unidad",null],["09_palabras_r_y_rr/cara.wav","Cara","unidad",null],["09_palabras_r_y_rr/pera.wav","Pera","unidad",null],["09_palabras_r_y_rr/loro.wav","Loro","unidad",null],["09_palabras_r_y_rr/arena.wav","Arena","unidad",null],["09_palabras_r_y_rr/corona.wav","Corona","unidad",null],["09_palabras_r_y_rr/mariposa.wav","Mariposa","unidad",null],["09_palabras_r_y_rr/amarillo.wav","Amarillo","unidad",null],["09_palabras_r_y_rr/ahora.wav","Ahora","unidad",null],["09_palabras_r_y_rr/mirar.wav","Mirar","unidad",null],["09_palabras_r_y_rr/barato.wav","Barato","unidad",null],["09_palabras_r_y_rr/carro.wav","Carro","unidad",null],["09_palabras_r_y_rr/perro.wav","Perro","unidad",null],["09_palabras_r_y_rr/torre.wav","Torre","unidad",null],["09_palabras_r_y_rr/tierra.wav","Tierra","unidad",null],["09_palabras_r_y_rr/guitarra.wav","Guitarra","unidad",null],["09_palabras_r_y_rr/barrera.wav","Barrera","unidad",null],["09_palabras_r_y_rr/carrera.wav","Carrera","unidad",null],["09_palabras_r_y_rr/carretera.wav","Carretera","unidad",null],["10_palabras_contraste_bv_sz_gj/baca.wav","Baca","unidad",null],["10_palabras_contraste_bv_sz_gj/vaca.wav","Vaca","unidad",null],["10_palabras_contraste_bv_sz_gj/bello.wav","Bello","unidad",null],["10_palabras_contraste_bv_sz_gj/vello.wav","Vello","unidad",null],["10_palabras_contraste_bv_sz_gj/tubo.wav","Tubo","unidad",null],["10_palabras_contraste_bv_sz_gj/tuvo.wav","Tuvo","unidad",null],["10_palabras_contraste_bv_sz_gj/votar.wav","Votar","unidad",null],["10_palabras_contraste_bv_sz_gj/botar.wav","Botar","unidad",null],["10_palabras_contraste_bv_sz_gj/bienes.wav","Bienes","unidad",null],["10_palabras_contraste_bv_sz_gj/vienes.wav","Vienes","unidad",null],["10_palabras_contraste_bv_sz_gj/casa.wav","Casa","unidad",null],["10_palabras_contraste_bv_sz_gj/caza.wav","Caza","unidad",null],["10_palabras_contraste_bv_sz_gj/cocer.wav","Cocer","unidad",null],["10_palabras_contraste_bv_sz_gj/coser.wav","Coser","unidad",null],["10_palabras_contraste_bv_sz_gj/cima.wav","Cima","unidad",null],["10_palabras_contraste_bv_sz_gj/sima.wav","Sima","unidad",null],["10_palabras_contraste_bv_sz_gj/tasa.wav","Tasa","unidad",null],["10_palabras_contraste_bv_sz_gj/taza.wav","Taza","unidad",null],["10_palabras_contraste_bv_sz_gj/abrazar.wav","Abrazar","unidad",null],["10_palabras_contraste_bv_sz_gj/abrasar.wav","Abrasar","unidad",null],["10_palabras_contraste_bv_sz_gj/gente.wav","Gente","unidad",null],["10_palabras_contraste_bv_sz_gj/gigante.wav","Gigante","unidad",null],["10_palabras_contraste_bv_sz_gj/general.wav","General","unidad",null],["10_palabras_contraste_bv_sz_gj/gimnasio.wav","Gimnasio","unidad",null],["10_palabras_contraste_bv_sz_gj/girasol.wav","Girasol","unidad",null],["10_palabras_contraste_bv_sz_gj/guitarra.wav","Guitarra","unidad",null],["10_palabras_contraste_bv_sz_gj/guerra.wav","Guerra","unidad",null],["10_palabras_contraste_bv_sz_gj/guiso.wav","Guiso","unidad",null],["10_palabras_contraste_bv_sz_gj/pinguino.wav","Pingüino","unidad",null],["10_palabras_contraste_bv_sz_gj/verguenza.wav","Vergüenza","unidad",null],["10_palabras_contraste_bv_sz_gj/jamon.wav","Jamón","unidad",null],["10_palabras_contraste_bv_sz_gj/jabon.wav","Jabón","unidad",null],["10_palabras_contraste_bv_sz_gj/jardin.wav","Jardín","unidad",null],["10_palabras_contraste_bv_sz_gj/jirafa.wav","Jirafa","unidad",null],["10_palabras_contraste_bv_sz_gj/joven.wav","Joven","unidad",null],["10_palabras_contraste_bv_sz_gj/jueves.wav","Jueves","unidad",null],["10_palabras_contraste_bv_sz_gj/reloj.wav","Reloj","unidad",null],["10_palabras_contraste_bv_sz_gj/trabajo.wav","Trabajo","unidad",null],["10_palabras_contraste_bv_sz_gj/ejercicio.wav","Ejercicio","unidad",null],["00_renders_bloques_completos/bloque_5_frases_neutras_y_de_continuidad.wav","Frases neutras y de continuidad","render_bloque",null],["11_frases_cortas/01_el_sol_sale_por_la_manyana.wav","El sol sale por la mañana.","unidad",null],["11_frases_cortas/02_la_luna_aparece_por_la_noche.wav","La luna aparece por la noche.","unidad",null],["11_frases_cortas/03_el_agua_esta_fria.wav","El agua está fría.","unidad",null],["11_frases_cortas/04_la_casa_tiene_una_puerta_grande.wav","La casa tiene una puerta grande.","unidad",null],["11_frases_cortas/05_el_perro_corre_por_el_jardin.wav","El perro corre por el jardín.","unidad",null],["11_frases_cortas/06_el_gato_duerme_sobre_la_silla.wav","El gato duerme sobre la silla.","unidad",null],["11_frases_cortas/07_la_ninya_juega_con_una_pelota.wav","La niña juega con una pelota.","unidad",null],["11_frases_cortas/08_el_hombre_abre_la_ventana.wav","El hombre abre la ventana.","unidad",null],["11_frases_cortas/09_la_musica_suena_suavemente.wav","La música suena suavemente.","unidad",null],["11_frases_cortas/10_el_telefono_esta_sobre_la_mesa.wav","El teléfono está sobre la mesa.","unidad",null],["11_frases_cortas/11_el_libro_tiene_muchas_paginas.wav","El libro tiene muchas páginas.","unidad",null],["11_frases_cortas/12_la_computadora_esta_encendida.wav","La computadora está encendida.","unidad",null],["12_parrafos/parrafo_1.wav","Estoy leyendo este texto con una voz natural. Cada palabra tiene un ritmo diferente. Algunas frases son cortas. Otras son mucho más largas y necesitan pequeñas pausas para que se entiendan correctamente.","parrafo",null],["12_parrafos/oraciones/p1_01_estoy_leyendo_este_texto_con_una_voz_natural.wav","Estoy leyendo este texto con una voz natural.","unidad",null],["12_parrafos/oraciones/p1_02_cada_palabra_tiene_un_ritmo_diferente.wav","Cada palabra tiene un ritmo diferente.","unidad",null],["12_parrafos/oraciones/p1_03_algunas_frases_son_cortas.wav","Algunas frases son cortas.","unidad",null],["12_parrafos/oraciones/p1_04_otras_son_mucho_mas_largas_y_necesitan_pequenyas_pausas.wav","Otras son mucho más largas y necesitan pequeñas pausas para que se entiendan correctamente.","unidad",null],["12_parrafos/parrafo_2.wav","La inteligencia artificial permite desarrollar nuevas herramientas para comunicarnos. Una voz sintética puede transformar un texto escrito en palabras habladas, utilizando sonidos, pausas y diferentes patrones de entonación.","parrafo",null],["12_parrafos/oraciones/p2_01_la_inteligencia_artificial_permite_desarrollar_nuevas_h.wav","La inteligencia artificial permite desarrollar nuevas herramientas para comunicarnos.","unidad",null],["12_parrafos/oraciones/p2_02_una_voz_sintetica_puede_transformar_un_texto_escrito_en.wav","Una voz sintética puede transformar un texto escrito en palabras habladas, utilizando sonidos, pausas y diferentes patrones de entonación.","unidad",null],["12_parrafos/parrafo_3.wav","Cuando una persona lee un libro, no pronuncia todas las palabras de la misma manera. Cambia el ritmo, respira, hace pausas y adapta la entonación según el significado de cada oración.","parrafo",null],["12_parrafos/oraciones/p3_01_cuando_una_persona_lee_un_libro_no_pronuncia_todas_las.wav","Cuando una persona lee un libro, no pronuncia todas las palabras de la misma manera.","unidad",null],["12_parrafos/oraciones/p3_02_cambia_el_ritmo_respira_hace_pausas_y_adapta_la_entonac.wav","Cambia el ritmo, respira, hace pausas y adapta la entonación según el significado de cada oración.","unidad",null],["12_parrafos/parrafo_4.wav","La mañana comenzaba lentamente. Los primeros rayos del sol iluminaban las calles, mientras el viento movía las hojas de los árboles. A lo lejos, se escuchaba el ruido de un automóvil que avanzaba por una carretera casi vacía.","parrafo",null],["12_parrafos/oraciones/p4_01_la_manyana_comenzaba_lentamente.wav","La mañana comenzaba lentamente.","unidad",null],["12_parrafos/oraciones/p4_02_los_primeros_rayos_del_sol_iluminaban_las_calles_mientr.wav","Los primeros rayos del sol iluminaban las calles, mientras el viento movía las hojas de los árboles.","unidad",null],["12_parrafos/oraciones/p4_03_a_lo_lejos_se_escuchaba_el_ruido_de_un_automovil_que_av.wav","A lo lejos, se escuchaba el ruido de un automóvil que avanzaba por una carretera casi vacía.","unidad",null],["12_parrafos/parrafo_5.wav","La tecnología ha cambiado la manera en que las personas acceden a la información. Actualmente, los dispositivos electrónicos permiten almacenar miles de libros, consultar documentos y escuchar contenidos en cualquier momento.","parrafo",null],["12_parrafos/oraciones/p5_01_la_tecnologia_ha_cambiado_la_manera_en_que_las_personas.wav","La tecnología ha cambiado la manera en que las personas acceden a la información.","unidad",null],["12_parrafos/oraciones/p5_02_actualmente_los_dispositivos_electronicos_permiten_alma.wav","Actualmente, los dispositivos electrónicos permiten almacenar miles de libros, consultar documentos y escuchar contenidos en cualquier momento.","unidad",null],["00_renders_bloques_completos/bloque_6_preguntas_y_exclamaciones.wav","Variante prosódica: preguntas y exclamaciones","render_bloque",null],["13_preguntas/01_donde_estas.wav","¿Dónde estás?","unidad",null],["13_preguntas/02_que_estas_haciendo.wav","¿Qué estás haciendo?","unidad",null],["13_preguntas/03_cuando_vas_a_volver.wav","¿Cuándo vas a volver?","unidad",null],["13_preguntas/04_por_que_paso_eso.wav","¿Por qué pasó eso?","unidad",null],["13_preguntas/05_como_podemos_solucionarlo.wav","¿Cómo podemos solucionarlo?","unidad",null],["13_preguntas/06_quien_llamo_por_telefono.wav","¿Quién llamó por teléfono?","unidad",null],["13_preguntas/07_cuanto_tiempo_tenemos.wav","¿Cuánto tiempo tenemos?","unidad",null],["13_preguntas/08_cual_es_la_respuesta_correcta.wav","¿Cuál es la respuesta correcta?","unidad",null],["14_exclamaciones/01_que_alegria_verte.wav","¡Qué alegría verte!","unidad",null],["14_exclamaciones/02_no_puedo_creerlo.wav","¡No puedo creerlo!","unidad",null],["14_exclamaciones/03_eso_es_increible.wav","¡Eso es increíble!","unidad",null],["14_exclamaciones/04_cuidado.wav","¡Cuidado!","unidad",null],["14_exclamaciones/05_detente_ahora.wav","¡Detente ahora!","unidad",null],["14_exclamaciones/06_que_hermoso_dia.wav","¡Qué hermoso día!","unidad",null]];
-const LEC_EMB = {"voz":"Martin Osborne - Deep and Passionate","voz_id":"Vpv1YgvVd6CHIzOTiTt8","sr":48000,"parametros":{"pausa_entre_palabras_ms":10,"fundido_ms":6,"pausa_coma_ms":250,"pausa_punto_ms":450,"pausa_entre_silabas_ms":300,"pausa_entre_pasos_ms":700,"solape_coda_ms":30,"fusion_recorte":0.35},"palabras":{"el":{"categoria":"funcion","clave":"el","medio":"palabras/medio/el.wav"},"la":{"categoria":"funcion","clave":"la","medio":"palabras/medio/la.wav"},"los":{"categoria":"funcion","clave":"los","medio":"palabras/medio/los.wav"},"las":{"categoria":"funcion","clave":"las","medio":"palabras/medio/las.wav"},"un":{"categoria":"funcion","clave":"un","medio":"palabras/medio/un.wav"},"una":{"categoria":"funcion","clave":"una","medio":"palabras/medio/una.wav"},"unos":{"categoria":"funcion","clave":"unos","medio":"palabras/medio/unos.wav"},"unas":{"categoria":"funcion","clave":"unas","medio":"palabras/medio/unas.wav"},"mi":{"categoria":"funcion","clave":"mi","medio":"palabras/medio/mi.wav"},"mis":{"categoria":"funcion","clave":"mis","medio":"palabras/medio/mis.wav"},"tu":{"categoria":"funcion","clave":"tu","medio":"palabras/medio/tu.wav"},"tus":{"categoria":"funcion","clave":"tus","medio":"palabras/medio/tus.wav"},"su":{"categoria":"funcion","clave":"su","medio":"palabras/medio/su.wav"},"sus":{"categoria":"funcion","clave":"sus","medio":"palabras/medio/sus.wav"},"a":{"categoria":"funcion","clave":"a","medio":"palabras/medio/a.wav"},"al":{"categoria":"funcion","clave":"al","medio":"palabras/medio/al.wav"},"de":{"categoria":"funcion","clave":"de","medio":"palabras/medio/de.wav"},"del":{"categoria":"funcion","clave":"del","medio":"palabras/medio/del.wav"},"en":{"categoria":"funcion","clave":"en","medio":"palabras/medio/en.wav"},"con":{"categoria":"funcion","clave":"kon","medio":"palabras/medio/con.wav"},"por":{"categoria":"funcion","clave":"por","medio":"palabras/medio/por.wav"},"para":{"categoria":"funcion","clave":"para","medio":"palabras/medio/para.wav"},"sin":{"categoria":"funcion","clave":"sin","medio":"palabras/medio/sin.wav"},"sobre":{"categoria":"funcion","clave":"sobre","medio":"palabras/medio/sobre.wav"},"y":{"categoria":"funcion","clave":"i","medio":"palabras/medio/y.wav"},"o":{"categoria":"funcion","clave":"o","medio":"palabras/medio/o.wav"},"pero":{"categoria":"funcion","clave":"pero","medio":"palabras/medio/pero.wav"},"que":{"categoria":"funcion","clave":"ke","medio":"palabras/medio/que.wav"},"porque":{"categoria":"funcion","clave":"porke","medio":"palabras/medio/porque.wav"},"me":{"categoria":"funcion","clave":"me","medio":"palabras/medio/me.wav"},"te":{"categoria":"funcion","clave":"te","medio":"palabras/medio/te.wav"},"se":{"categoria":"funcion","clave":"se","medio":"palabras/medio/se.wav"},"le":{"categoria":"funcion","clave":"le","medio":"palabras/medio/le.wav"},"lo":{"categoria":"funcion","clave":"lo","medio":"palabras/medio/lo.wav"},"yo":{"categoria":"pronombres","clave":"yo","medio":"palabras/medio/yo.wav","final":"palabras/final/yo.wav"},"tú":{"categoria":"pronombres","clave":"tu","medio":"palabras/medio/tu_tilde.wav","final":"palabras/final/tu_tilde.wav"},"él":{"categoria":"pronombres","clave":"el","medio":"palabras/medio/el_tilde.wav","final":"palabras/final/el_tilde.wav"},"ella":{"categoria":"pronombres","clave":"eya","medio":"palabras/medio/ella.wav","final":"palabras/final/ella.wav"},"nosotros":{"categoria":"pronombres","clave":"nosotros","medio":"palabras/medio/nosotros.wav","final":"palabras/final/nosotros.wav"},"ellos":{"categoria":"pronombres","clave":"eyos","medio":"palabras/medio/ellos.wav","final":"palabras/final/ellos.wav"},"mamá":{"categoria":"personas","clave":"mama","medio":"palabras/medio/mama.wav","final":"palabras/final/mama.wav"},"papá":{"categoria":"personas","clave":"papa","medio":"palabras/medio/papa.wav","final":"palabras/final/papa.wav"},"tío":{"categoria":"personas","clave":"tio","medio":"palabras/medio/tio.wav","final":"palabras/final/tio.wav"},"tía":{"categoria":"personas","clave":"tia","medio":"palabras/medio/tia.wav","final":"palabras/final/tia.wav"},"abuelo":{"categoria":"personas","clave":"abuelo","medio":"palabras/medio/abuelo.wav","final":"palabras/final/abuelo.wav"},"abuela":{"categoria":"personas","clave":"abuela","medio":"palabras/medio/abuela.wav","final":"palabras/final/abuela.wav"},"hermano":{"categoria":"personas","clave":"ermano","medio":"palabras/medio/hermano.wav","final":"palabras/final/hermano.wav"},"hermana":{"categoria":"personas","clave":"ermana","medio":"palabras/medio/hermana.wav","final":"palabras/final/hermana.wav"},"amigo":{"categoria":"personas","clave":"amigo","medio":"palabras/medio/amigo.wav","final":"palabras/final/amigo.wav"},"amiga":{"categoria":"personas","clave":"amiga","medio":"palabras/medio/amiga.wav","final":"palabras/final/amiga.wav"},"niño":{"categoria":"personas","clave":"niño","medio":"palabras/medio/ninyo.wav","final":"palabras/final/ninyo.wav"},"niña":{"categoria":"personas","clave":"niña","medio":"palabras/medio/ninya.wav","final":"palabras/final/ninya.wav"},"maestra":{"categoria":"personas","clave":"maestra","medio":"palabras/medio/maestra.wav","final":"palabras/final/maestra.wav"},"maestro":{"categoria":"personas","clave":"maestro","medio":"palabras/medio/maestro.wav","final":"palabras/final/maestro.wav"},"bebé":{"categoria":"personas","clave":"bebe","medio":"palabras/medio/bebe_tilde.wav","final":"palabras/final/bebe_tilde.wav"},"vaca":{"categoria":"animales","clave":"baka","medio":"palabras/medio/vaca.wav","final":"palabras/final/vaca.wav"},"perro":{"categoria":"animales","clave":"peRo","medio":"palabras/medio/perro.wav","final":"palabras/final/perro.wav"},"gato":{"categoria":"animales","clave":"gato","medio":"palabras/medio/gato.wav","final":"palabras/final/gato.wav"},"pato":{"categoria":"animales","clave":"pato","medio":"palabras/medio/pato.wav","final":"palabras/final/pato.wav"},"pájaro":{"categoria":"animales","clave":"pajaro","medio":"palabras/medio/pajaro.wav","final":"palabras/final/pajaro.wav"},"caballo":{"categoria":"animales","clave":"kabayo","medio":"palabras/medio/caballo.wav","final":"palabras/final/caballo.wav"},"pez":{"categoria":"animales","clave":"pez","medio":"palabras/medio/pez.wav","final":"palabras/final/pez.wav"},"ratón":{"categoria":"animales","clave":"Raton","medio":"palabras/medio/raton.wav","final":"palabras/final/raton.wav"},"conejo":{"categoria":"animales","clave":"konejo","medio":"palabras/medio/conejo.wav","final":"palabras/final/conejo.wav"},"oso":{"categoria":"animales","clave":"oso","medio":"palabras/medio/oso.wav","final":"palabras/final/oso.wav"},"león":{"categoria":"animales","clave":"leon","medio":"palabras/medio/leon.wav","final":"palabras/final/leon.wav"},"mono":{"categoria":"animales","clave":"mono","medio":"palabras/medio/mono.wav","final":"palabras/final/mono.wav"},"oveja":{"categoria":"animales","clave":"obeja","medio":"palabras/medio/oveja.wav","final":"palabras/final/oveja.wav"},"pollito":{"categoria":"animales","clave":"poyito","medio":"palabras/medio/pollito.wav","final":"palabras/final/pollito.wav"},"mariposa":{"categoria":"animales","clave":"mariposa","medio":"palabras/medio/mariposa.wav","final":"palabras/final/mariposa.wav"},"casa":{"categoria":"lugares","clave":"kasa","medio":"palabras/medio/casa.wav","final":"palabras/final/casa.wav"},"escuela":{"categoria":"lugares","clave":"eskuela","medio":"palabras/medio/escuela.wav","final":"palabras/final/escuela.wav"},"parque":{"categoria":"lugares","clave":"parke","medio":"palabras/medio/parque.wav","final":"palabras/final/parque.wav"},"playa":{"categoria":"lugares","clave":"playa","medio":"palabras/medio/playa.wav","final":"palabras/final/playa.wav"},"jardín":{"categoria":"lugares","clave":"jardin","medio":"palabras/medio/jardin.wav","final":"palabras/final/jardin.wav"},"campo":{"categoria":"lugares","clave":"kampo","medio":"palabras/medio/campo.wav","final":"palabras/final/campo.wav"},"río":{"categoria":"lugares","clave":"Rio","medio":"palabras/medio/rio.wav","final":"palabras/final/rio.wav"},"mar":{"categoria":"lugares","clave":"mar","medio":"palabras/medio/mar.wav","final":"palabras/final/mar.wav"},"montaña":{"categoria":"lugares","clave":"montaña","medio":"palabras/medio/montanya.wav","final":"palabras/final/montanya.wav"},"ciudad":{"categoria":"lugares","clave":"ziudad","medio":"palabras/medio/ciudad.wav","final":"palabras/final/ciudad.wav"},"calle":{"categoria":"lugares","clave":"kaye","medio":"palabras/medio/calle.wav","final":"palabras/final/calle.wav"},"tienda":{"categoria":"lugares","clave":"tienda","medio":"palabras/medio/tienda.wav","final":"palabras/final/tienda.wav"},"pasto":{"categoria":"cosas","clave":"pasto","medio":"palabras/medio/pasto.wav","final":"palabras/final/pasto.wav"},"sol":{"categoria":"cosas","clave":"sol","medio":"palabras/medio/sol.wav","final":"palabras/final/sol.wav"},"luna":{"categoria":"cosas","clave":"luna","medio":"palabras/medio/luna.wav","final":"palabras/final/luna.wav"},"agua":{"categoria":"cosas","clave":"agua","medio":"palabras/medio/agua.wav","final":"palabras/final/agua.wav"},"flor":{"categoria":"cosas","clave":"flor","medio":"palabras/medio/flor.wav","final":"palabras/final/flor.wav"},"árbol":{"categoria":"cosas","clave":"arbol","medio":"palabras/medio/arbol.wav","final":"palabras/final/arbol.wav"},"pelota":{"categoria":"cosas","clave":"pelota","medio":"palabras/medio/pelota.wav","final":"palabras/final/pelota.wav"},"libro":{"categoria":"cosas","clave":"libro","medio":"palabras/medio/libro.wav","final":"palabras/final/libro.wav"},"juguete":{"categoria":"cosas","clave":"jugete","medio":"palabras/medio/juguete.wav","final":"palabras/final/juguete.wav"},"mesa":{"categoria":"cosas","clave":"mesa","medio":"palabras/medio/mesa.wav","final":"palabras/final/mesa.wav"},"cama":{"categoria":"cosas","clave":"kama","medio":"palabras/medio/cama.wav","final":"palabras/final/cama.wav"},"pan":{"categoria":"cosas","clave":"pan","medio":"palabras/medio/pan.wav","final":"palabras/final/pan.wav"},"leche":{"categoria":"cosas","clave":"leCe","medio":"palabras/medio/leche.wav","final":"palabras/final/leche.wav"},"fruta":{"categoria":"cosas","clave":"fruta","medio":"palabras/medio/fruta.wav","final":"palabras/final/fruta.wav"},"manzana":{"categoria":"cosas","clave":"manzana","medio":"palabras/medio/manzana.wav","final":"palabras/final/manzana.wav"},"helado":{"categoria":"cosas","clave":"elado","medio":"palabras/medio/helado.wav","final":"palabras/final/helado.wav"},"comida":{"categoria":"cosas","clave":"komida","medio":"palabras/medio/comida.wav","final":"palabras/final/comida.wav"},"carro":{"categoria":"cosas","clave":"kaRo","medio":"palabras/medio/carro.wav","final":"palabras/final/carro.wav"},"bicicleta":{"categoria":"cosas","clave":"bizikleta","medio":"palabras/medio/bicicleta.wav","final":"palabras/final/bicicleta.wav"},"es":{"categoria":"verbos","clave":"es","medio":"palabras/medio/es.wav","final":"palabras/final/es.wav"},"está":{"categoria":"verbos","clave":"esta","medio":"palabras/medio/esta.wav","final":"palabras/final/esta.wav"},"son":{"categoria":"verbos","clave":"son","medio":"palabras/medio/son.wav","final":"palabras/final/son.wav"},"están":{"categoria":"verbos","clave":"estan","medio":"palabras/medio/estan.wav","final":"palabras/final/estan.wav"},"soy":{"categoria":"verbos","clave":"soi","medio":"palabras/medio/soy.wav","final":"palabras/final/soy.wav"},"estoy":{"categoria":"verbos","clave":"estoi","medio":"palabras/medio/estoy.wav","final":"palabras/final/estoy.wav"},"tiene":{"categoria":"verbos","clave":"tiene","medio":"palabras/medio/tiene.wav","final":"palabras/final/tiene.wav"},"tengo":{"categoria":"verbos","clave":"tengo","medio":"palabras/medio/tengo.wav","final":"palabras/final/tengo.wav"},"va":{"categoria":"verbos","clave":"ba","medio":"palabras/medio/va.wav","final":"palabras/final/va.wav"},"voy":{"categoria":"verbos","clave":"boi","medio":"palabras/medio/voy.wav","final":"palabras/final/voy.wav"},"vamos":{"categoria":"verbos","clave":"bamos","medio":"palabras/medio/vamos.wav","final":"palabras/final/vamos.wav"},"come":{"categoria":"verbos","clave":"kome","medio":"palabras/medio/come.wav","final":"palabras/final/come.wav"},"como":{"categoria":"verbos","clave":"komo","medio":"palabras/medio/como.wav","final":"palabras/final/como.wav"},"bebe":{"categoria":"verbos","clave":"bebe","medio":"palabras/medio/bebe.wav","final":"palabras/final/bebe.wav"},"juega":{"categoria":"verbos","clave":"juega","medio":"palabras/medio/juega.wav","final":"palabras/final/juega.wav"},"juego":{"categoria":"verbos","clave":"juego","medio":"palabras/medio/juego.wav","final":"palabras/final/juego.wav"},"corre":{"categoria":"verbos","clave":"koRe","medio":"palabras/medio/corre.wav","final":"palabras/final/corre.wav"},"salta":{"categoria":"verbos","clave":"salta","medio":"palabras/medio/salta.wav","final":"palabras/final/salta.wav"},"duerme":{"categoria":"verbos","clave":"duerme","medio":"palabras/medio/duerme.wav","final":"palabras/final/duerme.wav"},"lee":{"categoria":"verbos","clave":"lee","medio":"palabras/medio/lee.wav","final":"palabras/final/lee.wav"},"canta":{"categoria":"verbos","clave":"kanta","medio":"palabras/medio/canta.wav","final":"palabras/final/canta.wav"},"mira":{"categoria":"verbos","clave":"mira","medio":"palabras/medio/mira.wav","final":"palabras/final/mira.wav"},"quiere":{"categoria":"verbos","clave":"kiere","medio":"palabras/medio/quiere.wav","final":"palabras/final/quiere.wav"},"quiero":{"categoria":"verbos","clave":"kiero","medio":"palabras/medio/quiero.wav","final":"palabras/final/quiero.wav"},"vive":{"categoria":"verbos","clave":"bibe","medio":"palabras/medio/vive.wav","final":"palabras/final/vive.wav"},"nada":{"categoria":"verbos","clave":"nada","medio":"palabras/medio/nada.wav","final":"palabras/final/nada.wav"},"vuela":{"categoria":"verbos","clave":"buela","medio":"palabras/medio/vuela.wav","final":"palabras/final/vuela.wav"},"camina":{"categoria":"verbos","clave":"kamina","medio":"palabras/medio/camina.wav","final":"palabras/final/camina.wav"},"grande":{"categoria":"adjetivos","clave":"grande","medio":"palabras/medio/grande.wav","final":"palabras/final/grande.wav"},"pequeño":{"categoria":"adjetivos","clave":"pekeño","medio":"palabras/medio/pequenyo.wav","final":"palabras/final/pequenyo.wav"},"pequeña":{"categoria":"adjetivos","clave":"pekeña","medio":"palabras/medio/pequenya.wav","final":"palabras/final/pequenya.wav"},"bonito":{"categoria":"adjetivos","clave":"bonito","medio":"palabras/medio/bonito.wav","final":"palabras/final/bonito.wav"},"bonita":{"categoria":"adjetivos","clave":"bonita","medio":"palabras/medio/bonita.wav","final":"palabras/final/bonita.wav"},"feliz":{"categoria":"adjetivos","clave":"feliz","medio":"palabras/medio/feliz.wav","final":"palabras/final/feliz.wav"},"contento":{"categoria":"adjetivos","clave":"kontento","medio":"palabras/medio/contento.wav","final":"palabras/final/contento.wav"},"contenta":{"categoria":"adjetivos","clave":"kontenta","medio":"palabras/medio/contenta.wav","final":"palabras/final/contenta.wav"},"rojo":{"categoria":"adjetivos","clave":"Rojo","medio":"palabras/medio/rojo.wav","final":"palabras/final/rojo.wav"},"azul":{"categoria":"adjetivos","clave":"azul","medio":"palabras/medio/azul.wav","final":"palabras/final/azul.wav"},"verde":{"categoria":"adjetivos","clave":"berde","medio":"palabras/medio/verde.wav","final":"palabras/final/verde.wav"},"amarillo":{"categoria":"adjetivos","clave":"amariyo","medio":"palabras/medio/amarillo.wav","final":"palabras/final/amarillo.wav"},"blanco":{"categoria":"adjetivos","clave":"blanko","medio":"palabras/medio/blanco.wav","final":"palabras/final/blanco.wav"},"negro":{"categoria":"adjetivos","clave":"negro","medio":"palabras/medio/negro.wav","final":"palabras/final/negro.wav"},"alto":{"categoria":"adjetivos","clave":"alto","medio":"palabras/medio/alto.wav","final":"palabras/final/alto.wav"},"rápido":{"categoria":"adjetivos","clave":"Rapido","medio":"palabras/medio/rapido.wav","final":"palabras/final/rapido.wav"},"nuevo":{"categoria":"adjetivos","clave":"nuebo","medio":"palabras/medio/nuevo.wav","final":"palabras/final/nuevo.wav"},"mucho":{"categoria":"adjetivos","clave":"muCo","medio":"palabras/medio/mucho.wav","final":"palabras/final/mucho.wav"},"muchos":{"categoria":"adjetivos","clave":"muCos","medio":"palabras/medio/muchos.wav","final":"palabras/final/muchos.wav"},"muy":{"categoria":"adjetivos","clave":"mui","medio":"palabras/medio/muy.wav","final":"palabras/final/muy.wav"},"más":{"categoria":"adjetivos","clave":"mas","medio":"palabras/medio/mas.wav","final":"palabras/final/mas.wav"},"hoy":{"categoria":"tiempo_y_otros","clave":"oi","medio":"palabras/medio/hoy.wav","final":"palabras/final/hoy.wav"},"ayer":{"categoria":"tiempo_y_otros","clave":"ayer","medio":"palabras/medio/ayer.wav","final":"palabras/final/ayer.wav"},"mañana":{"categoria":"tiempo_y_otros","clave":"mañana","medio":"palabras/medio/manyana.wav","final":"palabras/final/manyana.wav"},"ahora":{"categoria":"tiempo_y_otros","clave":"aora","medio":"palabras/medio/ahora.wav","final":"palabras/final/ahora.wav"},"siempre":{"categoria":"tiempo_y_otros","clave":"siempre","medio":"palabras/medio/siempre.wav","final":"palabras/final/siempre.wav"},"aquí":{"categoria":"tiempo_y_otros","clave":"aki","medio":"palabras/medio/aqui.wav","final":"palabras/final/aqui.wav"},"allá":{"categoria":"tiempo_y_otros","clave":"aya","medio":"palabras/medio/alla.wav","final":"palabras/final/alla.wav"},"no":{"categoria":"tiempo_y_otros","clave":"no","medio":"palabras/medio/no.wav","final":"palabras/final/no.wav"},"sí":{"categoria":"tiempo_y_otros","clave":"si","medio":"palabras/medio/si.wav","final":"palabras/final/si.wav"},"vacaciones":{"categoria":"tiempo_y_otros","clave":"bakaziones","medio":"palabras/medio/vacaciones.wav","final":"palabras/final/vacaciones.wav"},"día":{"categoria":"tiempo_y_otros","clave":"dia","medio":"palabras/medio/dia.wav","final":"palabras/final/dia.wav"},"noche":{"categoria":"tiempo_y_otros","clave":"noCe","medio":"palabras/medio/noche.wav","final":"palabras/final/noche.wav"},"tarde":{"categoria":"tiempo_y_otros","clave":"tarde","medio":"palabras/medio/tarde.wav","final":"palabras/final/tarde.wav"},"también":{"categoria":"tiempo_y_otros","clave":"tambien","medio":"palabras/medio/tambien.wav","final":"palabras/final/tambien.wav"},"todos":{"categoria":"tiempo_y_otros","clave":"todos","medio":"palabras/medio/todos.wav","final":"palabras/final/todos.wav"}},"silabas":{"a":"silabas/a.wav","e":"silabas/e.wav","i":"silabas/i.wav","o":"silabas/o.wav","u":"silabas/u.wav","ba":"silabas/ba.wav","be":"silabas/be.wav","bi":"silabas/bi.wav","bo":"silabas/bo.wav","bu":"silabas/bu.wav","ca":"silabas/ca.wav","co":"silabas/co.wav","cu":"silabas/cu.wav","que":"silabas/que.wav","qui":"silabas/qui.wav","cha":"silabas/cha.wav","che":"silabas/che.wav","chi":"silabas/chi.wav","cho":"silabas/cho.wav","chu":"silabas/chu.wav","da":"silabas/da.wav","de":"silabas/de.wav","di":"silabas/di.wav","do":"silabas/do.wav","du":"silabas/du.wav","fa":"silabas/fa.wav","fe":"silabas/fe.wav","fi":"silabas/fi.wav","fo":"silabas/fo.wav","fu":"silabas/fu.wav","ga":"silabas/ga.wav","go":"silabas/go.wav","gu":"silabas/gu.wav","gue":"silabas/gue.wav","gui":"silabas/gui.wav","ja":"silabas/ja.wav","je":"silabas/je.wav","ji":"silabas/ji.wav","jo":"silabas/jo.wav","ju":"silabas/ju.wav","ka":"silabas/ka.wav","ke":"silabas/ke.wav","ki":"silabas/ki.wav","ko":"silabas/ko.wav","ku":"silabas/ku.wav","la":"silabas/la.wav","le":"silabas/le.wav","li":"silabas/li.wav","lo":"silabas/lo.wav","lu":"silabas/lu.wav","lla":"silabas/lla.wav","lle":"silabas/lle.wav","lli":"silabas/lli.wav","llo":"silabas/llo.wav","llu":"silabas/llu.wav","ma":"silabas/ma.wav","me":"silabas/me.wav","mi":"silabas/mi.wav","mo":"silabas/mo.wav","mu":"silabas/mu.wav","na":"silabas/na.wav","ne":"silabas/ne.wav","ni":"silabas/ni.wav","no":"silabas/no.wav","nu":"silabas/nu.wav","ña":"silabas/nya.wav","ñe":"silabas/nye.wav","ñi":"silabas/nyi.wav","ño":"silabas/nyo.wav","ñu":"silabas/nyu.wav","pa":"silabas/pa.wav","pe":"silabas/pe.wav","pi":"silabas/pi.wav","po":"silabas/po.wav","pu":"silabas/pu.wav","ra":"silabas/ra.wav","re":"silabas/re.wav","ri":"silabas/ri.wav","ro":"silabas/ro.wav","ru":"silabas/ru.wav","rra":"silabas/rra.wav","rre":"silabas/rre.wav","rri":"silabas/rri.wav","rro":"silabas/rro.wav","rru":"silabas/rru.wav","sa":"silabas/sa.wav","se":"silabas/se.wav","si":"silabas/si.wav","so":"silabas/so.wav","su":"silabas/su.wav","ta":"silabas/ta.wav","te":"silabas/te.wav","ti":"silabas/ti.wav","to":"silabas/to.wav","tu":"silabas/tu.wav","va":"silabas/va.wav","ve":"silabas/ve.wav","vi":"silabas/vi.wav","vo":"silabas/vo.wav","vu":"silabas/vu.wav","wa":"silabas/wa.wav","we":"silabas/we.wav","wi":"silabas/wi.wav","wo":"silabas/wo.wav","wu":"silabas/wu.wav","ya":"silabas/ya.wav","ye":"silabas/ye.wav","yi":"silabas/yi.wav","yo":"silabas/yo.wav","yu":"silabas/yu.wav","ce":"silabas/ce.wav","ci":"silabas/ci.wav","za":"silabas/za.wav","zo":"silabas/zo.wav","zu":"silabas/zu.wav","ab":"silabas/ab.wav","eb":"silabas/eb.wav","ib":"silabas/ib.wav","ob":"silabas/ob.wav","ub":"silabas/ub.wav","ac":"silabas/ac.wav","ec":"silabas/ec.wav","ic":"silabas/ic.wav","oc":"silabas/oc.wav","uc":"silabas/uc.wav","ad":"silabas/ad.wav","ed":"silabas/ed.wav","id":"silabas/id.wav","od":"silabas/od.wav","ud":"silabas/ud.wav","af":"silabas/af.wav","ef":"silabas/ef.wav","if":"silabas/if.wav","of":"silabas/of.wav","uf":"silabas/uf.wav","ag":"silabas/ag.wav","eg":"silabas/eg.wav","ig":"silabas/ig.wav","og":"silabas/og.wav","ug":"silabas/ug.wav","al":"silabas/al.wav","el":"silabas/el.wav","il":"silabas/il.wav","ol":"silabas/ol.wav","ul":"silabas/ul.wav","am":"silabas/am.wav","em":"silabas/em.wav","im":"silabas/im.wav","om":"silabas/om.wav","um":"silabas/um.wav","an":"silabas/an.wav","en":"silabas/en.wav","in":"silabas/in.wav","on":"silabas/on.wav","un":"silabas/un.wav","ap":"silabas/ap.wav","ep":"silabas/ep.wav","ip":"silabas/ip.wav","op":"silabas/op.wav","up":"silabas/up.wav","ar":"silabas/ar.wav","er":"silabas/er.wav","ir":"silabas/ir.wav","or":"silabas/or.wav","ur":"silabas/ur.wav","as":"silabas/as.wav","es":"silabas/es.wav","is":"silabas/is.wav","os":"silabas/os.wav","us":"silabas/us.wav","at":"silabas/at.wav","et":"silabas/et.wav","it":"silabas/it.wav","ot":"silabas/ot.wav","ut":"silabas/ut.wav","az":"silabas/az.wav","ez":"silabas/ez.wav","iz":"silabas/iz.wav","oz":"silabas/oz.wav","uz":"silabas/uz.wav","bla":"silabas/bla.wav","ble":"silabas/ble.wav","bli":"silabas/bli.wav","blo":"silabas/blo.wav","blu":"silabas/blu.wav","bra":"silabas/bra.wav","bre":"silabas/bre.wav","bri":"silabas/bri.wav","bro":"silabas/bro.wav","bru":"silabas/bru.wav","cla":"silabas/cla.wav","cle":"silabas/cle.wav","cli":"silabas/cli.wav","clo":"silabas/clo.wav","clu":"silabas/clu.wav","cra":"silabas/cra.wav","cre":"silabas/cre.wav","cri":"silabas/cri.wav","cro":"silabas/cro.wav","cru":"silabas/cru.wav","dra":"silabas/dra.wav","dre":"silabas/dre.wav","dri":"silabas/dri.wav","dro":"silabas/dro.wav","dru":"silabas/dru.wav","fla":"silabas/fla.wav","fle":"silabas/fle.wav","fli":"silabas/fli.wav","flo":"silabas/flo.wav","flu":"silabas/flu.wav","fra":"silabas/fra.wav","fre":"silabas/fre.wav","fri":"silabas/fri.wav","fro":"silabas/fro.wav","fru":"silabas/fru.wav","gla":"silabas/gla.wav","gle":"silabas/gle.wav","gli":"silabas/gli.wav","glo":"silabas/glo.wav","glu":"silabas/glu.wav","gra":"silabas/gra.wav","gre":"silabas/gre.wav","gri":"silabas/gri.wav","gro":"silabas/gro.wav","gru":"silabas/gru.wav","pla":"silabas/pla.wav","ple":"silabas/ple.wav","pli":"silabas/pli.wav","plo":"silabas/plo.wav","plu":"silabas/plu.wav","pra":"silabas/pra.wav","pre":"silabas/pre.wav","pri":"silabas/pri.wav","pro":"silabas/pro.wav","pru":"silabas/pru.wav","tra":"silabas/tra.wav","tre":"silabas/tre.wav","tri":"silabas/tri.wav","tro":"silabas/tro.wav","tru":"silabas/tru.wav","ai":"silabas/ai.wav","au":"silabas/au.wav","ei":"silabas/ei.wav","eu":"silabas/eu.wav","ia":"silabas/ia.wav","ie":"silabas/ie.wav","io":"silabas/io.wav","iu":"silabas/iu.wav","oi":"silabas/oi.wav","ou":"silabas/ou.wav","ua":"silabas/ua.wav","ue":"silabas/ue.wav","ui":"silabas/ui.wav","uo":"silabas/uo.wav"},"ejemplos":[{"archivo":"ejemplos/01_unir_silabas_vaca.wav","texto":"vaca → vaca → la vaca → la vaca come pasto"},{"archivo":"ejemplos/02_oracion.wav","texto":"hoy me voy de vacaciones a la casa de mi tío"},{"archivo":"ejemplos/03_oracion_desordenada.wav","texto":"a la casa de mi tío hoy me voy de vacaciones"},{"archivo":"ejemplos/04_otro_orden.wav","texto":"de vacaciones me voy hoy a la casa de mi tío"},{"archivo":"ejemplos/05_mal_escrita.wav","texto":"la baca come pazto"},{"archivo":"ejemplos/06_oracion_parque.wav","texto":"el perro juega con la pelota en el parque"},{"archivo":"ejemplos/07_unir_silabas_casa.wav","texto":"casa → casa → mi casa → mi casa es grande"}]};
+const LEC_EMB = {"voz":"Martin Osborne - Deep and Passionate","voz_id":"Vpv1YgvVd6CHIzOTiTt8","sr":48000,"parametros":{"hueco_oclusiva_ms":40,"solape_vocales_ms":35,"solape_vocal_ms":20,"solape_ms":15,"pausa_coma_ms":250,"pausa_punto_ms":450,"pausa_entre_silabas_ms":300,"pausa_entre_pasos_ms":700,"fundido_difono_ms":{"v":12,"c":3,"o":8}},"audios":{"palabras":"palabras.wav","silabas":"silabas.wav","difonos":"difonos.wav"},"palabras":{"el":{"categoria":"funcion","clave":"el","medio":[0.2,0.255]},"la":{"categoria":"funcion","clave":"la","medio":[0.515,0.185]},"los":{"categoria":"funcion","clave":"los","medio":[0.76,0.23]},"las":{"categoria":"funcion","clave":"las","medio":[1.05,0.295]},"un":{"categoria":"funcion","clave":"un","medio":[1.405,0.26]},"una":{"categoria":"funcion","clave":"una","medio":[1.725,0.315]},"unos":{"categoria":"funcion","clave":"unos","medio":[2.1,0.455]},"unas":{"categoria":"funcion","clave":"unas","medio":[2.615,0.41]},"mi":{"categoria":"funcion","clave":"mi","medio":[3.085,0.195]},"mis":{"categoria":"funcion","clave":"mis","medio":[3.34,0.27]},"tu":{"categoria":"funcion","clave":"tu","medio":[3.67,0.185]},"tus":{"categoria":"funcion","clave":"tus","medio":[3.915,0.355]},"su":{"categoria":"funcion","clave":"su","medio":[4.33,0.22]},"sus":{"categoria":"funcion","clave":"sus","medio":[4.61,0.28998]},"a":{"categoria":"funcion","clave":"a","medio":[4.95998,0.165]},"al":{"categoria":"funcion","clave":"al","medio":[5.18498,0.235]},"de":{"categoria":"funcion","clave":"de","medio":[5.47998,0.15]},"del":{"categoria":"funcion","clave":"del","medio":[5.68998,0.26]},"en":{"categoria":"funcion","clave":"en","medio":[6.00998,0.23]},"con":{"categoria":"funcion","clave":"kon","medio":[6.29998,0.295]},"por":{"categoria":"funcion","clave":"por","medio":[6.65498,0.22]},"para":{"categoria":"funcion","clave":"para","medio":[6.93498,0.26]},"sin":{"categoria":"funcion","clave":"sin","medio":[7.25498,0.305]},"sobre":{"categoria":"funcion","clave":"sobre","medio":[7.61998,0.375]},"y":{"categoria":"funcion","clave":"i","medio":[8.05498,0.16]},"o":{"categoria":"funcion","clave":"o","medio":[8.27498,0.165]},"pero":{"categoria":"funcion","clave":"pero","medio":[8.49998,0.285]},"que":{"categoria":"funcion","clave":"ke","medio":[8.84498,0.185]},"porque":{"categoria":"funcion","clave":"porke","medio":[9.08998,0.39]},"me":{"categoria":"funcion","clave":"me","medio":[9.53998,0.21]},"te":{"categoria":"funcion","clave":"te","medio":[9.80998,0.185]},"se":{"categoria":"funcion","clave":"se","medio":[10.05498,0.24]},"le":{"categoria":"funcion","clave":"le","medio":[10.35498,0.14498]},"lo":{"categoria":"funcion","clave":"lo","medio":[10.55996,0.195]},"yo":{"categoria":"pronombres","clave":"yo","medio":[10.81496,0.27],"final":[11.14496,0.36]},"tú":{"categoria":"pronombres","clave":"tu","medio":[11.56496,0.425],"final":[12.04996,0.325]},"él":{"categoria":"pronombres","clave":"el","medio":[12.43496,0.28],"final":[12.77496,0.48]},"ella":{"categoria":"pronombres","clave":"eya","medio":[13.31496,0.415],"final":[13.78996,0.545]},"nosotros":{"categoria":"pronombres","clave":"nosotros","medio":[14.39496,0.69],"final":[15.14496,0.775]},"ellos":{"categoria":"pronombres","clave":"eyos","medio":[15.97996,0.495],"final":[16.53496,0.64]},"mamá":{"categoria":"personas","clave":"mama","medio":[17.23496,0.485],"final":[17.77996,0.595]},"papá":{"categoria":"personas","clave":"papa","medio":[18.43496,0.58],"final":[19.07496,0.515]},"tío":{"categoria":"personas","clave":"tio","medio":[19.64996,0.31],"final":[20.01996,0.465]},"tía":{"categoria":"personas","clave":"tia","medio":[20.54496,0.34],"final":[20.94496,0.505]},"abuelo":{"categoria":"personas","clave":"abuelo","medio":[21.50996,0.53],"final":[22.09996,0.685]},"abuela":{"categoria":"personas","clave":"abuela","medio":[22.84496,0.57],"final":[23.47496,0.735]},"hermano":{"categoria":"personas","clave":"ermano","medio":[24.26996,0.61],"final":[24.93996,0.75]},"hermana":{"categoria":"personas","clave":"ermana","medio":[25.74996,0.625],"final":[26.43496,0.73]},"amigo":{"categoria":"personas","clave":"amigo","medio":[27.22496,0.44],"final":[27.72496,0.755]},"amiga":{"categoria":"personas","clave":"amiga","medio":[28.53996,0.56],"final":[29.15996,0.68]},"niño":{"categoria":"personas","clave":"niño","medio":[29.89996,0.485],"final":[30.44496,0.585]},"niña":{"categoria":"personas","clave":"niña","medio":[31.08996,0.51],"final":[31.65996,0.59]},"maestra":{"categoria":"personas","clave":"maestra","medio":[32.30996,0.72],"final":[33.08996,0.765]},"maestro":{"categoria":"personas","clave":"maestro","medio":[33.91496,0.765],"final":[34.73996,0.745]},"bebé":{"categoria":"personas","clave":"bebe","medio":[35.54496,0.375],"final":[35.97996,0.515]},"vaca":{"categoria":"animales","clave":"baka","medio":[36.55496,0.46],"final":[37.07496,0.655]},"perro":{"categoria":"animales","clave":"peRo","medio":[37.78996,0.45],"final":[38.29996,0.585]},"gato":{"categoria":"animales","clave":"gato","medio":[38.94496,0.59],"final":[39.59496,0.72]},"pato":{"categoria":"animales","clave":"pato","medio":[40.37496,0.415],"final":[40.84996,0.605]},"pájaro":{"categoria":"animales","clave":"pajaro","medio":[41.51496,0.555],"final":[42.12996,0.665]},"caballo":{"categoria":"animales","clave":"kabayo","medio":[42.85496,0.75],"final":[43.66496,0.775]},"pez":{"categoria":"animales","clave":"pez","medio":[44.49996,0.275],"final":[44.83496,0.475]},"ratón":{"categoria":"animales","clave":"Raton","medio":[45.36996,0.765],"final":[46.19496,0.94]},"conejo":{"categoria":"animales","clave":"konejo","medio":[47.19496,0.595],"final":[47.84996,0.795]},"oso":{"categoria":"animales","clave":"oso","medio":[48.70496,0.465],"final":[49.22996,0.6]},"león":{"categoria":"animales","clave":"leon","medio":[49.88996,0.46],"final":[50.40996,0.78]},"mono":{"categoria":"animales","clave":"mono","medio":[51.24996,0.42],"final":[51.72996,0.54]},"oveja":{"categoria":"animales","clave":"obeja","medio":[52.32996,0.525],"final":[52.91496,0.765]},"pollito":{"categoria":"animales","clave":"poyito","medio":[53.73996,0.64],"final":[54.43996,0.735]},"mariposa":{"categoria":"animales","clave":"mariposa","medio":[55.23496,0.945],"final":[56.23996,0.84]},"casa":{"categoria":"lugares","clave":"kasa","medio":[57.13996,0.425],"final":[57.62496,0.595]},"escuela":{"categoria":"lugares","clave":"eskuela","medio":[58.27996,0.67],"final":[59.00996,0.78]},"parque":{"categoria":"lugares","clave":"parke","medio":[59.84996,0.46],"final":[60.36996,0.745]},"playa":{"categoria":"lugares","clave":"playa","medio":[61.17496,0.535],"final":[61.76996,0.715]},"jardín":{"categoria":"lugares","clave":"jardin","medio":[62.54496,0.595],"final":[63.19996,0.88]},"campo":{"categoria":"lugares","clave":"kampo","medio":[64.13996,0.49],"final":[64.68996,0.745]},"río":{"categoria":"lugares","clave":"Rio","medio":[65.49496,0.34],"final":[65.89496,0.59]},"mar":{"categoria":"lugares","clave":"mar","medio":[66.54496,0.38],"final":[66.98496,0.59]},"montaña":{"categoria":"lugares","clave":"montaña","medio":[67.63496,0.78],"final":[68.47496,0.86]},"ciudad":{"categoria":"lugares","clave":"ziudad","medio":[69.39496,0.555],"final":[70.00996,0.63]},"calle":{"categoria":"lugares","clave":"kaye","medio":[70.69996,0.45],"final":[71.20996,0.59]},"tienda":{"categoria":"lugares","clave":"tienda","medio":[71.85996,0.505],"final":[72.42496,0.7]},"pasto":{"categoria":"cosas","clave":"pasto","medio":[73.18496,0.54],"final":[73.78496,0.7]},"sol":{"categoria":"cosas","clave":"sol","medio":[74.54496,0.35],"final":[74.95496,0.645]},"luna":{"categoria":"cosas","clave":"luna","medio":[75.65996,0.385],"final":[76.10496,0.585]},"agua":{"categoria":"cosas","clave":"agua","medio":[76.74996,0.505],"final":[77.31496,0.61]},"flor":{"categoria":"cosas","clave":"flor","medio":[77.98496,0.415],"final":[78.45996,0.605]},"árbol":{"categoria":"cosas","clave":"arbol","medio":[79.12496,0.655],"final":[79.83996,0.885]},"pelota":{"categoria":"cosas","clave":"pelota","medio":[80.78496,0.565],"final":[81.40996,0.755]},"libro":{"categoria":"cosas","clave":"libro","medio":[82.22496,0.42],"final":[82.70496,0.545]},"juguete":{"categoria":"cosas","clave":"jugete","medio":[83.30996,0.79],"final":[84.15996,0.81]},"mesa":{"categoria":"cosas","clave":"mesa","medio":[85.02996,0.48],"final":[85.56996,0.675]},"cama":{"categoria":"cosas","clave":"kama","medio":[86.30496,0.44],"final":[86.80496,0.56998]},"pan":{"categoria":"cosas","clave":"pan","medio":[87.43494,0.33],"final":[87.82494,0.68]},"leche":{"categoria":"cosas","clave":"leCe","medio":[88.56494,0.455],"final":[89.07994,0.635]},"fruta":{"categoria":"cosas","clave":"fruta","medio":[89.77494,0.6],"final":[90.43494,0.715]},"manzana":{"categoria":"cosas","clave":"manzana","medio":[91.20994,0.69],"final":[91.95994,0.85]},"helado":{"categoria":"cosas","clave":"elado","medio":[92.86994,0.535],"final":[93.46494,0.775]},"comida":{"categoria":"cosas","clave":"komida","medio":[94.29994,0.58],"final":[94.93994,0.675]},"carro":{"categoria":"cosas","clave":"kaRo","medio":[95.67494,0.435],"final":[96.16994,0.6]},"bicicleta":{"categoria":"cosas","clave":"bizikleta","medio":[96.82994,0.92],"final":[97.80994,0.955]},"es":{"categoria":"verbos","clave":"es","medio":[98.82494,0.19],"final":[99.07494,0.395]},"está":{"categoria":"verbos","clave":"esta","medio":[99.52994,0.43],"final":[100.01994,0.615]},"son":{"categoria":"verbos","clave":"son","medio":[100.69494,0.335],"final":[101.08994,0.645]},"están":{"categoria":"verbos","clave":"estan","medio":[101.79494,0.54],"final":[102.39494,0.875]},"soy":{"categoria":"verbos","clave":"soi","medio":[103.32994,0.295],"final":[103.68494,0.595]},"estoy":{"categoria":"verbos","clave":"estoi","medio":[104.33994,0.53],"final":[104.92994,0.74]},"tiene":{"categoria":"verbos","clave":"tiene","medio":[105.72994,0.315],"final":[106.10494,0.57998]},"tengo":{"categoria":"verbos","clave":"tengo","medio":[106.74492,0.38],"final":[107.18492,0.65]},"va":{"categoria":"verbos","clave":"ba","medio":[107.89492,0.275],"final":[108.22992,0.4]},"voy":{"categoria":"verbos","clave":"boi","medio":[108.68992,0.26],"final":[109.00992,0.6]},"vamos":{"categoria":"verbos","clave":"bamos","medio":[109.66992,0.38],"final":[110.10992,0.68]},"come":{"categoria":"verbos","clave":"kome","medio":[110.84992,0.355],"final":[111.26492,0.525]},"como":{"categoria":"verbos","clave":"komo","medio":[111.84992,0.32],"final":[112.22992,0.52]},"bebe":{"categoria":"verbos","clave":"bebe","medio":[112.80992,0.32],"final":[113.18992,0.545]},"juega":{"categoria":"verbos","clave":"juega","medio":[113.79492,0.475],"final":[114.32992,0.685]},"juego":{"categoria":"verbos","clave":"juego","medio":[115.07492,0.445],"final":[115.57992,0.69]},"corre":{"categoria":"verbos","clave":"koRe","medio":[116.32992,0.375],"final":[116.76492,0.63]},"salta":{"categoria":"verbos","clave":"salta","medio":[117.45492,0.5],"final":[118.01492,0.745]},"duerme":{"categoria":"verbos","clave":"duerme","medio":[118.81992,0.49],"final":[119.36992,0.685]},"lee":{"categoria":"verbos","clave":"lee","medio":[120.11492,0.305],"final":[120.47992,0.56]},"canta":{"categoria":"verbos","clave":"kanta","medio":[121.09992,0.54],"final":[121.69992,0.86]},"mira":{"categoria":"verbos","clave":"mira","medio":[122.61992,0.465],"final":[123.14492,0.54]},"quiere":{"categoria":"verbos","clave":"kiere","medio":[123.74492,0.455],"final":[124.25992,0.59]},"quiero":{"categoria":"verbos","clave":"kiero","medio":[124.90992,0.435],"final":[125.40492,0.575]},"vive":{"categoria":"verbos","clave":"bibe","medio":[126.03992,0.325],"final":[126.42492,0.555]},"nada":{"categoria":"verbos","clave":"nada","medio":[127.03992,0.435],"final":[127.53492,0.535]},"vuela":{"categoria":"verbos","clave":"buela","medio":[128.12992,0.365],"final":[128.55492,0.65]},"camina":{"categoria":"verbos","clave":"kamina","medio":[129.26492,0.59],"final":[129.91492,0.775]},"grande":{"categoria":"adjetivos","clave":"grande","medio":[130.74992,0.6],"final":[131.40992,0.72]},"pequeño":{"categoria":"adjetivos","clave":"pekeño","medio":[132.18992,0.62],"final":[132.86992,0.79]},"pequeña":{"categoria":"adjetivos","clave":"pekeña","medio":[133.71992,0.695],"final":[134.47492,0.775]},"bonito":{"categoria":"adjetivos","clave":"bonito","medio":[135.30992,0.545],"final":[135.91492,0.825]},"bonita":{"categoria":"adjetivos","clave":"bonita","medio":[136.79992,0.56],"final":[137.41992,0.67]},"feliz":{"categoria":"adjetivos","clave":"feliz","medio":[138.14992,0.55],"final":[138.75992,0.57]},"contento":{"categoria":"adjetivos","clave":"kontento","medio":[139.38992,0.92],"final":[140.36992,0.985]},"contenta":{"categoria":"adjetivos","clave":"kontenta","medio":[141.41492,1.09],"final":[142.56492,0.915]},"rojo":{"categoria":"adjetivos","clave":"Rojo","medio":[143.53992,0.425],"final":[144.02492,0.655]},"azul":{"categoria":"adjetivos","clave":"azul","medio":[144.73992,0.5],"final":[145.29992,0.695]},"verde":{"categoria":"adjetivos","clave":"berde","medio":[146.05492,0.505],"final":[146.61992,0.66]},"amarillo":{"categoria":"adjetivos","clave":"amariyo","medio":[147.33992,0.63],"final":[148.02992,0.77]},"blanco":{"categoria":"adjetivos","clave":"blanko","medio":[148.85992,0.695],"final":[149.61492,0.795]},"negro":{"categoria":"adjetivos","clave":"negro","medio":[150.46992,0.44],"final":[150.96992,0.59]},"alto":{"categoria":"adjetivos","clave":"alto","medio":[151.61992,0.46],"final":[152.13992,0.705]},"rápido":{"categoria":"adjetivos","clave":"Rapido","medio":[152.90492,0.555],"final":[153.51992,0.675]},"nuevo":{"categoria":"adjetivos","clave":"nuebo","medio":[154.25492,0.445],"final":[154.75992,0.55]},"mucho":{"categoria":"adjetivos","clave":"muCo","medio":[155.36992,0.55],"final":[155.97992,0.635]},"muchos":{"categoria":"adjetivos","clave":"muCos","medio":[156.67492,0.59],"final":[157.32492,0.675]},"muy":{"categoria":"adjetivos","clave":"mui","medio":[158.05992,0.375],"final":[158.49492,0.52]},"más":{"categoria":"adjetivos","clave":"mas","medio":[159.07492,0.31],"final":[159.44492,0.455]},"hoy":{"categoria":"tiempo_y_otros","clave":"oi","medio":[159.95992,0.37],"final":[160.38992,0.59]},"ayer":{"categoria":"tiempo_y_otros","clave":"ayer","medio":[161.03992,0.505],"final":[161.60492,0.755]},"mañana":{"categoria":"tiempo_y_otros","clave":"mañana","medio":[162.41992,0.5],"final":[162.97992,0.73]},"ahora":{"categoria":"tiempo_y_otros","clave":"aora","medio":[163.76992,0.445],"final":[164.27492,0.68]},"siempre":{"categoria":"tiempo_y_otros","clave":"siempre","medio":[165.01492,0.69],"final":[165.76492,0.645]},"aquí":{"categoria":"tiempo_y_otros","clave":"aki","medio":[166.46992,0.39],"final":[166.91992,0.63]},"allá":{"categoria":"tiempo_y_otros","clave":"aya","medio":[167.60992,0.46],"final":[168.12992,0.575]},"no":{"categoria":"tiempo_y_otros","clave":"no","medio":[168.76492,0.26],"final":[169.08492,0.3]},"sí":{"categoria":"tiempo_y_otros","clave":"si","medio":[169.44492,0.31],"final":[169.81492,0.455]},"vacaciones":{"categoria":"tiempo_y_otros","clave":"bakaziones","medio":[170.32992,0.925],"final":[171.31492,0.955]},"día":{"categoria":"tiempo_y_otros","clave":"dia","medio":[172.32992,0.335],"final":[172.72492,0.55]},"noche":{"categoria":"tiempo_y_otros","clave":"noCe","medio":[173.33492,0.385],"final":[173.77992,0.645]},"tarde":{"categoria":"tiempo_y_otros","clave":"tarde","medio":[174.48492,0.41],"final":[174.95492,0.625]},"también":{"categoria":"tiempo_y_otros","clave":"tambien","medio":[175.63992,0.925],"final":[176.62492,0.775]},"todos":{"categoria":"tiempo_y_otros","clave":"todos","medio":[177.45992,0.445],"final":[177.96492,0.56]}},"ejemplos":[{"archivo":"ejemplos/01_unir_silabas_vaca.wav","texto":"vaca → vaca → la vaca → la vaca come pasto"},{"archivo":"ejemplos/02_oracion.wav","texto":"hoy me voy de vacaciones a la casa de mi tío"},{"archivo":"ejemplos/03_oracion_desordenada.wav","texto":"a la casa de mi tío hoy me voy de vacaciones"},{"archivo":"ejemplos/04_otro_orden.wav","texto":"de vacaciones me voy hoy a la casa de mi tío"},{"archivo":"ejemplos/05_mal_escrita.wav","texto":"la baca come pazto"},{"archivo":"ejemplos/06_oracion_parque.wav","texto":"el perro juega con la pelota en el parque"},{"archivo":"ejemplos/07_unir_silabas_casa.wav","texto":"casa → casa → mi casa → mi casa es grande"},{"archivo":"ejemplos/08_palabras_nuevas.wav","texto":"el dinosaurio come tomate y chocolate"},{"archivo":"ejemplos/09_unir_silabas_tortuga.wav","texto":"tortuga → tortuga → la tortuga camina en el jardín"}]};
 
 const TITULOS = {
   "01_vocales": "Vocales", "02_silabas_directas": "Sílabas directas", "03_silabas_inversas": "Sílabas inversas",
@@ -549,20 +662,24 @@ async function importar(archivos, esCarpeta) {
       for (const f of archivos) for (const [k, v] of await abrirZip(f)) mapa.set(k, v);
     }
     const rutas = [...mapa.keys()];
-    const mBib = rutas.find((r) => r.endsWith("manifest.json") && mapa.has(r.slice(0, -13) + "01_vocales/a.wav"));
+    const mBib = rutas.find((r) => r.endsWith("manifest.json") && (mapa.has(r.slice(0, -13) + "01_vocales/a.wav") || mapa.has(r.slice(0, -13) + "01_vocales/a.mp3")));
     const mLec = rutas.find((r) => r.endsWith("manifest_lectura.json"));
     if (!mBib && !mLec) throw new Error("No encontré los audios en lo que elegiste. Importá el zip «voces_…zip» completo.");
     const json = async (r) => JSON.parse(new TextDecoder().decode(await mapa.get(r)()));
     vfs = { mapa, raizBib: mBib ? mBib.slice(0, -13) : null, raizLec: mLec ? mLec.slice(0, -21) : null };
     cacheBib.clear();
     if (mBib) BIB = compactar(await json(mBib));
+    let carga = null;
     if (mLec) {
-      LEC = await json(mLec);
-      lector = new Lector("", LEC, ctx, (rel) => leer(vfs.raizLec + rel));
+      $("#estado").textContent = "Preparando la lectura…";
+      const t0 = performance.now();
+      lector = await Lector.desdeArchivos((rel) => leer(vfs.raizLec + rel), { ctx });
+      LEC = lector.m;
+      carga = (performance.now() - t0) / 1000;
     }
-    const wavs = rutas.filter((r) => r.endsWith(".wav")).length;
+    const wavs = rutas.filter((r) => /\.(wav|mp3)$/.test(r)).length;
     const partes = [mBib ? "biblioteca" : null, mLec ? "lectura" : null].filter(Boolean).join(" y ");
-    $("#estado").textContent = `Listo: ${wavs.toLocaleString("es")} audios (${partes})${LEC ? " · voz " + LEC.voz : ""}. Tocá cualquier ficha.`;
+    $("#estado").textContent = `Listo: ${wavs.toLocaleString("es")} audios (${partes})${LEC ? " · voz " + LEC.voz : ""}${carga !== null ? ` · lectura preparada en ${carga.toFixed(1).replace(".", ",")} s` : ""}. Tocá cualquier ficha.`;
     $("#estado").classList.add("ok");
     renderTodo();
   } catch (e) {
@@ -583,7 +700,10 @@ function compactar(m) {
 
 /* ---------- audio ---------- */
 function asegurarCtx() {
-  if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+  if (!ctx) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    try { ctx = new AC({ sampleRate: 24000 }); } catch (e) { ctx = new AC(); }
+  }
   if (ctx.state === "suspended") ctx.resume();
   return ctx;
 }
@@ -718,8 +838,8 @@ function renderDiag() {
   if (!LEC) { $("#diag").innerHTML = ""; return; }
   const sola = familiaDeLetra(t);
   if (sola) { $("#diag").innerHTML = `<span class="grabada">${esc(t.trim())} → <b>${sola[2] === "familia" ? "familia" : "vocal"} ${esc(sola[1])}</b></span>`; return; }
-  const d = new Lector("", LEC, null).diagnostico(t);
-  const como = { grabada: "grabada", suena_igual: "suena igual a", silabas: "por sílabas" };
+  const d = new Lector(LEC).diagnostico(t);
+  const como = { grabada: "grabada", suena_igual: "suena igual a", difonos: "armada con sonidos" };
   $("#diag").innerHTML = d.map((x) => `<span class="${x.como}">${esc(x.palabra)} · <b>${como[x.como]}</b>${x.como === "grabada" ? "" : " " + esc(x.usa)}</span>`).join("");
 }
 
@@ -731,7 +851,7 @@ function familiaDeLetra(t) {
   if (!/^(ch|ll|rr|[a-zñ])$/.test(l) || !BIB) return null;
   const g = LETRA_A_GRUPO[l] || l;
   return BIB.find((it) => it[2] === "familia" && it[0].startsWith("02_silabas_directas/" + g + "/"))
-    || BIB.find((it) => it[0] === "01_vocales/" + l + ".wav") || null;
+    || BIB.find((it) => it[0].replace(/\.(wav|mp3)$/, "") === "01_vocales/" + l) || null;
 }
 
 /* ---------- acciones ---------- */

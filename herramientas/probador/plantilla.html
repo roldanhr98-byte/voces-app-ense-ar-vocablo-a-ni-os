@@ -95,7 +95,7 @@ textarea {
 .diag span { font-size: 0.88rem; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--linea); background: var(--hoja); }
 .diag .grabada b { color: var(--ok); }
 .diag .suena_igual b { color: var(--azul); }
-.diag .silabas b { color: var(--medio); }
+.diag .difonos b { color: var(--medio); }
 .oracion {
   min-height: 64px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 10px;
   background: var(--hoja); border: 1px dashed var(--linea); border-radius: 12px;
@@ -147,6 +147,7 @@ textarea {
         <button class="chip" data-texto="la vaca come pasto">la vaca come pasto</button>
         <button class="chip" data-texto="hoy me voy de vacaciones a la casa de mi tío">hoy me voy de vacaciones…</button>
         <button class="chip" data-texto="la baca come pazto">la baca come pazto (con errores)</button>
+        <button class="chip" data-texto="el dinosaurio come tomate y chocolate">el dinosaurio come tomate… (no grabadas)</button>
         <button class="chip" data-texto="b">b</button>
         <button class="chip" data-texto="tra">tra</button>
       </div>
@@ -154,7 +155,7 @@ textarea {
     <div class="bloque">
       <h3>Cómo se va a leer</h3>
       <div class="diag" id="diag"></div>
-      <p class="leyenda"><b style="color:var(--ok)">grabada</b>: está en el banco y suena natural. <b style="color:var(--azul)">suena igual</b>: escrita distinto pero suena igual (baca → vaca). <b style="color:var(--medio)">por sílabas</b>: no está grabada; se arma con sílabas y suena menos natural.</p>
+      <p class="leyenda"><b style="color:var(--ok)">grabada</b>: está en el banco y suena natural. <b style="color:var(--azul)">suena igual</b>: escrita distinto pero suena igual (baca → vaca). <b style="color:var(--medio)">armada con sonidos</b>: no está grabada; se arma uniendo sus sonidos (dífonos). Se entiende bien, pero suena un poco menos natural que una palabra grabada.</p>
     </div>
     <div class="bloque">
       <h3>Ejemplos ya armados</h3>
@@ -261,20 +262,24 @@ async function importar(archivos, esCarpeta) {
       for (const f of archivos) for (const [k, v] of await abrirZip(f)) mapa.set(k, v);
     }
     const rutas = [...mapa.keys()];
-    const mBib = rutas.find((r) => r.endsWith("manifest.json") && mapa.has(r.slice(0, -13) + "01_vocales/a.wav"));
+    const mBib = rutas.find((r) => r.endsWith("manifest.json") && (mapa.has(r.slice(0, -13) + "01_vocales/a.wav") || mapa.has(r.slice(0, -13) + "01_vocales/a.mp3")));
     const mLec = rutas.find((r) => r.endsWith("manifest_lectura.json"));
     if (!mBib && !mLec) throw new Error("No encontré los audios en lo que elegiste. Importá el zip «voces_…zip» completo.");
     const json = async (r) => JSON.parse(new TextDecoder().decode(await mapa.get(r)()));
     vfs = { mapa, raizBib: mBib ? mBib.slice(0, -13) : null, raizLec: mLec ? mLec.slice(0, -21) : null };
     cacheBib.clear();
     if (mBib) BIB = compactar(await json(mBib));
+    let carga = null;
     if (mLec) {
-      LEC = await json(mLec);
-      lector = new Lector("", LEC, ctx, (rel) => leer(vfs.raizLec + rel));
+      $("#estado").textContent = "Preparando la lectura…";
+      const t0 = performance.now();
+      lector = await Lector.desdeArchivos((rel) => leer(vfs.raizLec + rel), { ctx });
+      LEC = lector.m;
+      carga = (performance.now() - t0) / 1000;
     }
-    const wavs = rutas.filter((r) => r.endsWith(".wav")).length;
+    const wavs = rutas.filter((r) => /\.(wav|mp3)$/.test(r)).length;
     const partes = [mBib ? "biblioteca" : null, mLec ? "lectura" : null].filter(Boolean).join(" y ");
-    $("#estado").textContent = `Listo: ${wavs.toLocaleString("es")} audios (${partes})${LEC ? " · voz " + LEC.voz : ""}. Tocá cualquier ficha.`;
+    $("#estado").textContent = `Listo: ${wavs.toLocaleString("es")} audios (${partes})${LEC ? " · voz " + LEC.voz : ""}${carga !== null ? ` · lectura preparada en ${carga.toFixed(1).replace(".", ",")} s` : ""}. Tocá cualquier ficha.`;
     $("#estado").classList.add("ok");
     renderTodo();
   } catch (e) {
@@ -295,7 +300,10 @@ function compactar(m) {
 
 /* ---------- audio ---------- */
 function asegurarCtx() {
-  if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+  if (!ctx) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    try { ctx = new AC({ sampleRate: 24000 }); } catch (e) { ctx = new AC(); }
+  }
   if (ctx.state === "suspended") ctx.resume();
   return ctx;
 }
@@ -430,8 +438,8 @@ function renderDiag() {
   if (!LEC) { $("#diag").innerHTML = ""; return; }
   const sola = familiaDeLetra(t);
   if (sola) { $("#diag").innerHTML = `<span class="grabada">${esc(t.trim())} → <b>${sola[2] === "familia" ? "familia" : "vocal"} ${esc(sola[1])}</b></span>`; return; }
-  const d = new Lector("", LEC, null).diagnostico(t);
-  const como = { grabada: "grabada", suena_igual: "suena igual a", silabas: "por sílabas" };
+  const d = new Lector(LEC).diagnostico(t);
+  const como = { grabada: "grabada", suena_igual: "suena igual a", difonos: "armada con sonidos" };
   $("#diag").innerHTML = d.map((x) => `<span class="${x.como}">${esc(x.palabra)} · <b>${como[x.como]}</b>${x.como === "grabada" ? "" : " " + esc(x.usa)}</span>`).join("");
 }
 
@@ -443,7 +451,7 @@ function familiaDeLetra(t) {
   if (!/^(ch|ll|rr|[a-zñ])$/.test(l) || !BIB) return null;
   const g = LETRA_A_GRUPO[l] || l;
   return BIB.find((it) => it[2] === "familia" && it[0].startsWith("02_silabas_directas/" + g + "/"))
-    || BIB.find((it) => it[0] === "01_vocales/" + l + ".wav") || null;
+    || BIB.find((it) => it[0].replace(/\.(wav|mp3)$/, "") === "01_vocales/" + l) || null;
 }
 
 /* ---------- acciones ---------- */

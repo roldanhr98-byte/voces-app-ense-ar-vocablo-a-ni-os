@@ -3,1524 +3,5532 @@
  "voz_id": "Vpv1YgvVd6CHIzOTiTt8",
  "sr": 48000,
  "parametros": {
-  "pausa_entre_palabras_ms": 10,
-  "fundido_ms": 6,
+  "hueco_oclusiva_ms": 40,
+  "solape_vocales_ms": 35,
+  "solape_vocal_ms": 20,
+  "solape_ms": 15,
   "pausa_coma_ms": 250,
   "pausa_punto_ms": 450,
   "pausa_entre_silabas_ms": 300,
   "pausa_entre_pasos_ms": 700,
-  "solape_coda_ms": 30,
-  "fusion_recorte": 0.35
+  "fundido_difono_ms": {
+   "v": 12,
+   "c": 3,
+   "o": 8
+  }
+ },
+ "audios": {
+  "palabras": "palabras.wav",
+  "silabas": "silabas.wav",
+  "difonos": "difonos.wav"
+ },
+ "marcas": {
+  "palabras": [
+   0.21735,
+   0.51862,
+   0.76077
+  ],
+  "silabas": [
+   0.2196,
+   0.6466,
+   1.14998
+  ],
+  "difonos": [
+   0.23,
+   0.55388,
+   0.85146
+  ]
  },
  "palabras": {
   "el": {
    "categoria": "funcion",
    "clave": "el",
-   "medio": "palabras/medio/el.wav",
-   "dur_medio_ms": 325
+   "medio": [
+    0.2,
+    0.255
+   ]
   },
   "la": {
    "categoria": "funcion",
    "clave": "la",
-   "medio": "palabras/medio/la.wav",
-   "dur_medio_ms": 265
+   "medio": [
+    0.515,
+    0.185
+   ]
   },
   "los": {
    "categoria": "funcion",
    "clave": "los",
-   "medio": "palabras/medio/los.wav",
-   "dur_medio_ms": 275
+   "medio": [
+    0.76,
+    0.23
+   ]
   },
   "las": {
    "categoria": "funcion",
    "clave": "las",
-   "medio": "palabras/medio/las.wav",
-   "dur_medio_ms": 325
+   "medio": [
+    1.05,
+    0.295
+   ]
   },
   "un": {
    "categoria": "funcion",
    "clave": "un",
-   "medio": "palabras/medio/un.wav",
-   "dur_medio_ms": 310
+   "medio": [
+    1.405,
+    0.26
+   ]
   },
   "una": {
    "categoria": "funcion",
    "clave": "una",
-   "medio": "palabras/medio/una.wav",
-   "dur_medio_ms": 400
+   "medio": [
+    1.725,
+    0.315
+   ]
   },
   "unos": {
    "categoria": "funcion",
    "clave": "unos",
-   "medio": "palabras/medio/unos.wav",
-   "dur_medio_ms": 525
+   "medio": [
+    2.1,
+    0.455
+   ]
   },
   "unas": {
    "categoria": "funcion",
    "clave": "unas",
-   "medio": "palabras/medio/unas.wav",
-   "dur_medio_ms": 500
+   "medio": [
+    2.615,
+    0.41
+   ]
   },
   "mi": {
    "categoria": "funcion",
    "clave": "mi",
-   "medio": "palabras/medio/mi.wav",
-   "dur_medio_ms": 215
+   "medio": [
+    3.085,
+    0.195
+   ]
   },
   "mis": {
    "categoria": "funcion",
    "clave": "mis",
-   "medio": "palabras/medio/mis.wav",
-   "dur_medio_ms": 295
+   "medio": [
+    3.34,
+    0.27
+   ]
   },
   "tu": {
    "categoria": "funcion",
    "clave": "tu",
-   "medio": "palabras/medio/tu.wav",
-   "dur_medio_ms": 225
+   "medio": [
+    3.67,
+    0.185
+   ]
   },
   "tus": {
    "categoria": "funcion",
    "clave": "tus",
-   "medio": "palabras/medio/tus.wav",
-   "dur_medio_ms": 385
+   "medio": [
+    3.915,
+    0.355
+   ]
   },
   "su": {
    "categoria": "funcion",
    "clave": "su",
-   "medio": "palabras/medio/su.wav",
-   "dur_medio_ms": 230
+   "medio": [
+    4.33,
+    0.22
+   ]
   },
   "sus": {
    "categoria": "funcion",
    "clave": "sus",
-   "medio": "palabras/medio/sus.wav",
-   "dur_medio_ms": 345
+   "medio": [
+    4.61,
+    0.28998
+   ]
   },
   "a": {
    "categoria": "funcion",
    "clave": "a",
-   "medio": "palabras/medio/a.wav",
-   "dur_medio_ms": 230
+   "medio": [
+    4.95998,
+    0.165
+   ]
   },
   "al": {
    "categoria": "funcion",
    "clave": "al",
-   "medio": "palabras/medio/al.wav",
-   "dur_medio_ms": 285
+   "medio": [
+    5.18498,
+    0.235
+   ]
   },
   "de": {
    "categoria": "funcion",
    "clave": "de",
-   "medio": "palabras/medio/de.wav",
-   "dur_medio_ms": 180
+   "medio": [
+    5.47998,
+    0.15
+   ]
   },
   "del": {
    "categoria": "funcion",
    "clave": "del",
-   "medio": "palabras/medio/del.wav",
-   "dur_medio_ms": 285
+   "medio": [
+    5.68998,
+    0.26
+   ]
   },
   "en": {
    "categoria": "funcion",
    "clave": "en",
-   "medio": "palabras/medio/en.wav",
-   "dur_medio_ms": 260
+   "medio": [
+    6.00998,
+    0.23
+   ]
   },
   "con": {
    "categoria": "funcion",
    "clave": "kon",
-   "medio": "palabras/medio/con.wav",
-   "dur_medio_ms": 300
+   "medio": [
+    6.29998,
+    0.295
+   ]
   },
   "por": {
    "categoria": "funcion",
    "clave": "por",
-   "medio": "palabras/medio/por.wav",
-   "dur_medio_ms": 280
+   "medio": [
+    6.65498,
+    0.22
+   ]
   },
   "para": {
    "categoria": "funcion",
    "clave": "para",
-   "medio": "palabras/medio/para.wav",
-   "dur_medio_ms": 295
+   "medio": [
+    6.93498,
+    0.26
+   ]
   },
   "sin": {
    "categoria": "funcion",
    "clave": "sin",
-   "medio": "palabras/medio/sin.wav",
-   "dur_medio_ms": 335
+   "medio": [
+    7.25498,
+    0.305
+   ]
   },
   "sobre": {
    "categoria": "funcion",
    "clave": "sobre",
-   "medio": "palabras/medio/sobre.wav",
-   "dur_medio_ms": 425
+   "medio": [
+    7.61998,
+    0.375
+   ]
   },
   "y": {
    "categoria": "funcion",
    "clave": "i",
-   "medio": "palabras/medio/y.wav",
-   "dur_medio_ms": 195
+   "medio": [
+    8.05498,
+    0.16
+   ]
   },
   "o": {
    "categoria": "funcion",
    "clave": "o",
-   "medio": "palabras/medio/o.wav",
-   "dur_medio_ms": 240
+   "medio": [
+    8.27498,
+    0.165
+   ]
   },
   "pero": {
    "categoria": "funcion",
    "clave": "pero",
-   "medio": "palabras/medio/pero.wav",
-   "dur_medio_ms": 350
+   "medio": [
+    8.49998,
+    0.285
+   ]
   },
   "que": {
    "categoria": "funcion",
    "clave": "ke",
-   "medio": "palabras/medio/que.wav",
-   "dur_medio_ms": 260
+   "medio": [
+    8.84498,
+    0.185
+   ]
   },
   "porque": {
    "categoria": "funcion",
    "clave": "porke",
-   "medio": "palabras/medio/porque.wav",
-   "dur_medio_ms": 415
+   "medio": [
+    9.08998,
+    0.39
+   ]
   },
   "me": {
    "categoria": "funcion",
    "clave": "me",
-   "medio": "palabras/medio/me.wav",
-   "dur_medio_ms": 250
+   "medio": [
+    9.53998,
+    0.21
+   ]
   },
   "te": {
    "categoria": "funcion",
    "clave": "te",
-   "medio": "palabras/medio/te.wav",
-   "dur_medio_ms": 215
+   "medio": [
+    9.80998,
+    0.185
+   ]
   },
   "se": {
    "categoria": "funcion",
    "clave": "se",
-   "medio": "palabras/medio/se.wav",
-   "dur_medio_ms": 275
+   "medio": [
+    10.05498,
+    0.24
+   ]
   },
   "le": {
    "categoria": "funcion",
    "clave": "le",
-   "medio": "palabras/medio/le.wav",
-   "dur_medio_ms": 170
+   "medio": [
+    10.35498,
+    0.14498
+   ]
   },
   "lo": {
    "categoria": "funcion",
    "clave": "lo",
-   "medio": "palabras/medio/lo.wav",
-   "dur_medio_ms": 230
+   "medio": [
+    10.55996,
+    0.195
+   ]
   },
   "yo": {
    "categoria": "pronombres",
    "clave": "yo",
-   "medio": "palabras/medio/yo.wav",
-   "dur_medio_ms": 370,
-   "final": "palabras/final/yo.wav",
-   "dur_final_ms": 360
+   "medio": [
+    10.81496,
+    0.27
+   ],
+   "final": [
+    11.14496,
+    0.36
+   ]
   },
   "tú": {
    "categoria": "pronombres",
    "clave": "tu",
-   "medio": "palabras/medio/tu_tilde.wav",
-   "dur_medio_ms": 515,
-   "final": "palabras/final/tu_tilde.wav",
-   "dur_final_ms": 325
+   "medio": [
+    11.56496,
+    0.425
+   ],
+   "final": [
+    12.04996,
+    0.325
+   ]
   },
   "él": {
    "categoria": "pronombres",
    "clave": "el",
-   "medio": "palabras/medio/el_tilde.wav",
-   "dur_medio_ms": 365,
-   "final": "palabras/final/el_tilde.wav",
-   "dur_final_ms": 480
+   "medio": [
+    12.43496,
+    0.28
+   ],
+   "final": [
+    12.77496,
+    0.48
+   ]
   },
   "ella": {
    "categoria": "pronombres",
    "clave": "eya",
-   "medio": "palabras/medio/ella.wav",
-   "dur_medio_ms": 520,
-   "final": "palabras/final/ella.wav",
-   "dur_final_ms": 545
+   "medio": [
+    13.31496,
+    0.415
+   ],
+   "final": [
+    13.78996,
+    0.545
+   ]
   },
   "nosotros": {
    "categoria": "pronombres",
    "clave": "nosotros",
-   "medio": "palabras/medio/nosotros.wav",
-   "dur_medio_ms": 745,
-   "final": "palabras/final/nosotros.wav",
-   "dur_final_ms": 775
+   "medio": [
+    14.39496,
+    0.69
+   ],
+   "final": [
+    15.14496,
+    0.775
+   ]
   },
   "ellos": {
    "categoria": "pronombres",
    "clave": "eyos",
-   "medio": "palabras/medio/ellos.wav",
-   "dur_medio_ms": 575,
-   "final": "palabras/final/ellos.wav",
-   "dur_final_ms": 640
+   "medio": [
+    15.97996,
+    0.495
+   ],
+   "final": [
+    16.53496,
+    0.64
+   ]
   },
   "mamá": {
    "categoria": "personas",
    "clave": "mama",
-   "medio": "palabras/medio/mama.wav",
-   "dur_medio_ms": 565,
-   "final": "palabras/final/mama.wav",
-   "dur_final_ms": 595
+   "medio": [
+    17.23496,
+    0.485
+   ],
+   "final": [
+    17.77996,
+    0.595
+   ]
   },
   "papá": {
    "categoria": "personas",
    "clave": "papa",
-   "medio": "palabras/medio/papa.wav",
-   "dur_medio_ms": 710,
-   "final": "palabras/final/papa.wav",
-   "dur_final_ms": 515
+   "medio": [
+    18.43496,
+    0.58
+   ],
+   "final": [
+    19.07496,
+    0.515
+   ]
   },
   "tío": {
    "categoria": "personas",
    "clave": "tio",
-   "medio": "palabras/medio/tio.wav",
-   "dur_medio_ms": 430,
-   "final": "palabras/final/tio.wav",
-   "dur_final_ms": 465
+   "medio": [
+    19.64996,
+    0.31
+   ],
+   "final": [
+    20.01996,
+    0.465
+   ]
   },
   "tía": {
    "categoria": "personas",
    "clave": "tia",
-   "medio": "palabras/medio/tia.wav",
-   "dur_medio_ms": 425,
-   "final": "palabras/final/tia.wav",
-   "dur_final_ms": 505
+   "medio": [
+    20.54496,
+    0.34
+   ],
+   "final": [
+    20.94496,
+    0.505
+   ]
   },
   "abuelo": {
    "categoria": "personas",
    "clave": "abuelo",
-   "medio": "palabras/medio/abuelo.wav",
-   "dur_medio_ms": 630,
-   "final": "palabras/final/abuelo.wav",
-   "dur_final_ms": 685
+   "medio": [
+    21.50996,
+    0.53
+   ],
+   "final": [
+    22.09996,
+    0.685
+   ]
   },
   "abuela": {
    "categoria": "personas",
    "clave": "abuela",
-   "medio": "palabras/medio/abuela.wav",
-   "dur_medio_ms": 725,
-   "final": "palabras/final/abuela.wav",
-   "dur_final_ms": 735
+   "medio": [
+    22.84496,
+    0.57
+   ],
+   "final": [
+    23.47496,
+    0.735
+   ]
   },
   "hermano": {
    "categoria": "personas",
    "clave": "ermano",
-   "medio": "palabras/medio/hermano.wav",
-   "dur_medio_ms": 730,
-   "final": "palabras/final/hermano.wav",
-   "dur_final_ms": 750
+   "medio": [
+    24.26996,
+    0.61
+   ],
+   "final": [
+    24.93996,
+    0.75
+   ]
   },
   "hermana": {
    "categoria": "personas",
    "clave": "ermana",
-   "medio": "palabras/medio/hermana.wav",
-   "dur_medio_ms": 660,
-   "final": "palabras/final/hermana.wav",
-   "dur_final_ms": 730
+   "medio": [
+    25.74996,
+    0.625
+   ],
+   "final": [
+    26.43496,
+    0.73
+   ]
   },
   "amigo": {
    "categoria": "personas",
    "clave": "amigo",
-   "medio": "palabras/medio/amigo.wav",
-   "dur_medio_ms": 490,
-   "final": "palabras/final/amigo.wav",
-   "dur_final_ms": 755
+   "medio": [
+    27.22496,
+    0.44
+   ],
+   "final": [
+    27.72496,
+    0.755
+   ]
   },
   "amiga": {
    "categoria": "personas",
    "clave": "amiga",
-   "medio": "palabras/medio/amiga.wav",
-   "dur_medio_ms": 620,
-   "final": "palabras/final/amiga.wav",
-   "dur_final_ms": 680
+   "medio": [
+    28.53996,
+    0.56
+   ],
+   "final": [
+    29.15996,
+    0.68
+   ]
   },
   "niño": {
    "categoria": "personas",
    "clave": "niño",
-   "medio": "palabras/medio/ninyo.wav",
-   "dur_medio_ms": 555,
-   "final": "palabras/final/ninyo.wav",
-   "dur_final_ms": 585
+   "medio": [
+    29.89996,
+    0.485
+   ],
+   "final": [
+    30.44496,
+    0.585
+   ]
   },
   "niña": {
    "categoria": "personas",
    "clave": "niña",
-   "medio": "palabras/medio/ninya.wav",
-   "dur_medio_ms": 585,
-   "final": "palabras/final/ninya.wav",
-   "dur_final_ms": 590
+   "medio": [
+    31.08996,
+    0.51
+   ],
+   "final": [
+    31.65996,
+    0.59
+   ]
   },
   "maestra": {
    "categoria": "personas",
    "clave": "maestra",
-   "medio": "palabras/medio/maestra.wav",
-   "dur_medio_ms": 770,
-   "final": "palabras/final/maestra.wav",
-   "dur_final_ms": 765
+   "medio": [
+    32.30996,
+    0.72
+   ],
+   "final": [
+    33.08996,
+    0.765
+   ]
   },
   "maestro": {
    "categoria": "personas",
    "clave": "maestro",
-   "medio": "palabras/medio/maestro.wav",
-   "dur_medio_ms": 825,
-   "final": "palabras/final/maestro.wav",
-   "dur_final_ms": 745
+   "medio": [
+    33.91496,
+    0.765
+   ],
+   "final": [
+    34.73996,
+    0.745
+   ]
   },
   "bebé": {
    "categoria": "personas",
    "clave": "bebe",
-   "medio": "palabras/medio/bebe_tilde.wav",
-   "dur_medio_ms": 480,
-   "final": "palabras/final/bebe_tilde.wav",
-   "dur_final_ms": 515
+   "medio": [
+    35.54496,
+    0.375
+   ],
+   "final": [
+    35.97996,
+    0.515
+   ]
   },
   "vaca": {
    "categoria": "animales",
    "clave": "baka",
-   "medio": "palabras/medio/vaca.wav",
-   "dur_medio_ms": 555,
-   "final": "palabras/final/vaca.wav",
-   "dur_final_ms": 655
+   "medio": [
+    36.55496,
+    0.46
+   ],
+   "final": [
+    37.07496,
+    0.655
+   ]
   },
   "perro": {
    "categoria": "animales",
    "clave": "peRo",
-   "medio": "palabras/medio/perro.wav",
-   "dur_medio_ms": 540,
-   "final": "palabras/final/perro.wav",
-   "dur_final_ms": 585
+   "medio": [
+    37.78996,
+    0.45
+   ],
+   "final": [
+    38.29996,
+    0.585
+   ]
   },
   "gato": {
    "categoria": "animales",
    "clave": "gato",
-   "medio": "palabras/medio/gato.wav",
-   "dur_medio_ms": 750,
-   "final": "palabras/final/gato.wav",
-   "dur_final_ms": 720
+   "medio": [
+    38.94496,
+    0.59
+   ],
+   "final": [
+    39.59496,
+    0.72
+   ]
   },
   "pato": {
    "categoria": "animales",
    "clave": "pato",
-   "medio": "palabras/medio/pato.wav",
-   "dur_medio_ms": 445,
-   "final": "palabras/final/pato.wav",
-   "dur_final_ms": 605
+   "medio": [
+    40.37496,
+    0.415
+   ],
+   "final": [
+    40.84996,
+    0.605
+   ]
   },
   "pájaro": {
    "categoria": "animales",
    "clave": "pajaro",
-   "medio": "palabras/medio/pajaro.wav",
-   "dur_medio_ms": 625,
-   "final": "palabras/final/pajaro.wav",
-   "dur_final_ms": 665
+   "medio": [
+    41.51496,
+    0.555
+   ],
+   "final": [
+    42.12996,
+    0.665
+   ]
   },
   "caballo": {
    "categoria": "animales",
    "clave": "kabayo",
-   "medio": "palabras/medio/caballo.wav",
-   "dur_medio_ms": 900,
-   "final": "palabras/final/caballo.wav",
-   "dur_final_ms": 775
+   "medio": [
+    42.85496,
+    0.75
+   ],
+   "final": [
+    43.66496,
+    0.775
+   ]
   },
   "pez": {
    "categoria": "animales",
    "clave": "pez",
-   "medio": "palabras/medio/pez.wav",
-   "dur_medio_ms": 420,
-   "final": "palabras/final/pez.wav",
-   "dur_final_ms": 475
+   "medio": [
+    44.49996,
+    0.275
+   ],
+   "final": [
+    44.83496,
+    0.475
+   ]
   },
   "ratón": {
    "categoria": "animales",
    "clave": "Raton",
-   "medio": "palabras/medio/raton.wav",
-   "dur_medio_ms": 905,
-   "final": "palabras/final/raton.wav",
-   "dur_final_ms": 940
+   "medio": [
+    45.36996,
+    0.765
+   ],
+   "final": [
+    46.19496,
+    0.94
+   ]
   },
   "conejo": {
    "categoria": "animales",
    "clave": "konejo",
-   "medio": "palabras/medio/conejo.wav",
-   "dur_medio_ms": 615,
-   "final": "palabras/final/conejo.wav",
-   "dur_final_ms": 795
+   "medio": [
+    47.19496,
+    0.595
+   ],
+   "final": [
+    47.84996,
+    0.795
+   ]
   },
   "oso": {
    "categoria": "animales",
    "clave": "oso",
-   "medio": "palabras/medio/oso.wav",
-   "dur_medio_ms": 550,
-   "final": "palabras/final/oso.wav",
-   "dur_final_ms": 600
+   "medio": [
+    48.70496,
+    0.465
+   ],
+   "final": [
+    49.22996,
+    0.6
+   ]
   },
   "león": {
    "categoria": "animales",
    "clave": "leon",
-   "medio": "palabras/medio/leon.wav",
-   "dur_medio_ms": 515,
-   "final": "palabras/final/leon.wav",
-   "dur_final_ms": 780
+   "medio": [
+    49.88996,
+    0.46
+   ],
+   "final": [
+    50.40996,
+    0.78
+   ]
   },
   "mono": {
    "categoria": "animales",
    "clave": "mono",
-   "medio": "palabras/medio/mono.wav",
-   "dur_medio_ms": 475,
-   "final": "palabras/final/mono.wav",
-   "dur_final_ms": 540
+   "medio": [
+    51.24996,
+    0.42
+   ],
+   "final": [
+    51.72996,
+    0.54
+   ]
   },
   "oveja": {
    "categoria": "animales",
    "clave": "obeja",
-   "medio": "palabras/medio/oveja.wav",
-   "dur_medio_ms": 600,
-   "final": "palabras/final/oveja.wav",
-   "dur_final_ms": 765
+   "medio": [
+    52.32996,
+    0.525
+   ],
+   "final": [
+    52.91496,
+    0.765
+   ]
   },
   "pollito": {
    "categoria": "animales",
    "clave": "poyito",
-   "medio": "palabras/medio/pollito.wav",
-   "dur_medio_ms": 730,
-   "final": "palabras/final/pollito.wav",
-   "dur_final_ms": 735
+   "medio": [
+    53.73996,
+    0.64
+   ],
+   "final": [
+    54.43996,
+    0.735
+   ]
   },
   "mariposa": {
    "categoria": "animales",
    "clave": "mariposa",
-   "medio": "palabras/medio/mariposa.wav",
-   "dur_medio_ms": 1675,
-   "final": "palabras/final/mariposa.wav",
-   "dur_final_ms": 840
+   "medio": [
+    55.23496,
+    0.945
+   ],
+   "final": [
+    56.23996,
+    0.84
+   ]
   },
   "casa": {
    "categoria": "lugares",
    "clave": "kasa",
-   "medio": "palabras/medio/casa.wav",
-   "dur_medio_ms": 515,
-   "final": "palabras/final/casa.wav",
-   "dur_final_ms": 595
+   "medio": [
+    57.13996,
+    0.425
+   ],
+   "final": [
+    57.62496,
+    0.595
+   ]
   },
   "escuela": {
    "categoria": "lugares",
    "clave": "eskuela",
-   "medio": "palabras/medio/escuela.wav",
-   "dur_medio_ms": 750,
-   "final": "palabras/final/escuela.wav",
-   "dur_final_ms": 780
+   "medio": [
+    58.27996,
+    0.67
+   ],
+   "final": [
+    59.00996,
+    0.78
+   ]
   },
   "parque": {
    "categoria": "lugares",
    "clave": "parke",
-   "medio": "palabras/medio/parque.wav",
-   "dur_medio_ms": 510,
-   "final": "palabras/final/parque.wav",
-   "dur_final_ms": 745
+   "medio": [
+    59.84996,
+    0.46
+   ],
+   "final": [
+    60.36996,
+    0.745
+   ]
   },
   "playa": {
    "categoria": "lugares",
    "clave": "playa",
-   "medio": "palabras/medio/playa.wav",
-   "dur_medio_ms": 620,
-   "final": "palabras/final/playa.wav",
-   "dur_final_ms": 715
+   "medio": [
+    61.17496,
+    0.535
+   ],
+   "final": [
+    61.76996,
+    0.715
+   ]
   },
   "jardín": {
    "categoria": "lugares",
    "clave": "jardin",
-   "medio": "palabras/medio/jardin.wav",
-   "dur_medio_ms": 625,
-   "final": "palabras/final/jardin.wav",
-   "dur_final_ms": 880
+   "medio": [
+    62.54496,
+    0.595
+   ],
+   "final": [
+    63.19996,
+    0.88
+   ]
   },
   "campo": {
    "categoria": "lugares",
    "clave": "kampo",
-   "medio": "palabras/medio/campo.wav",
-   "dur_medio_ms": 555,
-   "final": "palabras/final/campo.wav",
-   "dur_final_ms": 745
+   "medio": [
+    64.13996,
+    0.49
+   ],
+   "final": [
+    64.68996,
+    0.745
+   ]
   },
   "río": {
    "categoria": "lugares",
    "clave": "Rio",
-   "medio": "palabras/medio/rio.wav",
-   "dur_medio_ms": 415,
-   "final": "palabras/final/rio.wav",
-   "dur_final_ms": 590
+   "medio": [
+    65.49496,
+    0.34
+   ],
+   "final": [
+    65.89496,
+    0.59
+   ]
   },
   "mar": {
    "categoria": "lugares",
    "clave": "mar",
-   "medio": "palabras/medio/mar.wav",
-   "dur_medio_ms": 460,
-   "final": "palabras/final/mar.wav",
-   "dur_final_ms": 590
+   "medio": [
+    66.54496,
+    0.38
+   ],
+   "final": [
+    66.98496,
+    0.59
+   ]
   },
   "montaña": {
    "categoria": "lugares",
    "clave": "montaña",
-   "medio": "palabras/medio/montanya.wav",
-   "dur_medio_ms": 865,
-   "final": "palabras/final/montanya.wav",
-   "dur_final_ms": 860
+   "medio": [
+    67.63496,
+    0.78
+   ],
+   "final": [
+    68.47496,
+    0.86
+   ]
   },
   "ciudad": {
    "categoria": "lugares",
    "clave": "ziudad",
-   "medio": "palabras/medio/ciudad.wav",
-   "dur_medio_ms": 670,
-   "final": "palabras/final/ciudad.wav",
-   "dur_final_ms": 630
+   "medio": [
+    69.39496,
+    0.555
+   ],
+   "final": [
+    70.00996,
+    0.63
+   ]
   },
   "calle": {
    "categoria": "lugares",
    "clave": "kaye",
-   "medio": "palabras/medio/calle.wav",
-   "dur_medio_ms": 530,
-   "final": "palabras/final/calle.wav",
-   "dur_final_ms": 590
+   "medio": [
+    70.69996,
+    0.45
+   ],
+   "final": [
+    71.20996,
+    0.59
+   ]
   },
   "tienda": {
    "categoria": "lugares",
    "clave": "tienda",
-   "medio": "palabras/medio/tienda.wav",
-   "dur_medio_ms": 635,
-   "final": "palabras/final/tienda.wav",
-   "dur_final_ms": 700
+   "medio": [
+    71.85996,
+    0.505
+   ],
+   "final": [
+    72.42496,
+    0.7
+   ]
   },
   "pasto": {
    "categoria": "cosas",
    "clave": "pasto",
-   "medio": "palabras/medio/pasto.wav",
-   "dur_medio_ms": 575,
-   "final": "palabras/final/pasto.wav",
-   "dur_final_ms": 700
+   "medio": [
+    73.18496,
+    0.54
+   ],
+   "final": [
+    73.78496,
+    0.7
+   ]
   },
   "sol": {
    "categoria": "cosas",
    "clave": "sol",
-   "medio": "palabras/medio/sol.wav",
-   "dur_medio_ms": 415,
-   "final": "palabras/final/sol.wav",
-   "dur_final_ms": 645
+   "medio": [
+    74.54496,
+    0.35
+   ],
+   "final": [
+    74.95496,
+    0.645
+   ]
   },
   "luna": {
    "categoria": "cosas",
    "clave": "luna",
-   "medio": "palabras/medio/luna.wav",
-   "dur_medio_ms": 470,
-   "final": "palabras/final/luna.wav",
-   "dur_final_ms": 585
+   "medio": [
+    75.65996,
+    0.385
+   ],
+   "final": [
+    76.10496,
+    0.585
+   ]
   },
   "agua": {
    "categoria": "cosas",
    "clave": "agua",
-   "medio": "palabras/medio/agua.wav",
-   "dur_medio_ms": 625,
-   "final": "palabras/final/agua.wav",
-   "dur_final_ms": 610
+   "medio": [
+    76.74996,
+    0.505
+   ],
+   "final": [
+    77.31496,
+    0.61
+   ]
   },
   "flor": {
    "categoria": "cosas",
    "clave": "flor",
-   "medio": "palabras/medio/flor.wav",
-   "dur_medio_ms": 570,
-   "final": "palabras/final/flor.wav",
-   "dur_final_ms": 605
+   "medio": [
+    77.98496,
+    0.415
+   ],
+   "final": [
+    78.45996,
+    0.605
+   ]
   },
   "árbol": {
    "categoria": "cosas",
    "clave": "arbol",
-   "medio": "palabras/medio/arbol.wav",
-   "dur_medio_ms": 740,
-   "final": "palabras/final/arbol.wav",
-   "dur_final_ms": 885
+   "medio": [
+    79.12496,
+    0.655
+   ],
+   "final": [
+    79.83996,
+    0.885
+   ]
   },
   "pelota": {
    "categoria": "cosas",
    "clave": "pelota",
-   "medio": "palabras/medio/pelota.wav",
-   "dur_medio_ms": 630,
-   "final": "palabras/final/pelota.wav",
-   "dur_final_ms": 755
+   "medio": [
+    80.78496,
+    0.565
+   ],
+   "final": [
+    81.40996,
+    0.755
+   ]
   },
   "libro": {
    "categoria": "cosas",
    "clave": "libro",
-   "medio": "palabras/medio/libro.wav",
-   "dur_medio_ms": 470,
-   "final": "palabras/final/libro.wav",
-   "dur_final_ms": 545
+   "medio": [
+    82.22496,
+    0.42
+   ],
+   "final": [
+    82.70496,
+    0.545
+   ]
   },
   "juguete": {
    "categoria": "cosas",
    "clave": "jugete",
-   "medio": "palabras/medio/juguete.wav",
-   "dur_medio_ms": 1540,
-   "final": "palabras/final/juguete.wav",
-   "dur_final_ms": 810
+   "medio": [
+    83.30996,
+    0.79
+   ],
+   "final": [
+    84.15996,
+    0.81
+   ]
   },
   "mesa": {
    "categoria": "cosas",
    "clave": "mesa",
-   "medio": "palabras/medio/mesa.wav",
-   "dur_medio_ms": 555,
-   "final": "palabras/final/mesa.wav",
-   "dur_final_ms": 675
+   "medio": [
+    85.02996,
+    0.48
+   ],
+   "final": [
+    85.56996,
+    0.675
+   ]
   },
   "cama": {
    "categoria": "cosas",
    "clave": "kama",
-   "medio": "palabras/medio/cama.wav",
-   "dur_medio_ms": 590,
-   "final": "palabras/final/cama.wav",
-   "dur_final_ms": 569
+   "medio": [
+    86.30496,
+    0.44
+   ],
+   "final": [
+    86.80496,
+    0.56998
+   ]
   },
   "pan": {
    "categoria": "cosas",
    "clave": "pan",
-   "medio": "palabras/medio/pan.wav",
-   "dur_medio_ms": 355,
-   "final": "palabras/final/pan.wav",
-   "dur_final_ms": 680
+   "medio": [
+    87.43494,
+    0.33
+   ],
+   "final": [
+    87.82494,
+    0.68
+   ]
   },
   "leche": {
    "categoria": "cosas",
    "clave": "leCe",
-   "medio": "palabras/medio/leche.wav",
-   "dur_medio_ms": 480,
-   "final": "palabras/final/leche.wav",
-   "dur_final_ms": 635
+   "medio": [
+    88.56494,
+    0.455
+   ],
+   "final": [
+    89.07994,
+    0.635
+   ]
   },
   "fruta": {
    "categoria": "cosas",
    "clave": "fruta",
-   "medio": "palabras/medio/fruta.wav",
-   "dur_medio_ms": 675,
-   "final": "palabras/final/fruta.wav",
-   "dur_final_ms": 715
+   "medio": [
+    89.77494,
+    0.6
+   ],
+   "final": [
+    90.43494,
+    0.715
+   ]
   },
   "manzana": {
    "categoria": "cosas",
    "clave": "manzana",
-   "medio": "palabras/medio/manzana.wav",
-   "dur_medio_ms": 760,
-   "final": "palabras/final/manzana.wav",
-   "dur_final_ms": 850
+   "medio": [
+    91.20994,
+    0.69
+   ],
+   "final": [
+    91.95994,
+    0.85
+   ]
   },
   "helado": {
    "categoria": "cosas",
    "clave": "elado",
-   "medio": "palabras/medio/helado.wav",
-   "dur_medio_ms": 615,
-   "final": "palabras/final/helado.wav",
-   "dur_final_ms": 775
+   "medio": [
+    92.86994,
+    0.535
+   ],
+   "final": [
+    93.46494,
+    0.775
+   ]
   },
   "comida": {
    "categoria": "cosas",
    "clave": "komida",
-   "medio": "palabras/medio/comida.wav",
-   "dur_medio_ms": 655,
-   "final": "palabras/final/comida.wav",
-   "dur_final_ms": 675
+   "medio": [
+    94.29994,
+    0.58
+   ],
+   "final": [
+    94.93994,
+    0.675
+   ]
   },
   "carro": {
    "categoria": "cosas",
    "clave": "kaRo",
-   "medio": "palabras/medio/carro.wav",
-   "dur_medio_ms": 530,
-   "final": "palabras/final/carro.wav",
-   "dur_final_ms": 600
+   "medio": [
+    95.67494,
+    0.435
+   ],
+   "final": [
+    96.16994,
+    0.6
+   ]
   },
   "bicicleta": {
    "categoria": "cosas",
    "clave": "bizikleta",
-   "medio": "palabras/medio/bicicleta.wav",
-   "dur_medio_ms": 1420,
-   "final": "palabras/final/bicicleta.wav",
-   "dur_final_ms": 955
+   "medio": [
+    96.82994,
+    0.92
+   ],
+   "final": [
+    97.80994,
+    0.955
+   ]
   },
   "es": {
    "categoria": "verbos",
    "clave": "es",
-   "medio": "palabras/medio/es.wav",
-   "dur_medio_ms": 195,
-   "final": "palabras/final/es.wav",
-   "dur_final_ms": 395
+   "medio": [
+    98.82494,
+    0.19
+   ],
+   "final": [
+    99.07494,
+    0.395
+   ]
   },
   "está": {
    "categoria": "verbos",
    "clave": "esta",
-   "medio": "palabras/medio/esta.wav",
-   "dur_medio_ms": 495,
-   "final": "palabras/final/esta.wav",
-   "dur_final_ms": 615
+   "medio": [
+    99.52994,
+    0.43
+   ],
+   "final": [
+    100.01994,
+    0.615
+   ]
   },
   "son": {
    "categoria": "verbos",
    "clave": "son",
-   "medio": "palabras/medio/son.wav",
-   "dur_medio_ms": 365,
-   "final": "palabras/final/son.wav",
-   "dur_final_ms": 645
+   "medio": [
+    100.69494,
+    0.335
+   ],
+   "final": [
+    101.08994,
+    0.645
+   ]
   },
   "están": {
    "categoria": "verbos",
    "clave": "estan",
-   "medio": "palabras/medio/estan.wav",
-   "dur_medio_ms": 555,
-   "final": "palabras/final/estan.wav",
-   "dur_final_ms": 875
+   "medio": [
+    101.79494,
+    0.54
+   ],
+   "final": [
+    102.39494,
+    0.875
+   ]
   },
   "soy": {
    "categoria": "verbos",
    "clave": "soi",
-   "medio": "palabras/medio/soy.wav",
-   "dur_medio_ms": 365,
-   "final": "palabras/final/soy.wav",
-   "dur_final_ms": 595
+   "medio": [
+    103.32994,
+    0.295
+   ],
+   "final": [
+    103.68494,
+    0.595
+   ]
   },
   "estoy": {
    "categoria": "verbos",
    "clave": "estoi",
-   "medio": "palabras/medio/estoy.wav",
-   "dur_medio_ms": 565,
-   "final": "palabras/final/estoy.wav",
-   "dur_final_ms": 740
+   "medio": [
+    104.33994,
+    0.53
+   ],
+   "final": [
+    104.92994,
+    0.74
+   ]
   },
   "tiene": {
    "categoria": "verbos",
    "clave": "tiene",
-   "medio": "palabras/medio/tiene.wav",
-   "dur_medio_ms": 375,
-   "final": "palabras/final/tiene.wav",
-   "dur_final_ms": 579
+   "medio": [
+    105.72994,
+    0.315
+   ],
+   "final": [
+    106.10494,
+    0.57998
+   ]
   },
   "tengo": {
    "categoria": "verbos",
    "clave": "tengo",
-   "medio": "palabras/medio/tengo.wav",
-   "dur_medio_ms": 445,
-   "final": "palabras/final/tengo.wav",
-   "dur_final_ms": 650
+   "medio": [
+    106.74492,
+    0.38
+   ],
+   "final": [
+    107.18492,
+    0.65
+   ]
   },
   "va": {
    "categoria": "verbos",
    "clave": "ba",
-   "medio": "palabras/medio/va.wav",
-   "dur_medio_ms": 320,
-   "final": "palabras/final/va.wav",
-   "dur_final_ms": 400
+   "medio": [
+    107.89492,
+    0.275
+   ],
+   "final": [
+    108.22992,
+    0.4
+   ]
   },
   "voy": {
    "categoria": "verbos",
    "clave": "boi",
-   "medio": "palabras/medio/voy.wav",
-   "dur_medio_ms": 355,
-   "final": "palabras/final/voy.wav",
-   "dur_final_ms": 600
+   "medio": [
+    108.68992,
+    0.26
+   ],
+   "final": [
+    109.00992,
+    0.6
+   ]
   },
   "vamos": {
    "categoria": "verbos",
    "clave": "bamos",
-   "medio": "palabras/medio/vamos.wav",
-   "dur_medio_ms": 450,
-   "final": "palabras/final/vamos.wav",
-   "dur_final_ms": 680
+   "medio": [
+    109.66992,
+    0.38
+   ],
+   "final": [
+    110.10992,
+    0.68
+   ]
   },
   "come": {
    "categoria": "verbos",
    "clave": "kome",
-   "medio": "palabras/medio/come.wav",
-   "dur_medio_ms": 425,
-   "final": "palabras/final/come.wav",
-   "dur_final_ms": 525
+   "medio": [
+    110.84992,
+    0.355
+   ],
+   "final": [
+    111.26492,
+    0.525
+   ]
   },
   "como": {
    "categoria": "verbos",
    "clave": "komo",
-   "medio": "palabras/medio/como.wav",
-   "dur_medio_ms": 340,
-   "final": "palabras/final/como.wav",
-   "dur_final_ms": 520
+   "medio": [
+    111.84992,
+    0.32
+   ],
+   "final": [
+    112.22992,
+    0.52
+   ]
   },
   "bebe": {
    "categoria": "verbos",
    "clave": "bebe",
-   "medio": "palabras/medio/bebe.wav",
-   "dur_medio_ms": 380,
-   "final": "palabras/final/bebe.wav",
-   "dur_final_ms": 545
+   "medio": [
+    112.80992,
+    0.32
+   ],
+   "final": [
+    113.18992,
+    0.545
+   ]
   },
   "juega": {
    "categoria": "verbos",
    "clave": "juega",
-   "medio": "palabras/medio/juega.wav",
-   "dur_medio_ms": 560,
-   "final": "palabras/final/juega.wav",
-   "dur_final_ms": 685
+   "medio": [
+    113.79492,
+    0.475
+   ],
+   "final": [
+    114.32992,
+    0.685
+   ]
   },
   "juego": {
    "categoria": "verbos",
    "clave": "juego",
-   "medio": "palabras/medio/juego.wav",
-   "dur_medio_ms": 495,
-   "final": "palabras/final/juego.wav",
-   "dur_final_ms": 690
+   "medio": [
+    115.07492,
+    0.445
+   ],
+   "final": [
+    115.57992,
+    0.69
+   ]
   },
   "corre": {
    "categoria": "verbos",
    "clave": "koRe",
-   "medio": "palabras/medio/corre.wav",
-   "dur_medio_ms": 460,
-   "final": "palabras/final/corre.wav",
-   "dur_final_ms": 630
+   "medio": [
+    116.32992,
+    0.375
+   ],
+   "final": [
+    116.76492,
+    0.63
+   ]
   },
   "salta": {
    "categoria": "verbos",
    "clave": "salta",
-   "medio": "palabras/medio/salta.wav",
-   "dur_medio_ms": 520,
-   "final": "palabras/final/salta.wav",
-   "dur_final_ms": 745
+   "medio": [
+    117.45492,
+    0.5
+   ],
+   "final": [
+    118.01492,
+    0.745
+   ]
   },
   "duerme": {
    "categoria": "verbos",
    "clave": "duerme",
-   "medio": "palabras/medio/duerme.wav",
-   "dur_medio_ms": 565,
-   "final": "palabras/final/duerme.wav",
-   "dur_final_ms": 685
+   "medio": [
+    118.81992,
+    0.49
+   ],
+   "final": [
+    119.36992,
+    0.685
+   ]
   },
   "lee": {
    "categoria": "verbos",
    "clave": "lee",
-   "medio": "palabras/medio/lee.wav",
-   "dur_medio_ms": 355,
-   "final": "palabras/final/lee.wav",
-   "dur_final_ms": 560
+   "medio": [
+    120.11492,
+    0.305
+   ],
+   "final": [
+    120.47992,
+    0.56
+   ]
   },
   "canta": {
    "categoria": "verbos",
    "clave": "kanta",
-   "medio": "palabras/medio/canta.wav",
-   "dur_medio_ms": 579,
-   "final": "palabras/final/canta.wav",
-   "dur_final_ms": 860
+   "medio": [
+    121.09992,
+    0.54
+   ],
+   "final": [
+    121.69992,
+    0.86
+   ]
   },
   "mira": {
    "categoria": "verbos",
    "clave": "mira",
-   "medio": "palabras/medio/mira.wav",
-   "dur_medio_ms": 530,
-   "final": "palabras/final/mira.wav",
-   "dur_final_ms": 540
+   "medio": [
+    122.61992,
+    0.465
+   ],
+   "final": [
+    123.14492,
+    0.54
+   ]
   },
   "quiere": {
    "categoria": "verbos",
    "clave": "kiere",
-   "medio": "palabras/medio/quiere.wav",
-   "dur_medio_ms": 580,
-   "final": "palabras/final/quiere.wav",
-   "dur_final_ms": 590
+   "medio": [
+    123.74492,
+    0.455
+   ],
+   "final": [
+    124.25992,
+    0.59
+   ]
   },
   "quiero": {
    "categoria": "verbos",
    "clave": "kiero",
-   "medio": "palabras/medio/quiero.wav",
-   "dur_medio_ms": 525,
-   "final": "palabras/final/quiero.wav",
-   "dur_final_ms": 575
+   "medio": [
+    124.90992,
+    0.435
+   ],
+   "final": [
+    125.40492,
+    0.575
+   ]
   },
   "vive": {
    "categoria": "verbos",
    "clave": "bibe",
-   "medio": "palabras/medio/vive.wav",
-   "dur_medio_ms": 380,
-   "final": "palabras/final/vive.wav",
-   "dur_final_ms": 555
+   "medio": [
+    126.03992,
+    0.325
+   ],
+   "final": [
+    126.42492,
+    0.555
+   ]
   },
   "nada": {
    "categoria": "verbos",
    "clave": "nada",
-   "medio": "palabras/medio/nada.wav",
-   "dur_medio_ms": 590,
-   "final": "palabras/final/nada.wav",
-   "dur_final_ms": 535
+   "medio": [
+    127.03992,
+    0.435
+   ],
+   "final": [
+    127.53492,
+    0.535
+   ]
   },
   "vuela": {
    "categoria": "verbos",
    "clave": "buela",
-   "medio": "palabras/medio/vuela.wav",
-   "dur_medio_ms": 395,
-   "final": "palabras/final/vuela.wav",
-   "dur_final_ms": 650
+   "medio": [
+    128.12992,
+    0.365
+   ],
+   "final": [
+    128.55492,
+    0.65
+   ]
   },
   "camina": {
    "categoria": "verbos",
    "clave": "kamina",
-   "medio": "palabras/medio/camina.wav",
-   "dur_medio_ms": 715,
-   "final": "palabras/final/camina.wav",
-   "dur_final_ms": 775
+   "medio": [
+    129.26492,
+    0.59
+   ],
+   "final": [
+    129.91492,
+    0.775
+   ]
   },
   "grande": {
    "categoria": "adjetivos",
    "clave": "grande",
-   "medio": "palabras/medio/grande.wav",
-   "dur_medio_ms": 680,
-   "final": "palabras/final/grande.wav",
-   "dur_final_ms": 720
+   "medio": [
+    130.74992,
+    0.6
+   ],
+   "final": [
+    131.40992,
+    0.72
+   ]
   },
   "pequeño": {
    "categoria": "adjetivos",
    "clave": "pekeño",
-   "medio": "palabras/medio/pequenyo.wav",
-   "dur_medio_ms": 700,
-   "final": "palabras/final/pequenyo.wav",
-   "dur_final_ms": 790
+   "medio": [
+    132.18992,
+    0.62
+   ],
+   "final": [
+    132.86992,
+    0.79
+   ]
   },
   "pequeña": {
    "categoria": "adjetivos",
    "clave": "pekeña",
-   "medio": "palabras/medio/pequenya.wav",
-   "dur_medio_ms": 815,
-   "final": "palabras/final/pequenya.wav",
-   "dur_final_ms": 775
+   "medio": [
+    133.71992,
+    0.695
+   ],
+   "final": [
+    134.47492,
+    0.775
+   ]
   },
   "bonito": {
    "categoria": "adjetivos",
    "clave": "bonito",
-   "medio": "palabras/medio/bonito.wav",
-   "dur_medio_ms": 565,
-   "final": "palabras/final/bonito.wav",
-   "dur_final_ms": 825
+   "medio": [
+    135.30992,
+    0.545
+   ],
+   "final": [
+    135.91492,
+    0.825
+   ]
   },
   "bonita": {
    "categoria": "adjetivos",
    "clave": "bonita",
-   "medio": "palabras/medio/bonita.wav",
-   "dur_medio_ms": 630,
-   "final": "palabras/final/bonita.wav",
-   "dur_final_ms": 670
+   "medio": [
+    136.79992,
+    0.56
+   ],
+   "final": [
+    137.41992,
+    0.67
+   ]
   },
   "feliz": {
    "categoria": "adjetivos",
    "clave": "feliz",
-   "medio": "palabras/medio/feliz.wav",
-   "dur_medio_ms": 655,
-   "final": "palabras/final/feliz.wav",
-   "dur_final_ms": 570
+   "medio": [
+    138.14992,
+    0.55
+   ],
+   "final": [
+    138.75992,
+    0.57
+   ]
   },
   "contento": {
    "categoria": "adjetivos",
    "clave": "kontento",
-   "medio": "palabras/medio/contento.wav",
-   "dur_medio_ms": 990,
-   "final": "palabras/final/contento.wav",
-   "dur_final_ms": 985
+   "medio": [
+    139.38992,
+    0.92
+   ],
+   "final": [
+    140.36992,
+    0.985
+   ]
   },
   "contenta": {
    "categoria": "adjetivos",
    "clave": "kontenta",
-   "medio": "palabras/medio/contenta.wav",
-   "dur_medio_ms": 1210,
-   "final": "palabras/final/contenta.wav",
-   "dur_final_ms": 915
+   "medio": [
+    141.41492,
+    1.09
+   ],
+   "final": [
+    142.56492,
+    0.915
+   ]
   },
   "rojo": {
    "categoria": "adjetivos",
    "clave": "Rojo",
-   "medio": "palabras/medio/rojo.wav",
-   "dur_medio_ms": 460,
-   "final": "palabras/final/rojo.wav",
-   "dur_final_ms": 655
+   "medio": [
+    143.53992,
+    0.425
+   ],
+   "final": [
+    144.02492,
+    0.655
+   ]
   },
   "azul": {
    "categoria": "adjetivos",
    "clave": "azul",
-   "medio": "palabras/medio/azul.wav",
-   "dur_medio_ms": 590,
-   "final": "palabras/final/azul.wav",
-   "dur_final_ms": 695
+   "medio": [
+    144.73992,
+    0.5
+   ],
+   "final": [
+    145.29992,
+    0.695
+   ]
   },
   "verde": {
    "categoria": "adjetivos",
    "clave": "berde",
-   "medio": "palabras/medio/verde.wav",
-   "dur_medio_ms": 575,
-   "final": "palabras/final/verde.wav",
-   "dur_final_ms": 660
+   "medio": [
+    146.05492,
+    0.505
+   ],
+   "final": [
+    146.61992,
+    0.66
+   ]
   },
   "amarillo": {
    "categoria": "adjetivos",
    "clave": "amariyo",
-   "medio": "palabras/medio/amarillo.wav",
-   "dur_medio_ms": 670,
-   "final": "palabras/final/amarillo.wav",
-   "dur_final_ms": 770
+   "medio": [
+    147.33992,
+    0.63
+   ],
+   "final": [
+    148.02992,
+    0.77
+   ]
   },
   "blanco": {
    "categoria": "adjetivos",
    "clave": "blanko",
-   "medio": "palabras/medio/blanco.wav",
-   "dur_medio_ms": 760,
-   "final": "palabras/final/blanco.wav",
-   "dur_final_ms": 795
+   "medio": [
+    148.85992,
+    0.695
+   ],
+   "final": [
+    149.61492,
+    0.795
+   ]
   },
   "negro": {
    "categoria": "adjetivos",
    "clave": "negro",
-   "medio": "palabras/medio/negro.wav",
-   "dur_medio_ms": 510,
-   "final": "palabras/final/negro.wav",
-   "dur_final_ms": 590
+   "medio": [
+    150.46992,
+    0.44
+   ],
+   "final": [
+    150.96992,
+    0.59
+   ]
   },
   "alto": {
    "categoria": "adjetivos",
    "clave": "alto",
-   "medio": "palabras/medio/alto.wav",
-   "dur_medio_ms": 490,
-   "final": "palabras/final/alto.wav",
-   "dur_final_ms": 705
+   "medio": [
+    151.61992,
+    0.46
+   ],
+   "final": [
+    152.13992,
+    0.705
+   ]
   },
   "rápido": {
    "categoria": "adjetivos",
    "clave": "Rapido",
-   "medio": "palabras/medio/rapido.wav",
-   "dur_medio_ms": 645,
-   "final": "palabras/final/rapido.wav",
-   "dur_final_ms": 675
+   "medio": [
+    152.90492,
+    0.555
+   ],
+   "final": [
+    153.51992,
+    0.675
+   ]
   },
   "nuevo": {
    "categoria": "adjetivos",
    "clave": "nuebo",
-   "medio": "palabras/medio/nuevo.wav",
-   "dur_medio_ms": 505,
-   "final": "palabras/final/nuevo.wav",
-   "dur_final_ms": 550
+   "medio": [
+    154.25492,
+    0.445
+   ],
+   "final": [
+    154.75992,
+    0.55
+   ]
   },
   "mucho": {
    "categoria": "adjetivos",
    "clave": "muCo",
-   "medio": "palabras/medio/mucho.wav",
-   "dur_medio_ms": 590,
-   "final": "palabras/final/mucho.wav",
-   "dur_final_ms": 635
+   "medio": [
+    155.36992,
+    0.55
+   ],
+   "final": [
+    155.97992,
+    0.635
+   ]
   },
   "muchos": {
    "categoria": "adjetivos",
    "clave": "muCos",
-   "medio": "palabras/medio/muchos.wav",
-   "dur_medio_ms": 635,
-   "final": "palabras/final/muchos.wav",
-   "dur_final_ms": 675
+   "medio": [
+    156.67492,
+    0.59
+   ],
+   "final": [
+    157.32492,
+    0.675
+   ]
   },
   "muy": {
    "categoria": "adjetivos",
    "clave": "mui",
-   "medio": "palabras/medio/muy.wav",
-   "dur_medio_ms": 400,
-   "final": "palabras/final/muy.wav",
-   "dur_final_ms": 520
+   "medio": [
+    158.05992,
+    0.375
+   ],
+   "final": [
+    158.49492,
+    0.52
+   ]
   },
   "más": {
    "categoria": "adjetivos",
    "clave": "mas",
-   "medio": "palabras/medio/mas.wav",
-   "dur_medio_ms": 375,
-   "final": "palabras/final/mas.wav",
-   "dur_final_ms": 455
+   "medio": [
+    159.07492,
+    0.31
+   ],
+   "final": [
+    159.44492,
+    0.455
+   ]
   },
   "hoy": {
    "categoria": "tiempo_y_otros",
    "clave": "oi",
-   "medio": "palabras/medio/hoy.wav",
-   "dur_medio_ms": 425,
-   "final": "palabras/final/hoy.wav",
-   "dur_final_ms": 590
+   "medio": [
+    159.95992,
+    0.37
+   ],
+   "final": [
+    160.38992,
+    0.59
+   ]
   },
   "ayer": {
    "categoria": "tiempo_y_otros",
    "clave": "ayer",
-   "medio": "palabras/medio/ayer.wav",
-   "dur_medio_ms": 620,
-   "final": "palabras/final/ayer.wav",
-   "dur_final_ms": 755
+   "medio": [
+    161.03992,
+    0.505
+   ],
+   "final": [
+    161.60492,
+    0.755
+   ]
   },
   "mañana": {
    "categoria": "tiempo_y_otros",
    "clave": "mañana",
-   "medio": "palabras/medio/manyana.wav",
-   "dur_medio_ms": 555,
-   "final": "palabras/final/manyana.wav",
-   "dur_final_ms": 730
+   "medio": [
+    162.41992,
+    0.5
+   ],
+   "final": [
+    162.97992,
+    0.73
+   ]
   },
   "ahora": {
    "categoria": "tiempo_y_otros",
    "clave": "aora",
-   "medio": "palabras/medio/ahora.wav",
-   "dur_medio_ms": 520,
-   "final": "palabras/final/ahora.wav",
-   "dur_final_ms": 680
+   "medio": [
+    163.76992,
+    0.445
+   ],
+   "final": [
+    164.27492,
+    0.68
+   ]
   },
   "siempre": {
    "categoria": "tiempo_y_otros",
    "clave": "siempre",
-   "medio": "palabras/medio/siempre.wav",
-   "dur_medio_ms": 820,
-   "final": "palabras/final/siempre.wav",
-   "dur_final_ms": 645
+   "medio": [
+    165.01492,
+    0.69
+   ],
+   "final": [
+    165.76492,
+    0.645
+   ]
   },
   "aquí": {
    "categoria": "tiempo_y_otros",
    "clave": "aki",
-   "medio": "palabras/medio/aqui.wav",
-   "dur_medio_ms": 470,
-   "final": "palabras/final/aqui.wav",
-   "dur_final_ms": 630
+   "medio": [
+    166.46992,
+    0.39
+   ],
+   "final": [
+    166.91992,
+    0.63
+   ]
   },
   "allá": {
    "categoria": "tiempo_y_otros",
    "clave": "aya",
-   "medio": "palabras/medio/alla.wav",
-   "dur_medio_ms": 540,
-   "final": "palabras/final/alla.wav",
-   "dur_final_ms": 575
+   "medio": [
+    167.60992,
+    0.46
+   ],
+   "final": [
+    168.12992,
+    0.575
+   ]
   },
   "no": {
    "categoria": "tiempo_y_otros",
    "clave": "no",
-   "medio": "palabras/medio/no.wav",
-   "dur_medio_ms": 310,
-   "final": "palabras/final/no.wav",
-   "dur_final_ms": 300
+   "medio": [
+    168.76492,
+    0.26
+   ],
+   "final": [
+    169.08492,
+    0.3
+   ]
   },
   "sí": {
    "categoria": "tiempo_y_otros",
    "clave": "si",
-   "medio": "palabras/medio/si.wav",
-   "dur_medio_ms": 390,
-   "final": "palabras/final/si.wav",
-   "dur_final_ms": 455
+   "medio": [
+    169.44492,
+    0.31
+   ],
+   "final": [
+    169.81492,
+    0.455
+   ]
   },
   "vacaciones": {
    "categoria": "tiempo_y_otros",
    "clave": "bakaziones",
-   "medio": "palabras/medio/vacaciones.wav",
-   "dur_medio_ms": 1045,
-   "final": "palabras/final/vacaciones.wav",
-   "dur_final_ms": 955
+   "medio": [
+    170.32992,
+    0.925
+   ],
+   "final": [
+    171.31492,
+    0.955
+   ]
   },
   "día": {
    "categoria": "tiempo_y_otros",
    "clave": "dia",
-   "medio": "palabras/medio/dia.wav",
-   "dur_medio_ms": 415,
-   "final": "palabras/final/dia.wav",
-   "dur_final_ms": 550
+   "medio": [
+    172.32992,
+    0.335
+   ],
+   "final": [
+    172.72492,
+    0.55
+   ]
   },
   "noche": {
    "categoria": "tiempo_y_otros",
    "clave": "noCe",
-   "medio": "palabras/medio/noche.wav",
-   "dur_medio_ms": 415,
-   "final": "palabras/final/noche.wav",
-   "dur_final_ms": 645
+   "medio": [
+    173.33492,
+    0.385
+   ],
+   "final": [
+    173.77992,
+    0.645
+   ]
   },
   "tarde": {
    "categoria": "tiempo_y_otros",
    "clave": "tarde",
-   "medio": "palabras/medio/tarde.wav",
-   "dur_medio_ms": 425,
-   "final": "palabras/final/tarde.wav",
-   "dur_final_ms": 625
+   "medio": [
+    174.48492,
+    0.41
+   ],
+   "final": [
+    174.95492,
+    0.625
+   ]
   },
   "también": {
    "categoria": "tiempo_y_otros",
    "clave": "tambien",
-   "medio": "palabras/medio/tambien.wav",
-   "dur_medio_ms": 1050,
-   "final": "palabras/final/tambien.wav",
-   "dur_final_ms": 775
+   "medio": [
+    175.63992,
+    0.925
+   ],
+   "final": [
+    176.62492,
+    0.775
+   ]
   },
   "todos": {
    "categoria": "tiempo_y_otros",
    "clave": "todos",
-   "medio": "palabras/medio/todos.wav",
-   "dur_medio_ms": 520,
-   "final": "palabras/final/todos.wav",
-   "dur_final_ms": 560
+   "medio": [
+    177.45992,
+    0.445
+   ],
+   "final": [
+    177.96492,
+    0.56
+   ]
   }
  },
  "silabas": {
-  "a": "silabas/a.wav",
-  "e": "silabas/e.wav",
-  "i": "silabas/i.wav",
-  "o": "silabas/o.wav",
-  "u": "silabas/u.wav",
-  "ba": "silabas/ba.wav",
-  "be": "silabas/be.wav",
-  "bi": "silabas/bi.wav",
-  "bo": "silabas/bo.wav",
-  "bu": "silabas/bu.wav",
-  "ca": "silabas/ca.wav",
-  "co": "silabas/co.wav",
-  "cu": "silabas/cu.wav",
-  "que": "silabas/que.wav",
-  "qui": "silabas/qui.wav",
-  "cha": "silabas/cha.wav",
-  "che": "silabas/che.wav",
-  "chi": "silabas/chi.wav",
-  "cho": "silabas/cho.wav",
-  "chu": "silabas/chu.wav",
-  "da": "silabas/da.wav",
-  "de": "silabas/de.wav",
-  "di": "silabas/di.wav",
-  "do": "silabas/do.wav",
-  "du": "silabas/du.wav",
-  "fa": "silabas/fa.wav",
-  "fe": "silabas/fe.wav",
-  "fi": "silabas/fi.wav",
-  "fo": "silabas/fo.wav",
-  "fu": "silabas/fu.wav",
-  "ga": "silabas/ga.wav",
-  "go": "silabas/go.wav",
-  "gu": "silabas/gu.wav",
-  "gue": "silabas/gue.wav",
-  "gui": "silabas/gui.wav",
-  "ja": "silabas/ja.wav",
-  "je": "silabas/je.wav",
-  "ji": "silabas/ji.wav",
-  "jo": "silabas/jo.wav",
-  "ju": "silabas/ju.wav",
-  "ka": "silabas/ka.wav",
-  "ke": "silabas/ke.wav",
-  "ki": "silabas/ki.wav",
-  "ko": "silabas/ko.wav",
-  "ku": "silabas/ku.wav",
-  "la": "silabas/la.wav",
-  "le": "silabas/le.wav",
-  "li": "silabas/li.wav",
-  "lo": "silabas/lo.wav",
-  "lu": "silabas/lu.wav",
-  "lla": "silabas/lla.wav",
-  "lle": "silabas/lle.wav",
-  "lli": "silabas/lli.wav",
-  "llo": "silabas/llo.wav",
-  "llu": "silabas/llu.wav",
-  "ma": "silabas/ma.wav",
-  "me": "silabas/me.wav",
-  "mi": "silabas/mi.wav",
-  "mo": "silabas/mo.wav",
-  "mu": "silabas/mu.wav",
-  "na": "silabas/na.wav",
-  "ne": "silabas/ne.wav",
-  "ni": "silabas/ni.wav",
-  "no": "silabas/no.wav",
-  "nu": "silabas/nu.wav",
-  "ña": "silabas/nya.wav",
-  "ñe": "silabas/nye.wav",
-  "ñi": "silabas/nyi.wav",
-  "ño": "silabas/nyo.wav",
-  "ñu": "silabas/nyu.wav",
-  "pa": "silabas/pa.wav",
-  "pe": "silabas/pe.wav",
-  "pi": "silabas/pi.wav",
-  "po": "silabas/po.wav",
-  "pu": "silabas/pu.wav",
-  "ra": "silabas/ra.wav",
-  "re": "silabas/re.wav",
-  "ri": "silabas/ri.wav",
-  "ro": "silabas/ro.wav",
-  "ru": "silabas/ru.wav",
-  "rra": "silabas/rra.wav",
-  "rre": "silabas/rre.wav",
-  "rri": "silabas/rri.wav",
-  "rro": "silabas/rro.wav",
-  "rru": "silabas/rru.wav",
-  "sa": "silabas/sa.wav",
-  "se": "silabas/se.wav",
-  "si": "silabas/si.wav",
-  "so": "silabas/so.wav",
-  "su": "silabas/su.wav",
-  "ta": "silabas/ta.wav",
-  "te": "silabas/te.wav",
-  "ti": "silabas/ti.wav",
-  "to": "silabas/to.wav",
-  "tu": "silabas/tu.wav",
-  "va": "silabas/va.wav",
-  "ve": "silabas/ve.wav",
-  "vi": "silabas/vi.wav",
-  "vo": "silabas/vo.wav",
-  "vu": "silabas/vu.wav",
-  "wa": "silabas/wa.wav",
-  "we": "silabas/we.wav",
-  "wi": "silabas/wi.wav",
-  "wo": "silabas/wo.wav",
-  "wu": "silabas/wu.wav",
-  "ya": "silabas/ya.wav",
-  "ye": "silabas/ye.wav",
-  "yi": "silabas/yi.wav",
-  "yo": "silabas/yo.wav",
-  "yu": "silabas/yu.wav",
-  "ce": "silabas/ce.wav",
-  "ci": "silabas/ci.wav",
-  "za": "silabas/za.wav",
-  "zo": "silabas/zo.wav",
-  "zu": "silabas/zu.wav",
-  "ab": "silabas/ab.wav",
-  "eb": "silabas/eb.wav",
-  "ib": "silabas/ib.wav",
-  "ob": "silabas/ob.wav",
-  "ub": "silabas/ub.wav",
-  "ac": "silabas/ac.wav",
-  "ec": "silabas/ec.wav",
-  "ic": "silabas/ic.wav",
-  "oc": "silabas/oc.wav",
-  "uc": "silabas/uc.wav",
-  "ad": "silabas/ad.wav",
-  "ed": "silabas/ed.wav",
-  "id": "silabas/id.wav",
-  "od": "silabas/od.wav",
-  "ud": "silabas/ud.wav",
-  "af": "silabas/af.wav",
-  "ef": "silabas/ef.wav",
-  "if": "silabas/if.wav",
-  "of": "silabas/of.wav",
-  "uf": "silabas/uf.wav",
-  "ag": "silabas/ag.wav",
-  "eg": "silabas/eg.wav",
-  "ig": "silabas/ig.wav",
-  "og": "silabas/og.wav",
-  "ug": "silabas/ug.wav",
-  "al": "silabas/al.wav",
-  "el": "silabas/el.wav",
-  "il": "silabas/il.wav",
-  "ol": "silabas/ol.wav",
-  "ul": "silabas/ul.wav",
-  "am": "silabas/am.wav",
-  "em": "silabas/em.wav",
-  "im": "silabas/im.wav",
-  "om": "silabas/om.wav",
-  "um": "silabas/um.wav",
-  "an": "silabas/an.wav",
-  "en": "silabas/en.wav",
-  "in": "silabas/in.wav",
-  "on": "silabas/on.wav",
-  "un": "silabas/un.wav",
-  "ap": "silabas/ap.wav",
-  "ep": "silabas/ep.wav",
-  "ip": "silabas/ip.wav",
-  "op": "silabas/op.wav",
-  "up": "silabas/up.wav",
-  "ar": "silabas/ar.wav",
-  "er": "silabas/er.wav",
-  "ir": "silabas/ir.wav",
-  "or": "silabas/or.wav",
-  "ur": "silabas/ur.wav",
-  "as": "silabas/as.wav",
-  "es": "silabas/es.wav",
-  "is": "silabas/is.wav",
-  "os": "silabas/os.wav",
-  "us": "silabas/us.wav",
-  "at": "silabas/at.wav",
-  "et": "silabas/et.wav",
-  "it": "silabas/it.wav",
-  "ot": "silabas/ot.wav",
-  "ut": "silabas/ut.wav",
-  "az": "silabas/az.wav",
-  "ez": "silabas/ez.wav",
-  "iz": "silabas/iz.wav",
-  "oz": "silabas/oz.wav",
-  "uz": "silabas/uz.wav",
-  "bla": "silabas/bla.wav",
-  "ble": "silabas/ble.wav",
-  "bli": "silabas/bli.wav",
-  "blo": "silabas/blo.wav",
-  "blu": "silabas/blu.wav",
-  "bra": "silabas/bra.wav",
-  "bre": "silabas/bre.wav",
-  "bri": "silabas/bri.wav",
-  "bro": "silabas/bro.wav",
-  "bru": "silabas/bru.wav",
-  "cla": "silabas/cla.wav",
-  "cle": "silabas/cle.wav",
-  "cli": "silabas/cli.wav",
-  "clo": "silabas/clo.wav",
-  "clu": "silabas/clu.wav",
-  "cra": "silabas/cra.wav",
-  "cre": "silabas/cre.wav",
-  "cri": "silabas/cri.wav",
-  "cro": "silabas/cro.wav",
-  "cru": "silabas/cru.wav",
-  "dra": "silabas/dra.wav",
-  "dre": "silabas/dre.wav",
-  "dri": "silabas/dri.wav",
-  "dro": "silabas/dro.wav",
-  "dru": "silabas/dru.wav",
-  "fla": "silabas/fla.wav",
-  "fle": "silabas/fle.wav",
-  "fli": "silabas/fli.wav",
-  "flo": "silabas/flo.wav",
-  "flu": "silabas/flu.wav",
-  "fra": "silabas/fra.wav",
-  "fre": "silabas/fre.wav",
-  "fri": "silabas/fri.wav",
-  "fro": "silabas/fro.wav",
-  "fru": "silabas/fru.wav",
-  "gla": "silabas/gla.wav",
-  "gle": "silabas/gle.wav",
-  "gli": "silabas/gli.wav",
-  "glo": "silabas/glo.wav",
-  "glu": "silabas/glu.wav",
-  "gra": "silabas/gra.wav",
-  "gre": "silabas/gre.wav",
-  "gri": "silabas/gri.wav",
-  "gro": "silabas/gro.wav",
-  "gru": "silabas/gru.wav",
-  "pla": "silabas/pla.wav",
-  "ple": "silabas/ple.wav",
-  "pli": "silabas/pli.wav",
-  "plo": "silabas/plo.wav",
-  "plu": "silabas/plu.wav",
-  "pra": "silabas/pra.wav",
-  "pre": "silabas/pre.wav",
-  "pri": "silabas/pri.wav",
-  "pro": "silabas/pro.wav",
-  "pru": "silabas/pru.wav",
-  "tra": "silabas/tra.wav",
-  "tre": "silabas/tre.wav",
-  "tri": "silabas/tri.wav",
-  "tro": "silabas/tro.wav",
-  "tru": "silabas/tru.wav",
-  "ai": "silabas/ai.wav",
-  "au": "silabas/au.wav",
-  "ei": "silabas/ei.wav",
-  "eu": "silabas/eu.wav",
-  "ia": "silabas/ia.wav",
-  "ie": "silabas/ie.wav",
-  "io": "silabas/io.wav",
-  "iu": "silabas/iu.wav",
-  "oi": "silabas/oi.wav",
-  "ou": "silabas/ou.wav",
-  "ua": "silabas/ua.wav",
-  "ue": "silabas/ue.wav",
-  "ui": "silabas/ui.wav",
-  "uo": "silabas/uo.wav"
+  "a": [
+   0.2,
+   0.365
+  ],
+  "e": [
+   0.625,
+   0.44
+  ],
+  "i": [
+   1.125,
+   0.455
+  ],
+  "o": [
+   1.64,
+   0.465
+  ],
+  "u": [
+   2.165,
+   0.49502
+  ],
+  "ba": [
+   2.72002,
+   0.515
+  ],
+  "be": [
+   3.29502,
+   0.57
+  ],
+  "bi": [
+   3.92502,
+   0.54
+  ],
+  "bo": [
+   4.52502,
+   0.625
+  ],
+  "bu": [
+   5.21002,
+   0.545
+  ],
+  "ca": [
+   5.81502,
+   0.53002
+  ],
+  "co": [
+   6.40504,
+   0.495
+  ],
+  "cu": [
+   6.96004,
+   0.555
+  ],
+  "que": [
+   7.57504,
+   0.415
+  ],
+  "qui": [
+   8.05004,
+   0.44
+  ],
+  "cha": [
+   8.55004,
+   0.455
+  ],
+  "che": [
+   9.06504,
+   0.49
+  ],
+  "chi": [
+   9.61504,
+   0.535
+  ],
+  "cho": [
+   10.21004,
+   0.54
+  ],
+  "chu": [
+   10.81004,
+   0.615
+  ],
+  "da": [
+   11.48504,
+   0.405
+  ],
+  "de": [
+   11.95004,
+   0.465
+  ],
+  "di": [
+   12.47504,
+   0.47
+  ],
+  "do": [
+   13.00504,
+   0.49
+  ],
+  "du": [
+   13.55504,
+   0.53
+  ],
+  "fa": [
+   14.14504,
+   0.53502
+  ],
+  "fe": [
+   14.74006,
+   0.55
+  ],
+  "fi": [
+   15.35006,
+   0.59
+  ],
+  "fo": [
+   16.00006,
+   0.6
+  ],
+  "fu": [
+   16.66006,
+   0.715
+  ],
+  "ga": [
+   17.43506,
+   0.51
+  ],
+  "go": [
+   18.00506,
+   0.575
+  ],
+  "gu": [
+   18.64006,
+   0.675
+  ],
+  "gue": [
+   19.37506,
+   0.595
+  ],
+  "gui": [
+   20.03006,
+   0.595
+  ],
+  "ja": [
+   20.68506,
+   0.42
+  ],
+  "je": [
+   21.16506,
+   0.495
+  ],
+  "ji": [
+   21.72006,
+   0.465
+  ],
+  "jo": [
+   22.24506,
+   0.52
+  ],
+  "ju": [
+   22.82506,
+   0.485
+  ],
+  "ka": [
+   23.37006,
+   0.385
+  ],
+  "ke": [
+   23.81506,
+   0.46
+  ],
+  "ki": [
+   24.33506,
+   0.47
+  ],
+  "ko": [
+   24.86506,
+   0.51002
+  ],
+  "ku": [
+   25.43508,
+   0.56
+  ],
+  "la": [
+   26.05508,
+   0.475
+  ],
+  "le": [
+   26.59008,
+   0.56
+  ],
+  "li": [
+   27.21008,
+   0.56
+  ],
+  "lo": [
+   27.83008,
+   0.495
+  ],
+  "lu": [
+   28.38508,
+   0.47
+  ],
+  "lla": [
+   28.91508,
+   0.445
+  ],
+  "lle": [
+   29.42008,
+   0.49
+  ],
+  "lli": [
+   29.97008,
+   0.53
+  ],
+  "llo": [
+   30.56008,
+   0.52
+  ],
+  "llu": [
+   31.14008,
+   0.46
+  ],
+  "ma": [
+   31.66008,
+   0.49
+  ],
+  "me": [
+   32.21008,
+   0.485
+  ],
+  "mi": [
+   32.75508,
+   0.505
+  ],
+  "mo": [
+   33.32008,
+   0.47
+  ],
+  "mu": [
+   33.85008,
+   0.465
+  ],
+  "na": [
+   34.37508,
+   0.655
+  ],
+  "ne": [
+   35.09008,
+   0.665
+  ],
+  "ni": [
+   35.81508,
+   0.57
+  ],
+  "no": [
+   36.44508,
+   0.655
+  ],
+  "nu": [
+   37.16008,
+   0.75
+  ],
+  "ña": [
+   37.97008,
+   0.47
+  ],
+  "ñe": [
+   38.50008,
+   0.46
+  ],
+  "ñi": [
+   39.02008,
+   0.465
+  ],
+  "ño": [
+   39.54508,
+   0.45
+  ],
+  "ñu": [
+   40.05508,
+   0.445
+  ],
+  "pa": [
+   40.56008,
+   0.4
+  ],
+  "pe": [
+   41.02008,
+   0.42
+  ],
+  "pi": [
+   41.50008,
+   0.435
+  ],
+  "po": [
+   41.99508,
+   0.485
+  ],
+  "pu": [
+   42.54008,
+   0.535
+  ],
+  "ra": [
+   43.13508,
+   0.515
+  ],
+  "re": [
+   43.71008,
+   0.58
+  ],
+  "ri": [
+   44.35008,
+   0.565
+  ],
+  "ro": [
+   44.97508,
+   0.595
+  ],
+  "ru": [
+   45.63008,
+   0.605
+  ],
+  "rra": [
+   46.29508,
+   0.46
+  ],
+  "rre": [
+   46.81508,
+   0.485
+  ],
+  "rri": [
+   47.36008,
+   0.48
+  ],
+  "rro": [
+   47.90008,
+   0.48
+  ],
+  "rru": [
+   48.44008,
+   0.585
+  ],
+  "sa": [
+   49.08508,
+   0.475
+  ],
+  "se": [
+   49.62008,
+   0.535
+  ],
+  "si": [
+   50.21508,
+   0.54
+  ],
+  "so": [
+   50.81508,
+   0.595
+  ],
+  "su": [
+   51.47008,
+   0.565
+  ],
+  "ta": [
+   52.09508,
+   0.4
+  ],
+  "te": [
+   52.55508,
+   0.42502
+  ],
+  "ti": [
+   53.0401,
+   0.46
+  ],
+  "to": [
+   53.5601,
+   0.52502
+  ],
+  "tu": [
+   54.14513,
+   0.465
+  ],
+  "va": [
+   54.67012,
+   0.415
+  ],
+  "ve": [
+   55.14513,
+   0.44
+  ],
+  "vi": [
+   55.64513,
+   0.465
+  ],
+  "vo": [
+   56.17012,
+   0.46
+  ],
+  "vu": [
+   56.69013,
+   0.5
+  ],
+  "wa": [
+   57.25012,
+   0.47002
+  ],
+  "we": [
+   57.78015,
+   0.535
+  ],
+  "wi": [
+   58.37515,
+   0.525
+  ],
+  "wo": [
+   58.96015,
+   0.565
+  ],
+  "wu": [
+   59.58515,
+   0.59
+  ],
+  "ya": [
+   60.23515,
+   0.395
+  ],
+  "ye": [
+   60.69015,
+   0.455
+  ],
+  "yi": [
+   61.20515,
+   0.495
+  ],
+  "yo": [
+   61.76015,
+   0.47
+  ],
+  "yu": [
+   62.29015,
+   0.435
+  ],
+  "ce": [
+   62.78515,
+   0.545
+  ],
+  "ci": [
+   63.39015,
+   0.475
+  ],
+  "za": [
+   63.92515,
+   0.53002
+  ],
+  "zo": [
+   64.51517,
+   0.5
+  ],
+  "zu": [
+   65.07517,
+   0.545
+  ],
+  "ab": [
+   65.68017,
+   0.40502
+  ],
+  "eb": [
+   66.14519,
+   0.415
+  ],
+  "ib": [
+   66.62019,
+   0.505
+  ],
+  "ob": [
+   67.18519,
+   0.455
+  ],
+  "ub": [
+   67.70019,
+   0.505
+  ],
+  "ac": [
+   68.26519,
+   0.41
+  ],
+  "ec": [
+   68.73519,
+   0.37502
+  ],
+  "ic": [
+   69.17021,
+   0.41002
+  ],
+  "oc": [
+   69.64023,
+   0.415
+  ],
+  "uc": [
+   70.11523,
+   0.44
+  ],
+  "ad": [
+   70.61523,
+   0.24998
+  ],
+  "ed": [
+   70.92521,
+   0.36
+  ],
+  "id": [
+   71.34521,
+   0.37
+  ],
+  "od": [
+   71.77521,
+   0.395
+  ],
+  "ud": [
+   72.23021,
+   0.38
+  ],
+  "af": [
+   72.67021,
+   0.465
+  ],
+  "ef": [
+   73.19521,
+   0.425
+  ],
+  "if": [
+   73.68021,
+   0.405
+  ],
+  "of": [
+   74.14521,
+   0.42502
+  ],
+  "uf": [
+   74.63023,
+   0.435
+  ],
+  "ag": [
+   75.12523,
+   0.38002
+  ],
+  "eg": [
+   75.56525,
+   0.37002
+  ],
+  "ig": [
+   75.99527,
+   0.385
+  ],
+  "og": [
+   76.44027,
+   0.345
+  ],
+  "ug": [
+   76.84527,
+   0.37
+  ],
+  "al": [
+   77.27527,
+   0.515
+  ],
+  "el": [
+   77.85027,
+   0.49502
+  ],
+  "il": [
+   78.40529,
+   0.535
+  ],
+  "ol": [
+   79.00029,
+   0.525
+  ],
+  "ul": [
+   79.58529,
+   0.51
+  ],
+  "am": [
+   80.15529,
+   0.635
+  ],
+  "em": [
+   80.85029,
+   0.685
+  ],
+  "im": [
+   81.59529,
+   0.725
+  ],
+  "om": [
+   82.38029,
+   0.775
+  ],
+  "um": [
+   83.21529,
+   0.695
+  ],
+  "an": [
+   83.97029,
+   0.575
+  ],
+  "en": [
+   84.60529,
+   0.715
+  ],
+  "in": [
+   85.38029,
+   0.58
+  ],
+  "on": [
+   86.02029,
+   0.82502
+  ],
+  "un": [
+   86.90531,
+   0.75
+  ],
+  "ap": [
+   87.71531,
+   0.37
+  ],
+  "ep": [
+   88.14531,
+   0.36
+  ],
+  "ip": [
+   88.56531,
+   0.37
+  ],
+  "op": [
+   88.99531,
+   0.36
+  ],
+  "up": [
+   89.41531,
+   0.39
+  ],
+  "ar": [
+   89.86531,
+   0.51
+  ],
+  "er": [
+   90.43531,
+   0.61
+  ],
+  "ir": [
+   91.10531,
+   0.56
+  ],
+  "or": [
+   91.72531,
+   0.535
+  ],
+  "ur": [
+   92.32031,
+   0.49
+  ],
+  "as": [
+   92.87031,
+   0.52002
+  ],
+  "es": [
+   93.45033,
+   0.535
+  ],
+  "is": [
+   94.04533,
+   0.525
+  ],
+  "os": [
+   94.63033,
+   0.54
+  ],
+  "us": [
+   95.23033,
+   0.51
+  ],
+  "at": [
+   95.80033,
+   0.305
+  ],
+  "et": [
+   96.16533,
+   0.32502
+  ],
+  "it": [
+   96.55035,
+   0.37
+  ],
+  "ot": [
+   96.98035,
+   0.375
+  ],
+  "ut": [
+   97.41535,
+   0.375
+  ],
+  "az": [
+   97.85035,
+   0.395
+  ],
+  "ez": [
+   98.30535,
+   0.365
+  ],
+  "iz": [
+   98.73035,
+   0.39
+  ],
+  "oz": [
+   99.18035,
+   0.40502
+  ],
+  "uz": [
+   99.64538,
+   0.405
+  ],
+  "bla": [
+   100.11038,
+   0.51
+  ],
+  "ble": [
+   100.68037,
+   0.535
+  ],
+  "bli": [
+   101.27537,
+   0.55
+  ],
+  "blo": [
+   101.88537,
+   0.59
+  ],
+  "blu": [
+   102.53538,
+   0.635
+  ],
+  "bra": [
+   103.23037,
+   0.45
+  ],
+  "bre": [
+   103.74038,
+   0.545
+  ],
+  "bri": [
+   104.34538,
+   0.56
+  ],
+  "bro": [
+   104.96537,
+   0.545
+  ],
+  "bru": [
+   105.57037,
+   0.615
+  ],
+  "cla": [
+   106.24537,
+   0.465
+  ],
+  "cle": [
+   106.77038,
+   0.515
+  ],
+  "cli": [
+   107.34538,
+   0.58
+  ],
+  "clo": [
+   107.98538,
+   0.56
+  ],
+  "clu": [
+   108.60537,
+   0.51502
+  ],
+  "cra": [
+   109.1804,
+   0.465
+  ],
+  "cre": [
+   109.7054,
+   0.49
+  ],
+  "cri": [
+   110.2554,
+   0.525
+  ],
+  "cro": [
+   110.8404,
+   0.545
+  ],
+  "cru": [
+   111.4454,
+   0.485
+  ],
+  "dra": [
+   111.9904,
+   0.495
+  ],
+  "dre": [
+   112.5454,
+   0.485
+  ],
+  "dri": [
+   113.0904,
+   0.51
+  ],
+  "dro": [
+   113.6604,
+   0.57
+  ],
+  "dru": [
+   114.2904,
+   0.565
+  ],
+  "fla": [
+   114.9154,
+   0.525
+  ],
+  "fle": [
+   115.5004,
+   0.45
+  ],
+  "fli": [
+   116.0104,
+   0.545
+  ],
+  "flo": [
+   116.6154,
+   0.56
+  ],
+  "flu": [
+   117.2354,
+   0.58
+  ],
+  "fra": [
+   117.8754,
+   0.435
+  ],
+  "fre": [
+   118.3704,
+   0.485
+  ],
+  "fri": [
+   118.9154,
+   0.49
+  ],
+  "fro": [
+   119.4654,
+   0.52
+  ],
+  "fru": [
+   120.0454,
+   0.64
+  ],
+  "gla": [
+   120.7454,
+   0.48
+  ],
+  "gle": [
+   121.2854,
+   0.565
+  ],
+  "gli": [
+   121.9104,
+   0.605
+  ],
+  "glo": [
+   122.5754,
+   0.645
+  ],
+  "glu": [
+   123.2804,
+   0.6
+  ],
+  "gra": [
+   123.9404,
+   0.61502
+  ],
+  "gre": [
+   124.61542,
+   0.645
+  ],
+  "gri": [
+   125.32042,
+   0.635
+  ],
+  "gro": [
+   126.01542,
+   0.64
+  ],
+  "gru": [
+   126.71542,
+   0.755
+  ],
+  "pla": [
+   127.53042,
+   0.475
+  ],
+  "ple": [
+   128.06542,
+   0.56
+  ],
+  "pli": [
+   128.68542,
+   0.555
+  ],
+  "plo": [
+   129.30042,
+   0.55
+  ],
+  "plu": [
+   129.91042,
+   0.5
+  ],
+  "pra": [
+   130.47042,
+   0.45502
+  ],
+  "pre": [
+   130.98544,
+   0.475
+  ],
+  "pri": [
+   131.52044,
+   0.475
+  ],
+  "pro": [
+   132.05544,
+   0.485
+  ],
+  "pru": [
+   132.60044,
+   0.535
+  ],
+  "tra": [
+   133.19544,
+   0.46
+  ],
+  "tre": [
+   133.71544,
+   0.495
+  ],
+  "tri": [
+   134.27044,
+   0.535
+  ],
+  "tro": [
+   134.86544,
+   0.56
+  ],
+  "tru": [
+   135.48544,
+   0.56
+  ],
+  "ai": [
+   136.10544,
+   0.55
+  ],
+  "au": [
+   136.71544,
+   0.55
+  ],
+  "ei": [
+   137.32544,
+   0.515
+  ],
+  "eu": [
+   137.90044,
+   0.495
+  ],
+  "ia": [
+   138.45544,
+   0.555
+  ],
+  "ie": [
+   139.07044,
+   0.535
+  ],
+  "io": [
+   139.66544,
+   0.49
+  ],
+  "iu": [
+   140.21544,
+   0.575
+  ],
+  "oi": [
+   140.85044,
+   0.545
+  ],
+  "ou": [
+   141.45544,
+   0.475
+  ],
+  "ua": [
+   141.99044,
+   0.52
+  ],
+  "ue": [
+   142.57044,
+   0.505
+  ],
+  "ui": [
+   143.13544,
+   0.545
+  ],
+  "uo": [
+   143.74044,
+   0.525
+  ]
+ },
+ "difonos": {
+  "C-a": [
+   0.2,
+   0.26598,
+   "C"
+  ],
+  "C-a1": [
+   0.52598,
+   0.2125,
+   "C"
+  ],
+  "C-e": [
+   0.79848,
+   0.2375,
+   "C"
+  ],
+  "C-e1": [
+   1.09598,
+   0.209,
+   "C"
+  ],
+  "C-i": [
+   1.36498,
+   0.2215,
+   "C"
+  ],
+  "C-i1": [
+   1.64648,
+   0.2165,
+   "C"
+  ],
+  "C-o": [
+   1.92298,
+   0.263,
+   "C"
+  ],
+  "C-o1": [
+   2.24598,
+   0.2645,
+   "C"
+  ],
+  "C-u": [
+   2.57048,
+   0.2315,
+   "C"
+  ],
+  "C-u1": [
+   2.86198,
+   0.2645,
+   "C"
+  ],
+  "J-_": [
+   3.18648,
+   0.1365,
+   "J"
+  ],
+  "J-a": [
+   3.38298,
+   0.163,
+   "J"
+  ],
+  "J-a1": [
+   3.60598,
+   0.1045,
+   "J"
+  ],
+  "J-e": [
+   3.77048,
+   0.1335,
+   "J"
+  ],
+  "J-e1": [
+   3.96398,
+   0.1165,
+   "J"
+  ],
+  "J-i": [
+   4.14048,
+   0.1335,
+   "J"
+  ],
+  "J-i1": [
+   4.33398,
+   0.116,
+   "J"
+  ],
+  "J-o": [
+   4.50998,
+   0.16248,
+   "J"
+  ],
+  "J-o1": [
+   4.73246,
+   0.13348,
+   "J"
+  ],
+  "J-u": [
+   4.92594,
+   0.1335,
+   "J"
+  ],
+  "J-u1": [
+   5.11944,
+   0.139,
+   "J"
+  ],
+  "N-a": [
+   5.31844,
+   0.1685,
+   "N"
+  ],
+  "N-a1": [
+   5.54694,
+   0.1335,
+   "N"
+  ],
+  "N-e": [
+   5.74044,
+   0.1455,
+   "N"
+  ],
+  "N-e1": [
+   5.94594,
+   0.1335,
+   "N"
+  ],
+  "N-i": [
+   6.13944,
+   0.145,
+   "N"
+  ],
+  "N-i1": [
+   6.34444,
+   0.13348,
+   "N"
+  ],
+  "N-o": [
+   6.53792,
+   0.1625,
+   "N"
+  ],
+  "N-o1": [
+   6.76042,
+   0.1335,
+   "N"
+  ],
+  "N-u": [
+   6.95392,
+   0.1455,
+   "N"
+  ],
+  "N-u1": [
+   7.15942,
+   0.1335,
+   "N"
+  ],
+  "R-a": [
+   7.35292,
+   0.1685,
+   "R"
+  ],
+  "R-a1": [
+   7.58142,
+   0.128,
+   "R"
+  ],
+  "R-e": [
+   7.76942,
+   0.122,
+   "R"
+  ],
+  "R-e1": [
+   7.95142,
+   0.1275,
+   "R"
+  ],
+  "R-i": [
+   8.13892,
+   0.1335,
+   "R"
+  ],
+  "R-i1": [
+   8.33242,
+   0.1335,
+   "R"
+  ],
+  "R-o": [
+   8.52592,
+   0.18002,
+   "R"
+  ],
+  "R-o1": [
+   8.76594,
+   0.15052,
+   "R"
+  ],
+  "R-u": [
+   8.97646,
+   0.145,
+   "R"
+  ],
+  "R-u1": [
+   9.18146,
+   0.168,
+   "R"
+  ],
+  "Y-a": [
+   9.40946,
+   0.1685,
+   "Y"
+  ],
+  "Y-a1": [
+   9.63796,
+   0.1335,
+   "Y"
+  ],
+  "Y-e": [
+   9.83146,
+   0.1335,
+   "Y"
+  ],
+  "Y-e1": [
+   10.02496,
+   0.1335,
+   "Y"
+  ],
+  "Y-i": [
+   10.21846,
+   0.14502,
+   "Y"
+  ],
+  "Y-i1": [
+   10.42348,
+   0.1395,
+   "Y"
+  ],
+  "Y-o": [
+   10.62298,
+   0.1625,
+   "Y"
+  ],
+  "Y-o1": [
+   10.84548,
+   0.13352,
+   "Y"
+  ],
+  "Y-u": [
+   11.039,
+   0.145,
+   "Y"
+  ],
+  "Y-u1": [
+   11.244,
+   0.139,
+   "Y"
+  ],
+  "Z-_": [
+   11.443,
+   0.08,
+   "Z"
+  ],
+  "Z-a": [
+   11.583,
+   0.1795,
+   "Z"
+  ],
+  "Z-a1": [
+   11.8225,
+   0.1335,
+   "Z"
+  ],
+  "Z-e": [
+   12.016,
+   0.145,
+   "Z"
+  ],
+  "Z-e1": [
+   12.221,
+   0.12152,
+   "Z"
+  ],
+  "Z-i": [
+   12.40252,
+   0.145,
+   "Z"
+  ],
+  "Z-i1": [
+   12.60752,
+   0.1335,
+   "Z"
+  ],
+  "Z-o": [
+   12.80102,
+   0.1685,
+   "Z"
+  ],
+  "Z-o1": [
+   13.02952,
+   0.1335,
+   "Z"
+  ],
+  "Z-u": [
+   13.22302,
+   0.145,
+   "Z"
+  ],
+  "Z-u1": [
+   13.42802,
+   0.1335,
+   "Z"
+  ],
+  "_-J": [
+   13.62152,
+   0.0535,
+   "_"
+  ],
+  "_-N": [
+   13.73502,
+   0.089,
+   "_"
+  ],
+  "_-R": [
+   13.88402,
+   0.141,
+   "_"
+  ],
+  "_-Y": [
+   14.08502,
+   0.08298,
+   "_"
+  ],
+  "_-Z": [
+   14.228,
+   0.068,
+   "_"
+  ],
+  "_-a": [
+   14.356,
+   0.072,
+   "_"
+  ],
+  "_-a1": [
+   14.488,
+   0.081,
+   "_"
+  ],
+  "_-b": [
+   14.629,
+   0.1145,
+   "_"
+  ],
+  "_-d": [
+   14.8035,
+   0.0875,
+   "_"
+  ],
+  "_-e": [
+   14.951,
+   0.0355,
+   "_"
+  ],
+  "_-e1": [
+   15.0465,
+   0.0575,
+   "_"
+  ],
+  "_-f": [
+   15.164,
+   0.0475,
+   "_"
+  ],
+  "_-g": [
+   15.2715,
+   0.097,
+   "_"
+  ],
+  "_-i": [
+   15.4285,
+   0.0785,
+   "_"
+  ],
+  "_-i1": [
+   15.567,
+   0.0835,
+   "_"
+  ],
+  "_-l": [
+   15.7105,
+   0.084,
+   "_"
+  ],
+  "_-m": [
+   15.8545,
+   0.091,
+   "_"
+  ],
+  "_-n": [
+   16.0055,
+   0.0635,
+   "_"
+  ],
+  "_-o": [
+   16.129,
+   0.0875,
+   "_"
+  ],
+  "_-o1": [
+   16.2765,
+   0.0805,
+   "_"
+  ],
+  "_-s": [
+   16.417,
+   0.087,
+   "_"
+  ],
+  "_-u": [
+   16.564,
+   0.09,
+   "_"
+  ],
+  "_-u1": [
+   16.714,
+   0.099,
+   "_"
+  ],
+  "a-C": [
+   16.873,
+   0.066,
+   "a"
+  ],
+  "a-J": [
+   16.999,
+   0.1335,
+   "a"
+  ],
+  "a-N": [
+   17.1925,
+   0.1335,
+   "a"
+  ],
+  "a-R": [
+   17.386,
+   0.1455,
+   "a"
+  ],
+  "a-Y": [
+   17.5915,
+   0.1335,
+   "a"
+  ],
+  "a-Z": [
+   17.785,
+   0.1335,
+   "a"
+  ],
+  "a-_": [
+   17.9785,
+   0.1755,
+   "a"
+  ],
+  "a-a": [
+   18.214,
+   0.1275,
+   "a"
+  ],
+  "a-b": [
+   18.4015,
+   0.099,
+   "a"
+  ],
+  "a-d": [
+   18.5605,
+   0.11052,
+   "a"
+  ],
+  "a-e": [
+   18.73102,
+   0.1625,
+   "a"
+  ],
+  "a-e1": [
+   18.95352,
+   0.145,
+   "a"
+  ],
+  "a-f": [
+   19.15852,
+   0.122,
+   "a"
+  ],
+  "a-g": [
+   19.34052,
+   0.122,
+   "a"
+  ],
+  "a-i": [
+   19.52252,
+   0.1625,
+   "a"
+  ],
+  "a-k": [
+   19.74502,
+   0.0945,
+   "a"
+  ],
+  "a-l": [
+   19.89952,
+   0.1105,
+   "a"
+  ],
+  "a-m": [
+   20.07002,
+   0.1045,
+   "a"
+  ],
+  "a-n": [
+   20.23452,
+   0.122,
+   "a"
+  ],
+  "a-o": [
+   20.41652,
+   0.1335,
+   "a"
+  ],
+  "a-o1": [
+   20.61002,
+   0.1505,
+   "a"
+  ],
+  "a-p": [
+   20.82052,
+   0.1075,
+   "a"
+  ],
+  "a-r": [
+   20.98802,
+   0.122,
+   "a"
+  ],
+  "a-s": [
+   21.17002,
+   0.1335,
+   "a"
+  ],
+  "a-t": [
+   21.36352,
+   0.125,
+   "a"
+  ],
+  "a-u": [
+   21.54852,
+   0.1165,
+   "a"
+  ],
+  "a1-C": [
+   21.72502,
+   0.0625,
+   "a"
+  ],
+  "a1-J": [
+   21.84752,
+   0.1045,
+   "a"
+  ],
+  "a1-N": [
+   22.01202,
+   0.1335,
+   "a"
+  ],
+  "a1-R": [
+   22.20552,
+   0.13348,
+   "a"
+  ],
+  "a1-Y": [
+   22.399,
+   0.1335,
+   "a"
+  ],
+  "a1-Z": [
+   22.5925,
+   0.1395,
+   "a"
+  ],
+  "a1-_": [
+   22.792,
+   0.2015,
+   "a"
+  ],
+  "a1-b": [
+   23.0535,
+   0.145,
+   "a"
+  ],
+  "a1-d": [
+   23.2585,
+   0.1625,
+   "a"
+  ],
+  "a1-f": [
+   23.481,
+   0.1625,
+   "a"
+  ],
+  "a1-g": [
+   23.7035,
+   0.1565,
+   "a"
+  ],
+  "a1-i": [
+   23.92,
+   0.145,
+   "a"
+  ],
+  "a1-k": [
+   24.125,
+   0.1075,
+   "a"
+  ],
+  "a1-l": [
+   24.2925,
+   0.151,
+   "a"
+  ],
+  "a1-m": [
+   24.5035,
+   0.1625,
+   "a"
+  ],
+  "a1-n": [
+   24.726,
+   0.1625,
+   "a"
+  ],
+  "a1-p": [
+   24.9485,
+   0.1275,
+   "a"
+  ],
+  "a1-r": [
+   25.136,
+   0.14502,
+   "a"
+  ],
+  "a1-s": [
+   25.34102,
+   0.145,
+   "a"
+  ],
+  "a1-t": [
+   25.54602,
+   0.121,
+   "a"
+  ],
+  "a1-u": [
+   25.72702,
+   0.1335,
+   "a"
+  ],
+  "b-a": [
+   25.92052,
+   0.1625,
+   "b"
+  ],
+  "b-a1": [
+   26.14302,
+   0.093,
+   "b"
+  ],
+  "b-d": [
+   26.29602,
+   0.116,
+   "b"
+  ],
+  "b-e": [
+   26.47202,
+   0.11,
+   "b"
+  ],
+  "b-e1": [
+   26.64202,
+   0.093,
+   "b"
+  ],
+  "b-i": [
+   26.79502,
+   0.122,
+   "b"
+  ],
+  "b-i1": [
+   26.97702,
+   0.099,
+   "b"
+  ],
+  "b-l": [
+   27.13602,
+   0.1165,
+   "b"
+  ],
+  "b-o": [
+   27.31252,
+   0.145,
+   "b"
+  ],
+  "b-o1": [
+   27.51752,
+   0.1045,
+   "b"
+  ],
+  "b-r": [
+   27.68202,
+   0.093,
+   "b"
+  ],
+  "b-s": [
+   27.83502,
+   0.13348,
+   "b"
+  ],
+  "b-t": [
+   28.0285,
+   0.144,
+   "b"
+  ],
+  "b-u": [
+   28.2325,
+   0.1335,
+   "b"
+  ],
+  "b-u1": [
+   28.426,
+   0.11,
+   "b"
+  ],
+  "d-_": [
+   28.596,
+   0.083,
+   "d"
+  ],
+  "d-a": [
+   28.739,
+   0.1625,
+   "d"
+  ],
+  "d-a1": [
+   28.9615,
+   0.07,
+   "d"
+  ],
+  "d-e": [
+   29.0915,
+   0.116,
+   "d"
+  ],
+  "d-e1": [
+   29.2675,
+   0.081,
+   "d"
+  ],
+  "d-i": [
+   29.4085,
+   0.122,
+   "d"
+  ],
+  "d-i1": [
+   29.5905,
+   0.099,
+   "d"
+  ],
+  "d-m": [
+   29.7495,
+   0.11598,
+   "d"
+  ],
+  "d-o": [
+   29.92548,
+   0.134,
+   "d"
+  ],
+  "d-o1": [
+   30.11948,
+   0.099,
+   "d"
+  ],
+  "d-r": [
+   30.27848,
+   0.1045,
+   "d"
+  ],
+  "d-u": [
+   30.44298,
+   0.145,
+   "d"
+  ],
+  "d-u1": [
+   30.64798,
+   0.099,
+   "d"
+  ],
+  "e-C": [
+   30.80698,
+   0.0675,
+   "e"
+  ],
+  "e-J": [
+   30.93448,
+   0.122,
+   "e"
+  ],
+  "e-N": [
+   31.11648,
+   0.1335,
+   "e"
+  ],
+  "e-R": [
+   31.30998,
+   0.139,
+   "e"
+  ],
+  "e-Y": [
+   31.50898,
+   0.13348,
+   "e"
+  ],
+  "e-Z": [
+   31.70246,
+   0.1275,
+   "e"
+  ],
+  "e-_": [
+   31.88996,
+   0.1425,
+   "e"
+  ],
+  "e-a": [
+   32.09246,
+   0.122,
+   "e"
+  ],
+  "e-a1": [
+   32.27446,
+   0.139,
+   "e"
+  ],
+  "e-b": [
+   32.47346,
+   0.0925,
+   "e"
+  ],
+  "e-d": [
+   32.62596,
+   0.1045,
+   "e"
+  ],
+  "e-f": [
+   32.79046,
+   0.11602,
+   "e"
+  ],
+  "e-g": [
+   32.96648,
+   0.093,
+   "e"
+  ],
+  "e-i": [
+   33.11948,
+   0.1335,
+   "e"
+  ],
+  "e-k": [
+   33.31298,
+   0.0735,
+   "e"
+  ],
+  "e-l": [
+   33.44648,
+   0.0925,
+   "e"
+  ],
+  "e-m": [
+   33.59898,
+   0.09298,
+   "e"
+  ],
+  "e-n": [
+   33.75196,
+   0.087,
+   "e"
+  ],
+  "e-o": [
+   33.89896,
+   0.1335,
+   "e"
+  ],
+  "e-o1": [
+   34.09246,
+   0.1335,
+   "e"
+  ],
+  "e-p": [
+   34.28596,
+   0.11302,
+   "e"
+  ],
+  "e-r": [
+   34.45898,
+   0.06952,
+   "e"
+  ],
+  "e-s": [
+   34.5885,
+   0.122,
+   "e"
+  ],
+  "e-t": [
+   34.7705,
+   0.1165,
+   "e"
+  ],
+  "e-u": [
+   34.947,
+   0.1335,
+   "e"
+  ],
+  "e1-C": [
+   35.1405,
+   0.056,
+   "e"
+  ],
+  "e1-J": [
+   35.2565,
+   0.116,
+   "e"
+  ],
+  "e1-N": [
+   35.4325,
+   0.1335,
+   "e"
+  ],
+  "e1-R": [
+   35.626,
+   0.1335,
+   "e"
+  ],
+  "e1-Y": [
+   35.8195,
+   0.1335,
+   "e"
+  ],
+  "e1-Z": [
+   36.013,
+   0.13948,
+   "e"
+  ],
+  "e1-_": [
+   36.21248,
+   0.214,
+   "e"
+  ],
+  "e1-b": [
+   36.48648,
+   0.0985,
+   "e"
+  ],
+  "e1-d": [
+   36.64498,
+   0.0925,
+   "e"
+  ],
+  "e1-f": [
+   36.79748,
+   0.13348,
+   "e"
+  ],
+  "e1-g": [
+   36.99096,
+   0.087,
+   "e"
+  ],
+  "e1-i": [
+   37.13796,
+   0.1045,
+   "e"
+  ],
+  "e1-k": [
+   37.30246,
+   0.1065,
+   "e"
+  ],
+  "e1-l": [
+   37.46896,
+   0.1045,
+   "e"
+  ],
+  "e1-m": [
+   37.63346,
+   0.1045,
+   "e"
+  ],
+  "e1-n": [
+   37.79796,
+   0.1165,
+   "e"
+  ],
+  "e1-p": [
+   37.97446,
+   0.086,
+   "e"
+  ],
+  "e1-r": [
+   38.12046,
+   0.081,
+   "e"
+  ],
+  "e1-s": [
+   38.26146,
+   0.1335,
+   "e"
+  ],
+  "e1-t": [
+   38.45496,
+   0.1265,
+   "e"
+  ],
+  "e1-u": [
+   38.64146,
+   0.122,
+   "e"
+  ],
+  "f-a": [
+   38.82346,
+   0.18002,
+   "f"
+  ],
+  "f-a1": [
+   39.06348,
+   0.122,
+   "f"
+  ],
+  "f-e": [
+   39.24548,
+   0.11598,
+   "f"
+  ],
+  "f-e1": [
+   39.42146,
+   0.122,
+   "f"
+  ],
+  "f-i": [
+   39.60346,
+   0.122,
+   "f"
+  ],
+  "f-i1": [
+   39.78546,
+   0.13348,
+   "f"
+  ],
+  "f-l": [
+   39.97894,
+   0.122,
+   "f"
+  ],
+  "f-o": [
+   40.16094,
+   0.1625,
+   "f"
+  ],
+  "f-o1": [
+   40.38344,
+   0.1335,
+   "f"
+  ],
+  "f-r": [
+   40.57694,
+   0.122,
+   "f"
+  ],
+  "f-u": [
+   40.75894,
+   0.1455,
+   "f"
+  ],
+  "f-u1": [
+   40.96444,
+   0.1335,
+   "f"
+  ],
+  "g-a": [
+   41.15794,
+   0.16248,
+   "g"
+  ],
+  "g-a1": [
+   41.38042,
+   0.099,
+   "g"
+  ],
+  "g-e": [
+   41.53942,
+   0.1105,
+   "g"
+  ],
+  "g-e1": [
+   41.70992,
+   0.0985,
+   "g"
+  ],
+  "g-i": [
+   41.86842,
+   0.1275,
+   "g"
+  ],
+  "g-i1": [
+   42.05592,
+   0.1105,
+   "g"
+  ],
+  "g-l": [
+   42.22642,
+   0.0925,
+   "g"
+  ],
+  "g-m": [
+   42.37892,
+   0.116,
+   "g"
+  ],
+  "g-n": [
+   42.55492,
+   0.1165,
+   "g"
+  ],
+  "g-o": [
+   42.73142,
+   0.128,
+   "g"
+  ],
+  "g-o1": [
+   42.91942,
+   0.122,
+   "g"
+  ],
+  "g-r": [
+   43.10142,
+   0.087,
+   "g"
+  ],
+  "g-u": [
+   43.24842,
+   0.122,
+   "g"
+  ],
+  "g-u1": [
+   43.43042,
+   0.122,
+   "g"
+  ],
+  "i-C": [
+   43.61242,
+   0.0685,
+   "i"
+  ],
+  "i-J": [
+   43.74092,
+   0.1335,
+   "i"
+  ],
+  "i-N": [
+   43.93442,
+   0.13348,
+   "i"
+  ],
+  "i-R": [
+   44.1279,
+   0.157,
+   "i"
+  ],
+  "i-Y": [
+   44.3449,
+   0.14548,
+   "i"
+  ],
+  "i-Z": [
+   44.55038,
+   0.1275,
+   "i"
+  ],
+  "i-_": [
+   44.73788,
+   0.1925,
+   "i"
+  ],
+  "i-a": [
+   44.99038,
+   0.1395,
+   "i"
+  ],
+  "i-a1": [
+   45.18988,
+   0.128,
+   "i"
+  ],
+  "i-b": [
+   45.37788,
+   0.09848,
+   "i"
+  ],
+  "i-d": [
+   45.53635,
+   0.1105,
+   "i"
+  ],
+  "i-e": [
+   45.70685,
+   0.1335,
+   "i"
+  ],
+  "i-e1": [
+   45.90035,
+   0.116,
+   "i"
+  ],
+  "i-f": [
+   46.07635,
+   0.116,
+   "i"
+  ],
+  "i-g": [
+   46.25235,
+   0.1165,
+   "i"
+  ],
+  "i-k": [
+   46.42885,
+   0.0845,
+   "i"
+  ],
+  "i-l": [
+   46.57335,
+   0.09298,
+   "i"
+  ],
+  "i-m": [
+   46.72633,
+   0.0985,
+   "i"
+  ],
+  "i-n": [
+   46.88483,
+   0.093,
+   "i"
+  ],
+  "i-o": [
+   47.03783,
+   0.139,
+   "i"
+  ],
+  "i-o1": [
+   47.23683,
+   0.12152,
+   "i"
+  ],
+  "i-p": [
+   47.41835,
+   0.127,
+   "i"
+  ],
+  "i-r": [
+   47.60535,
+   0.0755,
+   "i"
+  ],
+  "i-s": [
+   47.74085,
+   0.1275,
+   "i"
+  ],
+  "i-t": [
+   47.92835,
+   0.14348,
+   "i"
+  ],
+  "i-u": [
+   48.13183,
+   0.151,
+   "i"
+  ],
+  "i-u1": [
+   48.34283,
+   0.122,
+   "i"
+  ],
+  "i1-C": [
+   48.52483,
+   0.0535,
+   "i"
+  ],
+  "i1-J": [
+   48.63833,
+   0.116,
+   "i"
+  ],
+  "i1-N": [
+   48.81433,
+   0.1335,
+   "i"
+  ],
+  "i1-R": [
+   49.00783,
+   0.145,
+   "i"
+  ],
+  "i1-Y": [
+   49.21283,
+   0.116,
+   "i"
+  ],
+  "i1-Z": [
+   49.38883,
+   0.139,
+   "i"
+  ],
+  "i1-_": [
+   49.58783,
+   0.2685,
+   "i"
+  ],
+  "i1-b": [
+   49.91633,
+   0.1045,
+   "i"
+  ],
+  "i1-d": [
+   50.08083,
+   0.1045,
+   "i"
+  ],
+  "i1-f": [
+   50.24533,
+   0.1335,
+   "i"
+  ],
+  "i1-g": [
+   50.43883,
+   0.093,
+   "i"
+  ],
+  "i1-k": [
+   50.59183,
+   0.1105,
+   "i"
+  ],
+  "i1-l": [
+   50.76233,
+   0.11598,
+   "i"
+  ],
+  "i1-m": [
+   50.93831,
+   0.1045,
+   "i"
+  ],
+  "i1-n": [
+   51.10281,
+   0.116,
+   "i"
+  ],
+  "i1-p": [
+   51.27881,
+   0.138,
+   "i"
+  ],
+  "i1-r": [
+   51.47681,
+   0.093,
+   "i"
+  ],
+  "i1-s": [
+   51.62981,
+   0.139,
+   "i"
+  ],
+  "i1-t": [
+   51.82881,
+   0.133,
+   "i"
+  ],
+  "k-Z": [
+   52.02181,
+   0.1895,
+   "k"
+  ],
+  "k-a": [
+   52.27131,
+   0.182,
+   "k"
+  ],
+  "k-a1": [
+   52.51331,
+   0.1145,
+   "k"
+  ],
+  "k-e": [
+   52.68781,
+   0.1465,
+   "k"
+  ],
+  "k-e1": [
+   52.89431,
+   0.1485,
+   "k"
+  ],
+  "k-i": [
+   53.10281,
+   0.1805,
+   "k"
+  ],
+  "k-i1": [
+   53.34331,
+   0.1645,
+   "k"
+  ],
+  "k-l": [
+   53.56781,
+   0.166,
+   "k"
+  ],
+  "k-o": [
+   53.79381,
+   0.186,
+   "k"
+  ],
+  "k-o1": [
+   54.03981,
+   0.134,
+   "k"
+  ],
+  "k-r": [
+   54.23381,
+   0.154,
+   "k"
+  ],
+  "k-s": [
+   54.44781,
+   0.14698,
+   "k"
+  ],
+  "k-t": [
+   54.65479,
+   0.13,
+   "k"
+  ],
+  "k-u": [
+   54.84479,
+   0.1885,
+   "k"
+  ],
+  "k-u1": [
+   55.09329,
+   0.128,
+   "k"
+  ],
+  "l-C": [
+   55.28129,
+   0.111,
+   "l"
+  ],
+  "l-J": [
+   55.45229,
+   0.1165,
+   "l"
+  ],
+  "l-R": [
+   55.62879,
+   0.15048,
+   "l"
+  ],
+  "l-Z": [
+   55.83927,
+   0.139,
+   "l"
+  ],
+  "l-_": [
+   56.03827,
+   0.356,
+   "l"
+  ],
+  "l-a": [
+   56.45427,
+   0.16248,
+   "l"
+  ],
+  "l-a1": [
+   56.67675,
+   0.09302,
+   "l"
+  ],
+  "l-b": [
+   56.82977,
+   0.116,
+   "l"
+  ],
+  "l-d": [
+   57.00577,
+   0.151,
+   "l"
+  ],
+  "l-e": [
+   57.21677,
+   0.1045,
+   "l"
+  ],
+  "l-e1": [
+   57.38127,
+   0.093,
+   "l"
+  ],
+  "l-f": [
+   57.53427,
+   0.1395,
+   "l"
+  ],
+  "l-g": [
+   57.73377,
+   0.116,
+   "l"
+  ],
+  "l-i": [
+   57.90977,
+   0.116,
+   "l"
+  ],
+  "l-i1": [
+   58.08577,
+   0.0985,
+   "l"
+  ],
+  "l-k": [
+   58.24427,
+   0.1225,
+   "l"
+  ],
+  "l-m": [
+   58.42677,
+   0.11602,
+   "l"
+  ],
+  "l-o": [
+   58.60279,
+   0.15098,
+   "l"
+  ],
+  "l-o1": [
+   58.81377,
+   0.09852,
+   "l"
+  ],
+  "l-p": [
+   58.97229,
+   0.151,
+   "l"
+  ],
+  "l-s": [
+   59.18329,
+   0.1335,
+   "l"
+  ],
+  "l-t": [
+   59.37679,
+   0.18,
+   "l"
+  ],
+  "l-u": [
+   59.61679,
+   0.122,
+   "l"
+  ],
+  "l-u1": [
+   59.79879,
+   0.1045,
+   "l"
+  ],
+  "m-a": [
+   59.96329,
+   0.1625,
+   "m"
+  ],
+  "m-a1": [
+   60.18579,
+   0.1045,
+   "m"
+  ],
+  "m-b": [
+   60.35029,
+   0.151,
+   "m"
+  ],
+  "m-e": [
+   60.56129,
+   0.1105,
+   "m"
+  ],
+  "m-e1": [
+   60.73179,
+   0.0985,
+   "m"
+  ],
+  "m-i": [
+   60.89029,
+   0.122,
+   "m"
+  ],
+  "m-i1": [
+   61.07229,
+   0.1045,
+   "m"
+  ],
+  "m-n": [
+   61.23679,
+   0.11598,
+   "m"
+  ],
+  "m-o": [
+   61.41277,
+   0.1335,
+   "m"
+  ],
+  "m-o1": [
+   61.60627,
+   0.1105,
+   "m"
+  ],
+  "m-p": [
+   61.77677,
+   0.17502,
+   "m"
+  ],
+  "m-u": [
+   62.01179,
+   0.1395,
+   "m"
+  ],
+  "m-u1": [
+   62.21129,
+   0.1335,
+   "m"
+  ],
+  "n-C": [
+   62.40479,
+   0.079,
+   "n"
+  ],
+  "n-J": [
+   62.54379,
+   0.145,
+   "n"
+  ],
+  "n-R": [
+   62.74879,
+   0.15102,
+   "n"
+  ],
+  "n-Y": [
+   62.95981,
+   0.12152,
+   "n"
+  ],
+  "n-Z": [
+   63.14133,
+   0.139,
+   "n"
+  ],
+  "n-_": [
+   63.34033,
+   0.416,
+   "n"
+  ],
+  "n-a": [
+   63.81633,
+   0.1625,
+   "n"
+  ],
+  "n-a1": [
+   64.03883,
+   0.099,
+   "n"
+  ],
+  "n-d": [
+   64.19783,
+   0.1395,
+   "n"
+  ],
+  "n-e": [
+   64.39733,
+   0.1045,
+   "n"
+  ],
+  "n-e1": [
+   64.56183,
+   0.0985,
+   "n"
+  ],
+  "n-f": [
+   64.72033,
+   0.13898,
+   "n"
+  ],
+  "n-g": [
+   64.91931,
+   0.1165,
+   "n"
+  ],
+  "n-i": [
+   65.09581,
+   0.116,
+   "n"
+  ],
+  "n-i1": [
+   65.27181,
+   0.1045,
+   "n"
+  ],
+  "n-k": [
+   65.43631,
+   0.1485,
+   "n"
+  ],
+  "n-l": [
+   65.64481,
+   0.13348,
+   "n"
+  ],
+  "n-m": [
+   65.83829,
+   0.1335,
+   "n"
+  ],
+  "n-o": [
+   66.03179,
+   0.1455,
+   "n"
+  ],
+  "n-o1": [
+   66.23729,
+   0.1045,
+   "n"
+  ],
+  "n-s": [
+   66.40179,
+   0.1395,
+   "n"
+  ],
+  "n-t": [
+   66.60129,
+   0.144,
+   "n"
+  ],
+  "n-u": [
+   66.80529,
+   0.12202,
+   "n"
+  ],
+  "n-u1": [
+   66.98731,
+   0.116,
+   "n"
+  ],
+  "o-C": [
+   67.16331,
+   0.0635,
+   "o"
+  ],
+  "o-J": [
+   67.28681,
+   0.122,
+   "o"
+  ],
+  "o-N": [
+   67.46881,
+   0.145,
+   "o"
+  ],
+  "o-R": [
+   67.67381,
+   0.145,
+   "o"
+  ],
+  "o-Y": [
+   67.87881,
+   0.145,
+   "o"
+  ],
+  "o-Z": [
+   68.08381,
+   0.145,
+   "o"
+  ],
+  "o-_": [
+   68.28881,
+   0.1835,
+   "o"
+  ],
+  "o-a": [
+   68.53231,
+   0.12198,
+   "o"
+  ],
+  "o-a1": [
+   68.71429,
+   0.1335,
+   "o"
+  ],
+  "o-b": [
+   68.90779,
+   0.116,
+   "o"
+  ],
+  "o-d": [
+   69.08379,
+   0.1215,
+   "o"
+  ],
+  "o-e": [
+   69.26529,
+   0.1335,
+   "o"
+  ],
+  "o-e1": [
+   69.45879,
+   0.1335,
+   "o"
+  ],
+  "o-f": [
+   69.65229,
+   0.1335,
+   "o"
+  ],
+  "o-g": [
+   69.84579,
+   0.116,
+   "o"
+  ],
+  "o-i": [
+   70.02179,
+   0.1335,
+   "o"
+  ],
+  "o-k": [
+   70.21529,
+   0.1255,
+   "o"
+  ],
+  "o-l": [
+   70.40079,
+   0.11,
+   "o"
+  ],
+  "o-m": [
+   70.57079,
+   0.116,
+   "o"
+  ],
+  "o-n": [
+   70.74679,
+   0.0985,
+   "o"
+  ],
+  "o-p": [
+   70.90529,
+   0.124,
+   "o"
+  ],
+  "o-r": [
+   71.08929,
+   0.0815,
+   "o"
+  ],
+  "o-s": [
+   71.23079,
+   0.1335,
+   "o"
+  ],
+  "o-t": [
+   71.42429,
+   0.1495,
+   "o"
+  ],
+  "o-u": [
+   71.63379,
+   0.122,
+   "o"
+  ],
+  "o1-C": [
+   71.81579,
+   0.0705,
+   "o"
+  ],
+  "o1-J": [
+   71.94629,
+   0.13352,
+   "o"
+  ],
+  "o1-N": [
+   72.13981,
+   0.1335,
+   "o"
+  ],
+  "o1-R": [
+   72.33331,
+   0.151,
+   "o"
+  ],
+  "o1-Y": [
+   72.54431,
+   0.1335,
+   "o"
+  ],
+  "o1-Z": [
+   72.73781,
+   0.139,
+   "o"
+  ],
+  "o1-_": [
+   72.93681,
+   0.19952,
+   "o"
+  ],
+  "o1-b": [
+   73.19633,
+   0.1105,
+   "o"
+  ],
+  "o1-d": [
+   73.36683,
+   0.1045,
+   "o"
+  ],
+  "o1-f": [
+   73.53133,
+   0.13348,
+   "o"
+  ],
+  "o1-g": [
+   73.72481,
+   0.12148,
+   "o"
+  ],
+  "o1-i": [
+   73.90629,
+   0.1335,
+   "o"
+  ],
+  "o1-k": [
+   74.09979,
+   0.131,
+   "o"
+  ],
+  "o1-l": [
+   74.29079,
+   0.1045,
+   "o"
+  ],
+  "o1-m": [
+   74.45529,
+   0.1105,
+   "o"
+  ],
+  "o1-n": [
+   74.62579,
+   0.11598,
+   "o"
+  ],
+  "o1-p": [
+   74.80177,
+   0.128,
+   "o"
+  ],
+  "o1-r": [
+   74.98977,
+   0.1045,
+   "o"
+  ],
+  "o1-s": [
+   75.15427,
+   0.1335,
+   "o"
+  ],
+  "o1-t": [
+   75.34777,
+   0.1425,
+   "o"
+  ],
+  "o1-u": [
+   75.55027,
+   0.1335,
+   "o"
+  ],
+  "p-a": [
+   75.74377,
+   0.1735,
+   "p"
+  ],
+  "p-a1": [
+   75.97727,
+   0.113,
+   "p"
+  ],
+  "p-e": [
+   76.15027,
+   0.14198,
+   "p"
+  ],
+  "p-e1": [
+   76.35225,
+   0.139,
+   "p"
+  ],
+  "p-i": [
+   76.55125,
+   0.118,
+   "p"
+  ],
+  "p-i1": [
+   76.72925,
+   0.117,
+   "p"
+  ],
+  "p-l": [
+   76.90625,
+   0.1305,
+   "p"
+  ],
+  "p-o": [
+   77.09675,
+   0.1755,
+   "p"
+  ],
+  "p-o1": [
+   77.33225,
+   0.112,
+   "p"
+  ],
+  "p-r": [
+   77.50425,
+   0.146,
+   "p"
+  ],
+  "p-s": [
+   77.71025,
+   0.128,
+   "p"
+  ],
+  "p-t": [
+   77.89825,
+   0.15,
+   "p"
+  ],
+  "p-u": [
+   78.10825,
+   0.1885,
+   "p"
+  ],
+  "p-u1": [
+   78.35675,
+   0.1435,
+   "p"
+  ],
+  "r-C": [
+   78.56025,
+   0.1075,
+   "r"
+  ],
+  "r-J": [
+   78.72775,
+   0.11602,
+   "r"
+  ],
+  "r-Y": [
+   78.90377,
+   0.1335,
+   "r"
+  ],
+  "r-Z": [
+   79.09727,
+   0.116,
+   "r"
+  ],
+  "r-_": [
+   79.27327,
+   0.2065,
+   "r"
+  ],
+  "r-a": [
+   79.53977,
+   0.151,
+   "r"
+  ],
+  "r-a1": [
+   79.75077,
+   0.0755,
+   "r"
+  ],
+  "r-b": [
+   79.88627,
+   0.116,
+   "r"
+  ],
+  "r-d": [
+   80.06227,
+   0.1165,
+   "r"
+  ],
+  "r-e": [
+   80.23877,
+   0.08698,
+   "r"
+  ],
+  "r-e1": [
+   80.38575,
+   0.0755,
+   "r"
+  ],
+  "r-f": [
+   80.52125,
+   0.1165,
+   "r"
+  ],
+  "r-g": [
+   80.69775,
+   0.116,
+   "r"
+  ],
+  "r-i": [
+   80.87375,
+   0.09852,
+   "r"
+  ],
+  "r-i1": [
+   81.03227,
+   0.0815,
+   "r"
+  ],
+  "r-k": [
+   81.17377,
+   0.1135,
+   "r"
+  ],
+  "r-l": [
+   81.34727,
+   0.116,
+   "r"
+  ],
+  "r-m": [
+   81.52327,
+   0.116,
+   "r"
+  ],
+  "r-n": [
+   81.69927,
+   0.116,
+   "r"
+  ],
+  "r-o": [
+   81.87527,
+   0.12798,
+   "r"
+  ],
+  "r-o1": [
+   82.06325,
+   0.099,
+   "r"
+  ],
+  "r-p": [
+   82.22225,
+   0.1225,
+   "r"
+  ],
+  "r-s": [
+   82.40475,
+   0.1165,
+   "r"
+  ],
+  "r-t": [
+   82.58125,
+   0.1335,
+   "r"
+  ],
+  "r-u": [
+   82.77475,
+   0.0985,
+   "r"
+  ],
+  "r-u1": [
+   82.93325,
+   0.1045,
+   "r"
+  ],
+  "s-C": [
+   83.09775,
+   0.1575,
+   "s"
+  ],
+  "s-J": [
+   83.31525,
+   0.122,
+   "s"
+  ],
+  "s-R": [
+   83.49725,
+   0.1335,
+   "s"
+  ],
+  "s-Y": [
+   83.69075,
+   0.13902,
+   "s"
+  ],
+  "s-Z": [
+   83.88977,
+   0.11652,
+   "s"
+  ],
+  "s-_": [
+   84.06629,
+   0.176,
+   "s"
+  ],
+  "s-a": [
+   84.30229,
+   0.18,
+   "s"
+  ],
+  "s-a1": [
+   84.54229,
+   0.122,
+   "s"
+  ],
+  "s-b": [
+   84.72429,
+   0.116,
+   "s"
+  ],
+  "s-d": [
+   84.90029,
+   0.116,
+   "s"
+  ],
+  "s-e": [
+   85.07629,
+   0.1335,
+   "s"
+  ],
+  "s-e1": [
+   85.26979,
+   0.122,
+   "s"
+  ],
+  "s-f": [
+   85.45179,
+   0.11598,
+   "s"
+  ],
+  "s-g": [
+   85.62777,
+   0.116,
+   "s"
+  ],
+  "s-i": [
+   85.80377,
+   0.145,
+   "s"
+  ],
+  "s-i1": [
+   86.00877,
+   0.1335,
+   "s"
+  ],
+  "s-k": [
+   86.20227,
+   0.1025,
+   "s"
+  ],
+  "s-l": [
+   86.36477,
+   0.116,
+   "s"
+  ],
+  "s-m": [
+   86.54077,
+   0.116,
+   "s"
+  ],
+  "s-n": [
+   86.71677,
+   0.116,
+   "s"
+  ],
+  "s-o": [
+   86.89277,
+   0.1625,
+   "s"
+  ],
+  "s-o1": [
+   87.11527,
+   0.1335,
+   "s"
+  ],
+  "s-p": [
+   87.30877,
+   0.1205,
+   "s"
+  ],
+  "s-t": [
+   87.48927,
+   0.1095,
+   "s"
+  ],
+  "s-u": [
+   87.65877,
+   0.145,
+   "s"
+  ],
+  "s-u1": [
+   87.86377,
+   0.1335,
+   "s"
+  ],
+  "t-a": [
+   88.05727,
+   0.1715,
+   "t"
+  ],
+  "t-a1": [
+   88.28877,
+   0.1695,
+   "t"
+  ],
+  "t-e": [
+   88.51827,
+   0.1335,
+   "t"
+  ],
+  "t-e1": [
+   88.71177,
+   0.132,
+   "t"
+  ],
+  "t-i": [
+   88.90377,
+   0.1355,
+   "t"
+  ],
+  "t-i1": [
+   89.09927,
+   0.1325,
+   "t"
+  ],
+  "t-l": [
+   89.29177,
+   0.1545,
+   "t"
+  ],
+  "t-m": [
+   89.50627,
+   0.1355,
+   "t"
+  ],
+  "t-o": [
+   89.70177,
+   0.164,
+   "t"
+  ],
+  "t-o1": [
+   89.92577,
+   0.143,
+   "t"
+  ],
+  "t-r": [
+   90.12877,
+   0.158,
+   "t"
+  ],
+  "t-u": [
+   90.34677,
+   0.1525,
+   "t"
+  ],
+  "t-u1": [
+   90.55927,
+   0.151,
+   "t"
+  ],
+  "u-C": [
+   90.77027,
+   0.0635,
+   "u"
+  ],
+  "u-J": [
+   90.89377,
+   0.122,
+   "u"
+  ],
+  "u-N": [
+   91.07577,
+   0.14548,
+   "u"
+  ],
+  "u-R": [
+   91.28125,
+   0.1565,
+   "u"
+  ],
+  "u-Y": [
+   91.49775,
+   0.145,
+   "u"
+  ],
+  "u-Z": [
+   91.70275,
+   0.145,
+   "u"
+  ],
+  "u-_": [
+   91.90775,
+   0.1885,
+   "u"
+  ],
+  "u-a": [
+   92.15625,
+   0.122,
+   "u"
+  ],
+  "u-a1": [
+   92.33825,
+   0.1395,
+   "u"
+  ],
+  "u-b": [
+   92.53775,
+   0.11598,
+   "u"
+  ],
+  "u-d": [
+   92.71373,
+   0.128,
+   "u"
+  ],
+  "u-e": [
+   92.90173,
+   0.1215,
+   "u"
+  ],
+  "u-e1": [
+   93.08323,
+   0.1395,
+   "u"
+  ],
+  "u-f": [
+   93.28273,
+   0.1335,
+   "u"
+  ],
+  "u-g": [
+   93.47623,
+   0.116,
+   "u"
+  ],
+  "u-i": [
+   93.65223,
+   0.1335,
+   "u"
+  ],
+  "u-i1": [
+   93.84573,
+   0.1395,
+   "u"
+  ],
+  "u-k": [
+   94.04523,
+   0.1215,
+   "u"
+  ],
+  "u-l": [
+   94.22673,
+   0.1045,
+   "u"
+  ],
+  "u-m": [
+   94.39123,
+   0.116,
+   "u"
+  ],
+  "u-n": [
+   94.56723,
+   0.1045,
+   "u"
+  ],
+  "u-o": [
+   94.73173,
+   0.1335,
+   "u"
+  ],
+  "u-o1": [
+   94.92523,
+   0.151,
+   "u"
+  ],
+  "u-p": [
+   95.13623,
+   0.1265,
+   "u"
+  ],
+  "u-r": [
+   95.32273,
+   0.081,
+   "u"
+  ],
+  "u-s": [
+   95.46373,
+   0.1455,
+   "u"
+  ],
+  "u-t": [
+   95.66923,
+   0.1445,
+   "u"
+  ],
+  "u1-C": [
+   95.87373,
+   0.0705,
+   "u"
+  ],
+  "u1-J": [
+   96.00423,
+   0.1335,
+   "u"
+  ],
+  "u1-N": [
+   96.19773,
+   0.1335,
+   "u"
+  ],
+  "u1-R": [
+   96.39123,
+   0.1685,
+   "u"
+  ],
+  "u1-Y": [
+   96.61973,
+   0.1335,
+   "u"
+  ],
+  "u1-Z": [
+   96.81323,
+   0.1395,
+   "u"
+  ],
+  "u1-_": [
+   97.01273,
+   0.23548,
+   "u"
+  ],
+  "u1-b": [
+   97.30821,
+   0.1105,
+   "u"
+  ],
+  "u1-d": [
+   97.47871,
+   0.116,
+   "u"
+  ],
+  "u1-f": [
+   97.65471,
+   0.1335,
+   "u"
+  ],
+  "u1-g": [
+   97.84821,
+   0.122,
+   "u"
+  ],
+  "u1-k": [
+   98.03021,
+   0.122,
+   "u"
+  ],
+  "u1-l": [
+   98.21221,
+   0.116,
+   "u"
+  ],
+  "u1-m": [
+   98.38821,
+   0.1215,
+   "u"
+  ],
+  "u1-n": [
+   98.56971,
+   0.1165,
+   "u"
+  ],
+  "u1-p": [
+   98.74621,
+   0.1465,
+   "u"
+  ],
+  "u1-r": [
+   98.95271,
+   0.1045,
+   "u"
+  ],
+  "u1-s": [
+   99.11721,
+   0.1395,
+   "u"
+  ],
+  "u1-t": [
+   99.31671,
+   0.14098,
+   "u"
+  ]
  },
  "ejemplos": [
   {
@@ -1550,6 +5558,14 @@
   {
    "archivo": "ejemplos/07_unir_silabas_casa.wav",
    "texto": "casa → casa → mi casa → mi casa es grande"
+  },
+  {
+   "archivo": "ejemplos/08_palabras_nuevas.wav",
+   "texto": "el dinosaurio come tomate y chocolate"
+  },
+  {
+   "archivo": "ejemplos/09_unir_silabas_tortuga.wav",
+   "texto": "tortuga → tortuga → la tortuga camina en el jardín"
   }
  ]
 }

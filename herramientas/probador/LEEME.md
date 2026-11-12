@@ -6,7 +6,7 @@ Este zip tiene todo lo de la voz **Martin Osborne**, organizado en una sola carp
 |---|---|
 | `probar_voces.html` | Página para escuchar y probar todo |
 | `biblioteca/` | Audios sueltos: vocales, sílabas, palabras, frases, preguntas y los renders de cada bloque |
-| `lectura/` | Audios para **unir sílabas** y **armar oraciones** en cualquier orden, más `lector.js` (el código que los junta) |
+| `lectura/` | Audios para **unir sílabas** y **armar oraciones** en cualquier orden (palabras, sílabas y dífonos), más `lector.js` (el código que los junta) |
 
 ## 1. Probar los audios
 
@@ -31,7 +31,7 @@ copiarlos.
 
 ```js
 // Un audio suelto: letra, sílaba o palabra
-new Audio("biblioteca/02_silabas_directas/b/ba.wav").play();
+new Audio("biblioteca/02_silabas_directas/b/ba.mp3").play();
 
 // Unir sílabas y leer lo que arman los chicos
 import { Lector } from "./lectura/lector.js";
@@ -45,8 +45,16 @@ await lector.leerOracion("a la casa de mi tío hoy me voy de vacaciones");   // 
 
 > Copiá las carpetas `biblioteca/` y `lectura/` del zip a los recursos de la app. Para tocar una letra o una sílaba
 > reproducí el archivo de `biblioteca/` (la ruta está en `biblioteca/manifest.json`). Para leer textos o unir
-> sílabas usá `lectura/lector.js` (instrucciones en `lectura/README.md`). Si la app no es web, traducí la lógica de
-> `lector.js`: buscar la palabra (igual, sin tildes o por sonido), usar la versión "final" para la última palabra y
-> "medio" para las demás, unir con 10 ms de pausa y, si no existe, armarla por sílabas.
+> sílabas usá `lectura/lector.js` (instrucciones en `lectura/README.md`): creá el lector una sola vez al iniciar
+> (`await Lector.crear("lectura/")`) y después llamá a `leerOracion`, `leerSilabas` o `leerSecuencia` desde los botones.
+> Si la app no es web, traducí la lógica de `lector.js` tal cual (está comentada): buscar cada palabra (igual, sin
+> tildes o por sonido), versión "final" para la última y "medio" para las demás, empalmes según los sonidos que se
+> tocan, y si la palabra no existe, armarla con dífonos.
 
 Hay más detalle en `biblioteca/README.md` y `lectura/README.md`.
+
+## Peso
+
+Todos los audios van en MP3: el zip pesa unos 15 MB (en WAV eran 113 MB). La lectura son solo tres archivos
+(`palabras.mp3`, `silabas.mp3`, `difonos.mp3`, unos 2,5 MB en total) que se cargan una vez al abrir la app. Los
+originales en WAV sin pérdida quedan en GitHub por si alguna vez hacen falta.

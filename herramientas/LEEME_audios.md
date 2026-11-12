@@ -2,7 +2,8 @@
 
 - **Voz:** Martin Osborne – Deep and Passionate (ElevenLabs, español de España)
 - **Modelo:** `eleven_multilingual_v2`
-- **Formato:** WAV PCM, 16 bits, mono, 48 kHz (sin pérdida)
+- **Formato:** en el zip, MP3 mono de 64 kbps (48 kHz), liviano para la app. Los originales en WAV 48 kHz 16 bits
+  (sin pérdida) están en GitHub, en la carpeta `biblioteca/`.
 
 Para escuchar todo, abrí **`probar_voces.html`** (en la carpeta de arriba) e importá el zip: tocás una letra, sílaba o palabra y suena, igual que en la app.
 
@@ -13,20 +14,20 @@ Para escuchar todo, abrí **`probar_voces.html`** (en la carpeta de arriba) e im
 | Carpeta | Contenido | Archivos |
 |---|---|---|
 | `00_renders_bloques_completos/` | Los 6 bloques completos, de corrido (el "render") | 6 |
-| `01_vocales/` | `a.wav` … `u.wav` + `vocales_a_e_i_o_u.wav` (las 5 seguidas) | 6 |
-| `02_silabas_directas/<letra>/` | `ba.wav be.wav bi.wav bo.wav bu.wav` + `familia_b.wav` (Ba-Be-Bi-Bo-Bu seguidas) | 22 letras × 6 |
-| `03_silabas_inversas/<letra>/` | `al.wav el.wav …` + `familia_l.wav` | 13 letras × 6 |
-| `04_grupos_consonanticos/<grupo>/` | `bra.wav bre.wav …` + `familia_br.wav` | 12 grupos × 6 |
-| `05_combinaciones_vocalicas/` | `ai.wav ei.wav oi.wav …` | 14 |
-| `06_palabras_diptongos_hiatos/` | `aereo.wav poeta.wav pais.wav …` | 21 |
-| `07_palabras_cortas/` | `casa.wav perro.wav sol.wav …` | 48 |
-| `08_palabras_medianas_y_largas/` | `computadora.wav … anticonstitucional.wav` | 40 |
-| `09_palabras_r_y_rr/` | `rana.wav … carretera.wav` | 28 |
-| `10_palabras_contraste_bv_sz_gj/` | `baca.wav vaca.wav casa.wav caza.wav gente.wav jirafa.wav …` | 39 |
-| `11_frases_cortas/` | `01_el_sol_sale_por_la_manana.wav` … | 12 |
-| `12_parrafos/` | `parrafo_1.wav` … `parrafo_5.wav` + `oraciones/p1_01_….wav` (cada oración suelta) | 5 + 13 |
-| `13_preguntas/` | `01_donde_estas.wav` … | 8 |
-| `14_exclamaciones/` | `01_que_alegria_verte.wav` … | 6 |
+| `01_vocales/` | `a.mp3` … `u.mp3` + `vocales_a_e_i_o_u.mp3` (las 5 seguidas) | 6 |
+| `02_silabas_directas/<letra>/` | `ba.mp3 be.mp3 bi.mp3 bo.mp3 bu.mp3` + `familia_b.mp3` (Ba-Be-Bi-Bo-Bu seguidas) | 22 letras × 6 |
+| `03_silabas_inversas/<letra>/` | `al.mp3 el.mp3 …` + `familia_l.mp3` | 13 letras × 6 |
+| `04_grupos_consonanticos/<grupo>/` | `bra.mp3 bre.mp3 …` + `familia_br.mp3` | 12 grupos × 6 |
+| `05_combinaciones_vocalicas/` | `ai.mp3 ei.mp3 oi.mp3 …` | 14 |
+| `06_palabras_diptongos_hiatos/` | `aereo.mp3 poeta.mp3 pais.mp3 …` | 21 |
+| `07_palabras_cortas/` | `casa.mp3 perro.mp3 sol.mp3 …` | 48 |
+| `08_palabras_medianas_y_largas/` | `computadora.mp3 … anticonstitucional.mp3` | 40 |
+| `09_palabras_r_y_rr/` | `rana.mp3 … carretera.mp3` | 28 |
+| `10_palabras_contraste_bv_sz_gj/` | `baca.mp3 vaca.mp3 casa.mp3 caza.mp3 gente.mp3 jirafa.mp3 …` | 39 |
+| `11_frases_cortas/` | `01_el_sol_sale_por_la_manana.mp3` … | 12 |
+| `12_parrafos/` | `parrafo_1.mp3` … `parrafo_5.mp3` + `oraciones/p1_01_….mp3` (cada oración suelta) | 5 + 13 |
+| `13_preguntas/` | `01_donde_estas.mp3` … | 8 |
+| `14_exclamaciones/` | `01_que_alegria_verte.mp3` … | 6 |
 | `manifest.json` / `manifest.csv` | Lista de todos los archivos con su texto original exacto | — |
 
 **Total:** 469 clips individuales + 48 familias + 5 párrafos + 6 renders = 528 archivos.
@@ -43,19 +44,19 @@ Para escuchar todo, abrí **`probar_voces.html`** (en la carpeta de arriba) e im
 
 ## Cómo están nombrados
 
-- Todo en minúsculas, sin tildes ni signos: `Pájaro` → `pajaro.wav`, `¿Dónde estás?` → `01_donde_estas.wav`.
-- La **ñ se escribe `ny`**: `Ña` → `ny/nya.wav`, `Mañana` → `manyana.wav`.
+- Todo en minúsculas, sin tildes ni signos: `Pájaro` → `pajaro.mp3`, `¿Dónde estás?` → `01_donde_estas.mp3`.
+- La **ñ se escribe `ny`**: `Ña` → `ny/nya.mp3`, `Mañana` → `manyana.mp3`.
 - El texto original exacto (con tildes y ñ) está en `manifest.json` y en `manifest.csv`, con la duración de cada archivo.
 
 ### Ejemplo de uso en la app (JavaScript)
 
 ```js
 // Al tocar la letra B: la familia completa
-new Audio("biblioteca/02_silabas_directas/b/familia_b.wav").play();
+new Audio("biblioteca/02_silabas_directas/b/familia_b.mp3").play();
 
 // Al tocar una sílaba o palabra puntual
-new Audio("biblioteca/02_silabas_directas/b/ba.wav").play();
-new Audio("biblioteca/07_palabras_cortas/casa.wav").play();
+new Audio("biblioteca/02_silabas_directas/b/ba.mp3").play();
+new Audio("biblioteca/07_palabras_cortas/casa.mp3").play();
 
 // Buscar por texto usando el manifest
 const manifest = await (await fetch("biblioteca/manifest.json")).json();
@@ -67,7 +68,7 @@ new Audio("biblioteca/" + porTexto["Pájaro"]).play();
 
 - **Silencio:** cada clip arranca con unos 40 ms de silencio y termina unos 120 ms después de la voz, con fundidos cortos para que no haya clics.
 - **Volumen:** está igualado entre clips (voz activa a −20 dBFS, pico máximo −1 dBFS), así no suena uno fuerte y otro bajo.
-- **Familias:** los archivos `familia_*.wav` son las 5 sílabas tal como se grabaron seguidas, con su pausa natural.
+- **Familias:** los archivos `familia_*.mp3` son las 5 sílabas tal como se grabaron seguidas, con su pausa natural.
 
 ## Cómo se grabó
 

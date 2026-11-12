@@ -1,34 +1,42 @@
-"""Paquete 2: lectura encadenada.
+"""Lectura encadenada: unir sílabas y armar oraciones en cualquier orden, sin que suene a robot.
 
-Sirve para dos secciones de la app:
-  1. Unir sílabas:  "va - ca" -> "vaca" -> "la - va - ca" -> "la vaca come pasto"
-  2. Armar oraciones con palabras en cualquier orden: la app lee lo que armó el chico, fluido.
+Unidades (todas con la misma voz y ajustes):
+  - palabras "medio": cómo suena la palabra dentro de una oración. Se graba "<palabra> todo" con el
+    contexto "Ella dijo que..." y se corta donde termina la voz de la palabra (antes de la "t").
+  - palabras "final": la palabra con cierre de oración ("<palabra>.").
+  - sílabas: las de la biblioteca, recortadas (para leer "va - ca").
+  - dífonos: transiciones entre sonidos (k-a, a-s...), cortadas de palabras inventadas (difonos.py).
+    Arman cualquier palabra que no esté grabada o que el chico escriba mal, respetando el acento.
 
-No se graban frases: se graban PALABRAS sueltas preparadas para encadenarse, en dos versiones:
-  - medio: la palabra tal como suena dentro de una oración (corta, sin caída final).
-           Se graba "<palabra> todo" y se corta en el silencio de la "t", así la voz no la
-           trata como fin de frase (las palabras chicas como "me", "de", "la" quedan cortas).
-  - final: la palabra con cierre de oración ("<palabra>.").
-Si una palabra no está grabada (o el chico la escribe mal), el lector la arma con sílabas.
+Empalmes entre palabras según los sonidos que se tocan (como al hablar):
+  - antes de p, t, k, ch: un silencio corto (el cierre natural de esa consonante)
+  - vocal + vocal ("de‿agua"): se funden con un solape largo
+  - el resto: solape corto, con fundido de potencia constante (sin bajón de volumen)
 
-  python3 herramientas/lectura.py generar     # pide a ElevenLabs lo que falte (usa caché)
-  python3 herramientas/lectura.py armar       # corta, normaliza, copia sílabas, manifest, ejemplos
-  python3 herramientas/lectura.py verificar   # transcribe los ejemplos y las palabras finales
+Para que la app cargue rápido, las unidades van en 3 archivos (palabras, sílabas, dífonos) y un índice
+(manifest_lectura.json) con dónde empieza cada una. Se cargan una vez y cada lectura se arma en memoria.
+
+  python3 herramientas/lectura.py generar     # pide a ElevenLabs lo que falte (palabras; usa caché)
+  python3 herramientas/difonos.py             # pide a ElevenLabs las palabras inventadas de los dífonos
+  python3 herramientas/lectura.py armar       # corta, arma los 3 archivos + índice + ejemplos
+  python3 herramientas/lectura.py verificar   # transcribe los ejemplos
 """
 import io
 import json
 import re
 import shutil
 import sys
-import unicodedata
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import difonos as D  # noqa: E402
 import recortar as R  # noqa: E402
 from bloques import AJUSTES_NEUTROS, SEMILLA, VOZ_ID, VOZ_NOMBRE  # noqa: E402
+from fonetica import (clave_difono, clave_fonetica, fonemas, normalizar_silaba, silabear,  # noqa: E402,F401
+                      sin_tildes)
 from generar import obtener_toma  # noqa: E402
 
 RAIZ = Path(__file__).resolve().parent.parent
@@ -55,133 +63,43 @@ CONTENIDO = {
     "tiempo_y_otros": "hoy ayer mañana ahora siempre aquí allá no sí vacaciones día noche tarde también todos",
 }
 CATEGORIA = {w: "funcion" for w in FUNCION}
-for cat, ws in CONTENIDO.items():
-    for w in ws.split():
-        CATEGORIA[w] = cat
+for _cat, _ws in CONTENIDO.items():
+    for _w in _ws.split():
+        CATEGORIA[_w] = _cat
 PALABRAS = list(CATEGORIA)
 
-
-# ----------------------------------------------------------------------------- texto
-def sin_tildes(t):
-    t = t.replace("ñ", "\0")
-    t = "".join(c for c in unicodedata.normalize("NFD", t) if unicodedata.category(c) != "Mn")
-    return t.replace("\0", "ñ")
-
-
-def clave_fonetica(w):
-    """Dos palabras con la misma clave suenan igual (b=v, h muda, ll=y, c/qu/k...). Respeta z/s (voz de España)."""
-    t = sin_tildes(w.lower().replace("gü", "gw"))
-    for a, b in [("ch", "C"), ("ll", "y"), ("rr", "R"), ("qu", "k"), ("gu(?=[ei])", "G"), ("g(?=[ei])", "j"),
-                 ("G", "g"), ("c(?=[ei])", "z"), ("c", "k"), ("h", ""), ("v", "b"), ("w", "u"), ("x", "ks"),
-                 ("y$", "i"), ("^r", "R")]:
-        t = re.sub(a, b, t)
-    return t
+# ----------------------------------------------------------------------------- parámetros (iguales en lector.js)
+PARAMS = {
+    "hueco_oclusiva_ms": 40,      # antes de p, t, k, ch: el cierre natural de la consonante
+    "solape_vocales_ms": 35,      # vocal + vocal: se funden ("de‿agua")
+    "solape_vocal_ms": 20,        # consonante + vocal ("los‿ojos")
+    "solape_ms": 15,              # el resto de los empalmes
+    "pausa_coma_ms": 250,
+    "pausa_punto_ms": 450,
+    "pausa_entre_silabas_ms": 300,
+    "pausa_entre_pasos_ms": 700,
+    "fundido_difono_ms": dict(D.FUNDIDO_MS),
+}
+SEPARACION = 0.06   # silencio entre unidades dentro de cada archivo
 
 
-def nombre_archivo(w):
-    return R.slug(w) + ("_tilde" if w != sin_tildes(w) and sin_tildes(w) in PALABRAS else "")
+def n_muestras(seg, sr):
+    return int(seg * sr + 0.5)
 
 
-VOCALES = "aeiouáéíóúü"
-FUERTES = "aeoáéíóú"   # a, e, o y cualquier vocal con tilde: forman hiato entre sí
-INSEPARABLES = {"pr", "br", "tr", "dr", "cr", "kr", "gr", "fr", "pl", "bl", "cl", "kl", "gl", "fl"}
-
-
-def silabear(palabra):
-    """Separa una palabra escrita en sílabas (reglas del español)."""
-    w = palabra.lower()
-    # unidades: dígrafos como una sola consonante
-    u, i = [], 0
-    while i < len(w):
-        if w[i:i + 2] in ("ch", "ll", "rr"):
-            u.append(w[i:i + 2])
-            i += 2
-        elif w[i:i + 2] == "qu" or (w[i:i + 2] in ("gu", "gü") and i + 2 < len(w) and w[i + 2] in "eiéí"):
-            u.append(w[i:i + 2])
-            i += 2
-        else:
-            u.append(w[i])
-            i += 1
-
-    def es_vocal(x):
-        return len(x) == 1 and x in VOCALES
-
-    # núcleos: grupos de vocales (separando hiatos)
-    sil, actual = [], ""
-    k = 0
-    while k < len(u):
-        x = u[k]
-        if es_vocal(x):
-            actual += x
-            # ¿hiato con la siguiente vocal?
-            if k + 1 < len(u) and es_vocal(u[k + 1]):
-                y = u[k + 1]
-                hiato = (x in FUERTES and y in FUERTES) or x in "íú" or y in "íú"
-                if hiato:
-                    sil.append(actual)
-                    actual = ""
-            k += 1
-            continue
-        # consonantes entre vocales
-        j = k
-        while j < len(u) and not es_vocal(u[j]):
-            j += 1
-        grupo = u[k:j]
-        if j == len(u) or not actual:  # al final de la palabra o al inicio
-            actual += "".join(grupo)
-        else:
-            if len(grupo) == 1:
-                corte = 0
-            elif len(grupo) == 2:
-                corte = 0 if "".join(grupo) in INSEPARABLES else 1
-            elif len(grupo) == 3:
-                corte = 1 if "".join(grupo[1:]) in INSEPARABLES else 2
-            else:
-                corte = 2
-            actual += "".join(grupo[:corte])
-            sil.append(actual)
-            actual = "".join(grupo[corte:])
-        k = j
-    if actual:
-        sil.append(actual)
-    # sílaba sin vocal (raro) se pega a la anterior
-    res = []
-    for s in sil:
-        if res and not any(c in VOCALES for c in s):
-            res[-1] += s
-        else:
-            res.append(s)
-    return res
-
-
-def normalizar_silaba(s):
-    """Escribe la sílaba como está en el inventario: sin tildes ni h muda, ge->je, ze->ce, y final->i."""
-    t = sin_tildes(s.lower()).replace("ch", "C").replace("h", "").replace("C", "ch")
-    t = re.sub(r"^g(?=[ei])", "j", t)
-    t = t.replace("gü", "gu").replace("ü", "u")
-    t = re.sub(r"^z(?=[ei])", "c", t)
-    if len(t) > 1 and t.endswith("y"):
-        t = t[:-1] + "i"
-    return t
-
-
-# ----------------------------------------------------------------------------- generación
-def peticiones(voz=VOZ_ID):
+# ----------------------------------------------------------------------------- generación de palabras
+def peticiones():
     p = [(f"{w} {PORTADOR}", CONTEXTO) for w in PALABRAS]
     p += [(f"{w}.", CONTEXTO) for w in PALABRAS if CATEGORIA[w] != "funcion"]
     return p
 
 
 def generar(voz=VOZ_ID):
-    ps = peticiones(voz)
+    ps = peticiones()
     print(f"{len(ps)} peticiones, {sum(len(t) for t, _ in ps)} caracteres (las que ya están en caché no se cobran)")
     with ThreadPoolExecutor(3) as ex:
         list(ex.map(lambda tp: obtener_toma(tp[0], AJUSTES_NEUTROS, tp[1], SEMILLA, voz=voz), ps))
     print("listo")
-
-
-def _wav(audio):
-    return R.leer_wav(io.BytesIO(audio))
 
 
 def _bordes(y, fi=0.004, fo=0.010):
@@ -193,21 +111,24 @@ def _bordes(y, fi=0.004, fo=0.010):
 
 
 def cortar_medio(w, voz=VOZ_ID):
+    """La palabra dentro de la oración: desde que empieza la voz hasta que termina (sin el silencio de la t)."""
     audio, al, _, _ = obtener_toma(f"{w} {PORTADOR}", AJUSTES_NEUTROS, CONTEXTO, SEMILLA, voz=voz)
-    x = _wav(audio)
+    x = R.leer_wav(io.BytesIO(audio))
     db = R.energia_db(x)
     fin_w = al["character_end_times_seconds"][len(w) - 1]
     ini_t = al["character_start_times_seconds"][len(w) + 1]
     a, b = R.t2f(min(fin_w, ini_t) - 0.05), R.t2f(max(fin_w, ini_t) + 0.06)
-    corte = a + int(np.argmin(db[a:b]))
-    act = np.where(db[:corte] > db.max() - 40)[0]
-    ini = max(0, act[0] - 2)
-    profundidad = float(db[a:b].max() - db[corte])  # cuánto baja la energía en el corte (silencio de la t)
-    return _bordes(x[int(ini * R.HOP * R.SR):int((corte + 1) * R.HOP * R.SR)]), profundidad
+    cierre = a + int(np.argmin(db[a:b]))
+    tope = db[:cierre].max()
+    voz_on = np.where(db[:cierre] > tope - 30)[0]
+    ini = max(0, voz_on[0] - 2)
+    fin = voz_on[-1] + 3
+    profundidad = float(db[a:b].max() - db[cierre])
+    return _bordes(x[int(ini * R.HOP * R.SR):int(fin * R.HOP * R.SR)]), profundidad
 
 
 def cortar_final(w, voz=VOZ_ID):
-    x = _wav(obtener_toma(f"{w}.", AJUSTES_NEUTROS, CONTEXTO, SEMILLA, voz=voz)[0])
+    x = R.leer_wav(io.BytesIO(obtener_toma(f"{w}.", AJUSTES_NEUTROS, CONTEXTO, SEMILLA, voz=voz)[0]))
     db = R.energia_db(x)
     act = np.where(db > db.max() - 40)[0]
     y = x[int(max(0, act[0] - 2) * R.HOP * R.SR):int(min(len(db), act[-1] + 8) * R.HOP * R.SR)]
@@ -228,144 +149,165 @@ def rms_activo(y):
     return 10 * np.log10(np.mean(10 ** (act / 10)))
 
 
+# ----------------------------------------------------------------------------- mezcla (igual que lector.js)
+def mezclar(piezas, sr):
+    """piezas: [(audio, junta_muestras)]; junta > 0 = hueco de silencio antes, < 0 = solape con fundido."""
+    pos, inicios = 0, []
+    for k, (y, junta) in enumerate(piezas):
+        if k == 0:
+            ini = 0
+        elif junta >= 0:
+            ini = pos + junta
+        else:
+            n = min(-junta, len(piezas[k - 1][0]), len(y))
+            ini = pos - n
+        inicios.append(ini)
+        pos = ini + len(y)
+    out = np.zeros(max(pos, 0), dtype=np.float32)
+    for k, (y, junta) in enumerate(piezas):
+        ini = inicios[k]
+        y = y.astype(np.float32)
+        if k > 0 and junta < 0:
+            n = min(-junta, len(piezas[k - 1][0]), len(y))
+            if n > 0:
+                ang = (np.arange(n, dtype=np.float32) + 0.5) / n * (np.pi / 2)
+                out[ini:ini + n] *= np.cos(ang)
+                y = y.copy()
+                y[:n] *= np.sin(ang)
+        out[ini:ini + len(y)] += y
+    return out
+
+
+def junta_palabras(prev_fin, sig_ini, sr):
+    """Cuántas muestras de hueco (+) o solape (-) entre dos palabras según los sonidos que se tocan."""
+    p = PARAMS
+    if sig_ini in D.CORTE_EN_CIERRE:
+        return n_muestras(p["hueco_oclusiva_ms"] / 1000, sr)
+    if sig_ini in D.VOC:
+        ms = p["solape_vocales_ms"] if prev_fin in D.VOC else p["solape_vocal_ms"]
+        return -n_muestras(ms / 1000, sr)
+    return -n_muestras(p["solape_ms"] / 1000, sr)
+
+
 # ----------------------------------------------------------------------------- lector (igual que lector.js)
-PARAMS = {
-    "pausa_entre_palabras_ms": 10,
-    "fundido_ms": 6,
-    "pausa_coma_ms": 250,
-    "pausa_punto_ms": 450,
-    "pausa_entre_silabas_ms": 300,
-    "pausa_entre_pasos_ms": 700,
-    "solape_coda_ms": 30,
-    "fusion_recorte": 0.35,
-}
-
-
 class Lector:
     def __init__(self, base=SALIDA):
         self.base = Path(base)
         self.m = json.loads((self.base / "manifest_lectura.json").read_text(encoding="utf-8"))
-        self.cache = {}
-        self.por_tilde = {}
-        self.por_clave = {}
+        self.sr = self.m["sr"]
+        self.audios = {k: R.leer_wav(self.base / v).astype(np.float32) for k, v in self.m["audios"].items()}
+        self.por_tilde, self.por_clave = {}, {}
         for w, d in self.m["palabras"].items():
             self.por_tilde.setdefault(sin_tildes(w), w)
             self.por_clave.setdefault(d["clave"], w)
 
-    def _a(self, rel):
-        if rel not in self.cache:
-            self.cache[rel] = R.leer_wav(self.base / rel)
-        return self.cache[rel]
+    def _corte(self, archivo, ini_dur):
+        a = n_muestras(ini_dur[0], self.sr)
+        return self.audios[archivo][a:a + n_muestras(ini_dur[1], self.sr)]
 
     def buscar(self, w):
         w = w.lower()
-        for k, d in ((w, None), (sin_tildes(w), self.por_tilde), (clave_fonetica(w), self.por_clave)):
-            pal = k if d is None else d.get(k)
-            if pal in self.m["palabras"]:
-                return pal
+        if w in self.m["palabras"]:
+            return w
+        return self.por_tilde.get(sin_tildes(w)) or self.por_clave.get(clave_fonetica(w))
+
+    def difonos(self, fon):
+        seq = [("_", False)] + list(fon) + [("_", False)]
+        piezas = []
+        for (s1, a1), (s2, a2) in zip(seq, seq[1:]):
+            d = self._buscar_difono(s1, a1, s2, a2)
+            if d is None:
+                continue
+            y = self._corte("difonos", d[:2])
+            if piezas:
+                ms = PARAMS["fundido_difono_ms"][D.clase(d[2])]
+                piezas.append((y, -n_muestras(ms / 1000, self.sr)))
+            else:
+                piezas.append((y, 0))
+        return mezclar(piezas, self.sr) if piezas else np.zeros(0, dtype=np.float32)
+
+    def _buscar_difono(self, s1, a1, s2, a2):
+        inv = self.m["difonos"]
+        for x1, x2 in [(a1, a2), (not a1, a2), (a1, not a2), (not a1, not a2)]:
+            k = clave_difono((s1, x1), (s2, x2))
+            if k in inv:
+                return inv[k]
+        for t1, t2 in [(D.SUSTITUTOS.get(s1, s1), s2), (s1, D.SUSTITUTOS.get(s2, s2))]:
+            for x1, x2 in [(a1, a2), (not a1, a2), (a1, not a2)]:
+                k = clave_difono((t1, x1), (t2, x2))
+                if k in inv:
+                    return inv[k]
         return None
 
-    def silaba(self, s):
-        """Lista de (audio, solape_seg) para una sílaba escrita."""
-        inv = self.m["silabas"]
-        t = normalizar_silaba(s)
-        if t in inv:
-            return [(self._a(inv[t]), 0.0)]
-        m = re.match(r"^([^aeiou]*)([aeiou]+)([^aeiou]*)$", t)
-        if not m:
-            return []
-        ataque, nucleo, coda = m.groups()
-        piezas = []
-        if ataque + nucleo in inv:
-            piezas.append((self._a(inv[ataque + nucleo]), 0.0))
-        else:
-            if ataque + nucleo[0] in inv:
-                piezas.append((self._a(inv[ataque + nucleo[0]]), 0.0))
-            resto = nucleo[1:]
-            if resto:
-                clave = resto if resto in inv else resto[-1]
-                if clave in inv:
-                    piezas.append((self._a(inv[clave]), PARAMS["solape_coda_ms"] / 1000))
-        if coda:
-            vc = nucleo[-1] + coda[0]
-            if vc in inv:
-                piezas.append((self._a(inv[vc]), PARAMS["solape_coda_ms"] / 1000))
-        return piezas
-
-    def _palabra_audio(self, w, final):
+    def palabra(self, w, final):
+        """(audio, primer_sonido, último_sonido) de una palabra."""
         pal = self.buscar(w)
         if pal:
             d = self.m["palabras"][pal]
-            return [(self._a(d["final"] if final and d.get("final") else d["medio"]), 0.0)]
-        piezas = []
-        for s in silabear(w):
-            piezas += self.silaba(s)
-        return piezas
-
-    @staticmethod
-    def unir(piezas, pausa):
-        sr = R.SR
-        f = int(PARAMS["fundido_ms"] / 1000 * sr)
-        out = np.zeros(0)
-        ultimo = 0
-        for k, (y, solape) in enumerate(piezas):
-            if k == 0:
-                out = y.copy()
-                ultimo = len(y)
-                continue
-            if solape > 0:  # fusión: la vocal compartida suena una sola vez ("pa" + "an" -> "pan")
-                fr = PARAMS["fusion_recorte"]
-                out = out[:len(out) - int(fr * ultimo)]
-                y = y[int(fr * len(y)):]
-                n = min(int(solape * sr), len(out), len(y))
-                y = y.copy()
-                out[-n:] *= np.linspace(1, 0, n)
-                y[:n] *= np.linspace(0, 1, n)
-                out[-n:] += y[:n]
-                out = np.concatenate([out, y[n:]])
-            else:
-                out = np.concatenate([out, np.zeros(int(pausa * sr)), y])
-            ultimo = len(y)
-        if len(out) > f:
-            out[-f:] *= np.linspace(1, 0, f)
-        return out
+            fon = fonemas(pal)
+            y = self._corte("palabras", d["final"] if final and "final" in d else d["medio"])
+        else:
+            fon = fonemas(w)
+            y = self.difonos(fon)
+        if not fon:
+            return None
+        return y, fon[0][0], fon[-1][0]
 
     def oracion(self, texto):
-        tokens = re.findall(r"[\wáéíóúüñÁÉÍÓÚÜÑ]+|[.,;:!?¡¿]", texto)
-        palabras = [t for t in tokens if t[0].isalnum()]
-        bloques, piezas, vistas = [], [], 0
+        tokens = re.findall(r"[^\W\d_]+|[.,;:!?¡¿]", texto)
+        total = sum(1 for t in tokens if t[0].isalpha())
+        piezas, vistas, ultimo, pausa = [], 0, None, 0
         for t in tokens:
-            if not t[0].isalnum():
+            if not t[0].isalpha():
                 if piezas and t in ",;:":
-                    piezas.append((np.zeros(int(PARAMS["pausa_coma_ms"] / 1000 * R.SR)), 0.0))
+                    pausa = max(pausa, n_muestras(PARAMS["pausa_coma_ms"] / 1000, self.sr))
                 elif piezas and t in ".!?":
-                    piezas.append((np.zeros(int(PARAMS["pausa_punto_ms"] / 1000 * R.SR)), 0.0))
+                    pausa = max(pausa, n_muestras(PARAMS["pausa_punto_ms"] / 1000, self.sr))
                 continue
             vistas += 1
-            es_final = vistas == len(palabras)
-            pw = self._palabra_audio(t, es_final)
-            if pw:
-                # las sílabas de una palabra armada van pegadas entre sí
-                bloques_palabra = self.unir(pw, 0.0) if len(pw) > 1 else pw[0][0]
-                piezas.append((bloques_palabra, 0.0))
-        return self.unir(piezas, PARAMS["pausa_entre_palabras_ms"] / 1000)
+            r = self.palabra(t, vistas == total)
+            if r is None or not len(r[0]):
+                continue
+            y, ini, fin = r
+            junta = 0 if not piezas else (pausa if pausa else junta_palabras(ultimo, ini, self.sr))
+            piezas.append((y, junta))
+            ultimo, pausa = fin, 0
+        return mezclar(piezas, self.sr) if piezas else np.zeros(0, dtype=np.float32)
+
+    def silaba(self, s):
+        t = normalizar_silaba(s)
+        if t in self.m["silabas"]:
+            return self._corte("silabas", self.m["silabas"][t])
+        return self.difonos(fonemas(s))   # sílaba que no está grabada: con dífonos
 
     def silabeo(self, texto):
-        """Lee por sílabas: "la vaca" -> la - va - ca."""
         piezas = []
-        for w in re.findall(r"[\wáéíóúüñ]+", texto.lower()):
+        for w in re.findall(r"[^\W\d_]+", texto.lower()):
             for s in silabear(w):
-                ps = self.silaba(s)
-                if ps:
-                    piezas.append((self.unir(ps, 0.0), 0.0))
-        return self.unir(piezas, PARAMS["pausa_entre_silabas_ms"] / 1000)
+                y = self.silaba(s)
+                if len(y):
+                    piezas.append((y, n_muestras(PARAMS["pausa_entre_silabas_ms"] / 1000, self.sr) if piezas else 0))
+        return mezclar(piezas, self.sr) if piezas else np.zeros(0, dtype=np.float32)
 
     def secuencia(self, pasos):
-        """pasos: lista de ("silabas"|"palabra"|"oracion", texto)."""
-        audios = []
+        piezas = []
         for tipo, texto in pasos:
-            audios.append((self.silabeo(texto) if tipo == "silabas" else self.oracion(texto), 0.0))
-        return self.unir(audios, PARAMS["pausa_entre_pasos_ms"] / 1000)
+            y = self.silabeo(texto) if tipo == "silabas" else self.oracion(texto)
+            if len(y):
+                piezas.append((y, n_muestras(PARAMS["pausa_entre_pasos_ms"] / 1000, self.sr) if piezas else 0))
+        return mezclar(piezas, self.sr) if piezas else np.zeros(0, dtype=np.float32)
+
+    def diagnostico(self, texto):
+        res = []
+        for w in re.findall(r"[^\W\d_]+", texto):
+            pal = self.buscar(w)
+            if pal and sin_tildes(pal) == sin_tildes(w.lower()):
+                res.append((w, "grabada", pal))
+            elif pal:
+                res.append((w, "suena_igual", pal))
+            else:
+                res.append((w, "difonos", "-".join(silabear(w))))
+        return res
 
 
 EJEMPLOS = [
@@ -378,6 +320,9 @@ EJEMPLOS = [
     ("06_oracion_parque", [("oracion", "el perro juega con la pelota en el parque")]),
     ("07_unir_silabas_casa", [("silabas", "casa"), ("palabra", "casa"), ("silabas", "mi casa"),
                               ("oracion", "mi casa es grande")]),
+    ("08_palabras_nuevas", [("oracion", "el dinosaurio come tomate y chocolate")]),
+    ("09_unir_silabas_tortuga", [("silabas", "tortuga"), ("palabra", "tortuga"),
+                                 ("oracion", "la tortuga camina en el jardín")]),
 ]
 TEXTO_ESPERADO = {
     "01_unir_silabas_vaca": "va ca vaca la va ca la vaca come pasto",
@@ -387,16 +332,39 @@ TEXTO_ESPERADO = {
     "05_mal_escrita": "la vaca come pazto",
     "06_oracion_parque": "el perro juega con la pelota en el parque",
     "07_unir_silabas_casa": "ca sa casa mi ca sa mi casa es grande",
+    "08_palabras_nuevas": "el dinosaurio come tomate y chocolate",
+    "09_unir_silabas_tortuga": "tor tu ga tortuga la tortuga camina en el jardín",
 }
 
 
 # ----------------------------------------------------------------------------- armado del paquete
-def armar(voz=VOZ_ID, voz_nombre=VOZ_NOMBRE):
-    if SALIDA.exists():
-        shutil.rmtree(SALIDA)
-    man = {"voz": voz_nombre, "voz_id": voz, "sr": R.SR, "parametros": PARAMS, "palabras": {}, "silabas": {}}
+def _archivo_unidades(unidades, sr):
+    """Junta unidades en un solo audio con silencio entre medio. Devuelve (audio, {nombre: [ini, dur]}, marcas)."""
+    sep = np.zeros(n_muestras(SEPARACION, sr), dtype=np.float32)
+    partes, indice, pos = [np.zeros(n_muestras(0.2, sr), dtype=np.float32)], {}, n_muestras(0.2, sr)
+    marcas = []
+    for nombre, y in unidades:
+        y = y.astype(np.float32)
+        indice[nombre] = [round(pos / sr, 5), round(len(y) / sr, 5)]
+        if len(marcas) < 3:
+            sobre = np.where(np.abs(y) > 0.05)[0]
+            if len(sobre):
+                marcas.append(round((pos + sobre[0]) / sr, 5))
+        partes += [y, sep]
+        pos += len(y) + len(sep)
+    return np.concatenate(partes), indice, marcas
 
-    # 1) palabras: cortar y medir
+
+def armar(voz=VOZ_ID, voz_nombre=VOZ_NOMBRE):
+    for viejo in ["palabras", "silabas", "ejemplos"]:
+        if (SALIDA / viejo).exists():
+            shutil.rmtree(SALIDA / viejo)
+    SALIDA.mkdir(exist_ok=True)
+    man = {"voz": voz_nombre, "voz_id": voz, "sr": R.SR, "parametros": PARAMS,
+           "audios": {"palabras": "palabras.wav", "silabas": "silabas.wav", "difonos": "difonos.wav"},
+           "marcas": {}, "palabras": {}, "silabas": {}, "difonos": {}}
+
+    # 1) palabras
     crudos, avisos = {}, []
     for w in PALABRAS:
         y, prof = cortar_medio(w, voz)
@@ -405,49 +373,58 @@ def armar(voz=VOZ_ID, voz_nombre=VOZ_NOMBRE):
         crudos[(w, "medio")] = y
         if CATEGORIA[w] != "funcion":
             crudos[(w, "final")] = cortar_final(w, voz)
-    # una sola ganancia para todas las palabras (respeta que "de" o "la" suenen más suaves)
     g = -20.0 - float(np.median([rms_activo(y) for y in crudos.values()]))
+    unidades = []
     for (w, var), y in crudos.items():
-        pico = 20 * np.log10(np.abs(y).max() + 1e-12)
-        gg = min(g, -1.0 - pico)
-        rel = f"palabras/{var}/{nombre_archivo(w)}.wav"
-        R.escribir_wav(SALIDA / rel, y * 10 ** (gg / 20))
-        d = man["palabras"].setdefault(w, {"categoria": CATEGORIA[w], "clave": clave_fonetica(w)})
-        d[var] = rel
-        d[f"dur_{var}_ms"] = int(len(y) / R.SR * 1000)
+        gg = min(g, -1.0 - 20 * np.log10(np.abs(y).max() + 1e-12))
+        unidades.append((f"{w}|{var}", y * 10 ** (gg / 20)))
+    audio, idx, marcas = _archivo_unidades(unidades, R.SR)
+    R.escribir_wav(SALIDA / "palabras.wav", audio)
+    man["marcas"]["palabras"] = marcas
+    for w in PALABRAS:
+        d = {"categoria": CATEGORIA[w], "clave": clave_fonetica(w), "medio": idx[f"{w}|medio"]}
+        if f"{w}|final" in idx:
+            d["final"] = idx[f"{w}|final"]
+        man["palabras"][w] = d
 
-    # 2) sílabas: copia recortada de la biblioteca (ya verificadas)
+    # 2) sílabas de la biblioteca
+    unidades, vistos = [], set()
     for carpeta in ["01_vocales", "02_silabas_directas", "03_silabas_inversas", "04_grupos_consonanticos",
                     "05_combinaciones_vocalicas"]:
         for f in sorted((BIBLIOTECA / carpeta).rglob("*.wav")):
             if f.stem.startswith("familia") or f.stem.startswith("vocales"):
                 continue
             nombre = f.stem.replace("ny", "ñ")
-            if nombre in man["silabas"]:
-                continue
-            rel = f"silabas/{f.stem}.wav"
-            R.escribir_wav(SALIDA / rel, recorte_justo(R.leer_wav(f)))
-            man["silabas"][nombre] = rel
+            if nombre not in vistos:
+                vistos.add(nombre)
+                unidades.append((nombre, recorte_justo(R.leer_wav(f))))
+    audio, man["silabas"], man["marcas"]["silabas"] = _archivo_unidades(unidades, R.SR)
+    R.escribir_wav(SALIDA / "silabas.wav", audio)
 
-    man["ejemplos"] = [{"archivo": f"ejemplos/{n}.wav",
-                        "texto": " → ".join(t for _, t in pasos)} for n, pasos in EJEMPLOS]
+    # 3) dífonos
+    inv = D.extraer(voz)
+    nombres = sorted(inv)
+    audio, idx, man["marcas"]["difonos"] = _archivo_unidades([(k, inv[k][0]) for k in nombres], R.SR)
+    R.escribir_wav(SALIDA / "difonos.wav", audio)
+    man["difonos"] = {k: idx[k] + [inv[k][1]] for k in nombres}
+
+    man["ejemplos"] = [{"archivo": f"ejemplos/{n}.wav", "texto": " → ".join(t for _, t in pasos)}
+                       for n, pasos in EJEMPLOS]
     (SALIDA / "manifest_lectura.json").write_text(json.dumps(man, ensure_ascii=False, indent=1), encoding="utf-8")
 
-    # 3) ejemplos armados con el mismo lector que usa la app
+    # 4) ejemplos con el mismo lector que usa la app
     lec = Lector(SALIDA)
     for nombre, pasos in EJEMPLOS:
         R.escribir_wav(SALIDA / "ejemplos" / f"{nombre}.wav", lec.secuencia(pasos))
-
-    # 4) lector.js, página de prueba y README
     for f in ["lector.js", "README.md"]:
         shutil.copy(RAIZ / "herramientas" / "lectura_app" / f, SALIDA / f)
-    print(f"{len(man['palabras'])} palabras, {len(man['silabas'])} sílabas, ganancia {g:+.1f} dB")
+    print(f"{len(man['palabras'])} palabras, {len(man['silabas'])} sílabas, {len(man['difonos'])} dífonos, "
+          f"ganancia palabras {g:+.1f} dB")
     for a in avisos:
         print("  aviso:", a)
 
 
 def verificar():
-    sys.path.insert(0, str(Path(__file__).resolve().parent))
     import buscar_semillas as B
     from verificar import fonetico
     print("Ejemplos:")
@@ -455,19 +432,6 @@ def verificar():
         oido = B.stt_bytes((SALIDA / "ejemplos" / f"{nombre}.wav").read_bytes())
         ok = fonetico(oido).replace(" ", "") == fonetico(TEXTO_ESPERADO[nombre]).replace(" ", "")
         print(f"  {'OK' if ok else '--'} {nombre:26s} {oido}")
-    print("Palabras (versión final):")
-    man = json.loads((SALIDA / "manifest_lectura.json").read_text(encoding="utf-8"))
-    malas = []
-
-    def una(item):
-        w, d = item
-        if "final" not in d:
-            return None
-        oido = B.stt_bytes((SALIDA / d["final"]).read_bytes())
-        return None if fonetico(oido).replace(" ", "") == fonetico(w) else (w, oido)
-    with ThreadPoolExecutor(4) as ex:
-        malas = [r for r in ex.map(una, man["palabras"].items()) if r]
-    print(f"  {sum('final' in d for d in man['palabras'].values()) - len(malas)} coinciden; distintas: {malas}")
 
 
 if __name__ == "__main__":
