@@ -1,0 +1,1525 @@
+{
+ "voz": "Martin Osborne - Deep and Passionate",
+ "voz_id": "Vpv1YgvVd6CHIzOTiTt8",
+ "sr": 48000,
+ "parametros": {
+  "pausa_entre_palabras_ms": 10,
+  "fundido_ms": 6,
+  "pausa_coma_ms": 250,
+  "pausa_punto_ms": 450,
+  "pausa_entre_silabas_ms": 300,
+  "pausa_entre_pasos_ms": 700,
+  "solape_coda_ms": 30,
+  "fusion_recorte": 0.35
+ },
+ "palabras": {
+  "el": {
+   "categoria": "funcion",
+   "clave": "el",
+   "medio": "palabras/medio/el.wav",
+   "dur_medio_ms": 325
+  },
+  "la": {
+   "categoria": "funcion",
+   "clave": "la",
+   "medio": "palabras/medio/la.wav",
+   "dur_medio_ms": 265
+  },
+  "los": {
+   "categoria": "funcion",
+   "clave": "los",
+   "medio": "palabras/medio/los.wav",
+   "dur_medio_ms": 275
+  },
+  "las": {
+   "categoria": "funcion",
+   "clave": "las",
+   "medio": "palabras/medio/las.wav",
+   "dur_medio_ms": 325
+  },
+  "un": {
+   "categoria": "funcion",
+   "clave": "un",
+   "medio": "palabras/medio/un.wav",
+   "dur_medio_ms": 310
+  },
+  "una": {
+   "categoria": "funcion",
+   "clave": "una",
+   "medio": "palabras/medio/una.wav",
+   "dur_medio_ms": 400
+  },
+  "unos": {
+   "categoria": "funcion",
+   "clave": "unos",
+   "medio": "palabras/medio/unos.wav",
+   "dur_medio_ms": 525
+  },
+  "unas": {
+   "categoria": "funcion",
+   "clave": "unas",
+   "medio": "palabras/medio/unas.wav",
+   "dur_medio_ms": 500
+  },
+  "mi": {
+   "categoria": "funcion",
+   "clave": "mi",
+   "medio": "palabras/medio/mi.wav",
+   "dur_medio_ms": 215
+  },
+  "mis": {
+   "categoria": "funcion",
+   "clave": "mis",
+   "medio": "palabras/medio/mis.wav",
+   "dur_medio_ms": 295
+  },
+  "tu": {
+   "categoria": "funcion",
+   "clave": "tu",
+   "medio": "palabras/medio/tu.wav",
+   "dur_medio_ms": 225
+  },
+  "tus": {
+   "categoria": "funcion",
+   "clave": "tus",
+   "medio": "palabras/medio/tus.wav",
+   "dur_medio_ms": 385
+  },
+  "su": {
+   "categoria": "funcion",
+   "clave": "su",
+   "medio": "palabras/medio/su.wav",
+   "dur_medio_ms": 230
+  },
+  "sus": {
+   "categoria": "funcion",
+   "clave": "sus",
+   "medio": "palabras/medio/sus.wav",
+   "dur_medio_ms": 345
+  },
+  "a": {
+   "categoria": "funcion",
+   "clave": "a",
+   "medio": "palabras/medio/a.wav",
+   "dur_medio_ms": 230
+  },
+  "al": {
+   "categoria": "funcion",
+   "clave": "al",
+   "medio": "palabras/medio/al.wav",
+   "dur_medio_ms": 285
+  },
+  "de": {
+   "categoria": "funcion",
+   "clave": "de",
+   "medio": "palabras/medio/de.wav",
+   "dur_medio_ms": 180
+  },
+  "del": {
+   "categoria": "funcion",
+   "clave": "del",
+   "medio": "palabras/medio/del.wav",
+   "dur_medio_ms": 285
+  },
+  "en": {
+   "categoria": "funcion",
+   "clave": "en",
+   "medio": "palabras/medio/en.wav",
+   "dur_medio_ms": 260
+  },
+  "con": {
+   "categoria": "funcion",
+   "clave": "kon",
+   "medio": "palabras/medio/con.wav",
+   "dur_medio_ms": 300
+  },
+  "por": {
+   "categoria": "funcion",
+   "clave": "por",
+   "medio": "palabras/medio/por.wav",
+   "dur_medio_ms": 280
+  },
+  "para": {
+   "categoria": "funcion",
+   "clave": "para",
+   "medio": "palabras/medio/para.wav",
+   "dur_medio_ms": 295
+  },
+  "sin": {
+   "categoria": "funcion",
+   "clave": "sin",
+   "medio": "palabras/medio/sin.wav",
+   "dur_medio_ms": 335
+  },
+  "sobre": {
+   "categoria": "funcion",
+   "clave": "sobre",
+   "medio": "palabras/medio/sobre.wav",
+   "dur_medio_ms": 425
+  },
+  "y": {
+   "categoria": "funcion",
+   "clave": "i",
+   "medio": "palabras/medio/y.wav",
+   "dur_medio_ms": 195
+  },
+  "o": {
+   "categoria": "funcion",
+   "clave": "o",
+   "medio": "palabras/medio/o.wav",
+   "dur_medio_ms": 240
+  },
+  "pero": {
+   "categoria": "funcion",
+   "clave": "pero",
+   "medio": "palabras/medio/pero.wav",
+   "dur_medio_ms": 350
+  },
+  "que": {
+   "categoria": "funcion",
+   "clave": "ke",
+   "medio": "palabras/medio/que.wav",
+   "dur_medio_ms": 260
+  },
+  "porque": {
+   "categoria": "funcion",
+   "clave": "porke",
+   "medio": "palabras/medio/porque.wav",
+   "dur_medio_ms": 415
+  },
+  "me": {
+   "categoria": "funcion",
+   "clave": "me",
+   "medio": "palabras/medio/me.wav",
+   "dur_medio_ms": 250
+  },
+  "te": {
+   "categoria": "funcion",
+   "clave": "te",
+   "medio": "palabras/medio/te.wav",
+   "dur_medio_ms": 215
+  },
+  "se": {
+   "categoria": "funcion",
+   "clave": "se",
+   "medio": "palabras/medio/se.wav",
+   "dur_medio_ms": 275
+  },
+  "le": {
+   "categoria": "funcion",
+   "clave": "le",
+   "medio": "palabras/medio/le.wav",
+   "dur_medio_ms": 170
+  },
+  "lo": {
+   "categoria": "funcion",
+   "clave": "lo",
+   "medio": "palabras/medio/lo.wav",
+   "dur_medio_ms": 230
+  },
+  "yo": {
+   "categoria": "pronombres",
+   "clave": "yo",
+   "medio": "palabras/medio/yo.wav",
+   "dur_medio_ms": 370,
+   "final": "palabras/final/yo.wav",
+   "dur_final_ms": 360
+  },
+  "tú": {
+   "categoria": "pronombres",
+   "clave": "tu",
+   "medio": "palabras/medio/tu_tilde.wav",
+   "dur_medio_ms": 515,
+   "final": "palabras/final/tu_tilde.wav",
+   "dur_final_ms": 325
+  },
+  "él": {
+   "categoria": "pronombres",
+   "clave": "el",
+   "medio": "palabras/medio/el_tilde.wav",
+   "dur_medio_ms": 365,
+   "final": "palabras/final/el_tilde.wav",
+   "dur_final_ms": 480
+  },
+  "ella": {
+   "categoria": "pronombres",
+   "clave": "eya",
+   "medio": "palabras/medio/ella.wav",
+   "dur_medio_ms": 520,
+   "final": "palabras/final/ella.wav",
+   "dur_final_ms": 545
+  },
+  "nosotros": {
+   "categoria": "pronombres",
+   "clave": "nosotros",
+   "medio": "palabras/medio/nosotros.wav",
+   "dur_medio_ms": 745,
+   "final": "palabras/final/nosotros.wav",
+   "dur_final_ms": 775
+  },
+  "ellos": {
+   "categoria": "pronombres",
+   "clave": "eyos",
+   "medio": "palabras/medio/ellos.wav",
+   "dur_medio_ms": 575,
+   "final": "palabras/final/ellos.wav",
+   "dur_final_ms": 640
+  },
+  "mamá": {
+   "categoria": "personas",
+   "clave": "mama",
+   "medio": "palabras/medio/mama.wav",
+   "dur_medio_ms": 565,
+   "final": "palabras/final/mama.wav",
+   "dur_final_ms": 595
+  },
+  "papá": {
+   "categoria": "personas",
+   "clave": "papa",
+   "medio": "palabras/medio/papa.wav",
+   "dur_medio_ms": 710,
+   "final": "palabras/final/papa.wav",
+   "dur_final_ms": 515
+  },
+  "tío": {
+   "categoria": "personas",
+   "clave": "tio",
+   "medio": "palabras/medio/tio.wav",
+   "dur_medio_ms": 430,
+   "final": "palabras/final/tio.wav",
+   "dur_final_ms": 465
+  },
+  "tía": {
+   "categoria": "personas",
+   "clave": "tia",
+   "medio": "palabras/medio/tia.wav",
+   "dur_medio_ms": 425,
+   "final": "palabras/final/tia.wav",
+   "dur_final_ms": 505
+  },
+  "abuelo": {
+   "categoria": "personas",
+   "clave": "abuelo",
+   "medio": "palabras/medio/abuelo.wav",
+   "dur_medio_ms": 630,
+   "final": "palabras/final/abuelo.wav",
+   "dur_final_ms": 685
+  },
+  "abuela": {
+   "categoria": "personas",
+   "clave": "abuela",
+   "medio": "palabras/medio/abuela.wav",
+   "dur_medio_ms": 725,
+   "final": "palabras/final/abuela.wav",
+   "dur_final_ms": 735
+  },
+  "hermano": {
+   "categoria": "personas",
+   "clave": "ermano",
+   "medio": "palabras/medio/hermano.wav",
+   "dur_medio_ms": 730,
+   "final": "palabras/final/hermano.wav",
+   "dur_final_ms": 750
+  },
+  "hermana": {
+   "categoria": "personas",
+   "clave": "ermana",
+   "medio": "palabras/medio/hermana.wav",
+   "dur_medio_ms": 660,
+   "final": "palabras/final/hermana.wav",
+   "dur_final_ms": 730
+  },
+  "amigo": {
+   "categoria": "personas",
+   "clave": "amigo",
+   "medio": "palabras/medio/amigo.wav",
+   "dur_medio_ms": 490,
+   "final": "palabras/final/amigo.wav",
+   "dur_final_ms": 755
+  },
+  "amiga": {
+   "categoria": "personas",
+   "clave": "amiga",
+   "medio": "palabras/medio/amiga.wav",
+   "dur_medio_ms": 620,
+   "final": "palabras/final/amiga.wav",
+   "dur_final_ms": 680
+  },
+  "niño": {
+   "categoria": "personas",
+   "clave": "niño",
+   "medio": "palabras/medio/ninyo.wav",
+   "dur_medio_ms": 555,
+   "final": "palabras/final/ninyo.wav",
+   "dur_final_ms": 585
+  },
+  "niña": {
+   "categoria": "personas",
+   "clave": "niña",
+   "medio": "palabras/medio/ninya.wav",
+   "dur_medio_ms": 585,
+   "final": "palabras/final/ninya.wav",
+   "dur_final_ms": 590
+  },
+  "maestra": {
+   "categoria": "personas",
+   "clave": "maestra",
+   "medio": "palabras/medio/maestra.wav",
+   "dur_medio_ms": 770,
+   "final": "palabras/final/maestra.wav",
+   "dur_final_ms": 765
+  },
+  "maestro": {
+   "categoria": "personas",
+   "clave": "maestro",
+   "medio": "palabras/medio/maestro.wav",
+   "dur_medio_ms": 825,
+   "final": "palabras/final/maestro.wav",
+   "dur_final_ms": 745
+  },
+  "bebé": {
+   "categoria": "personas",
+   "clave": "bebe",
+   "medio": "palabras/medio/bebe_tilde.wav",
+   "dur_medio_ms": 480,
+   "final": "palabras/final/bebe_tilde.wav",
+   "dur_final_ms": 515
+  },
+  "vaca": {
+   "categoria": "animales",
+   "clave": "baka",
+   "medio": "palabras/medio/vaca.wav",
+   "dur_medio_ms": 555,
+   "final": "palabras/final/vaca.wav",
+   "dur_final_ms": 655
+  },
+  "perro": {
+   "categoria": "animales",
+   "clave": "peRo",
+   "medio": "palabras/medio/perro.wav",
+   "dur_medio_ms": 540,
+   "final": "palabras/final/perro.wav",
+   "dur_final_ms": 585
+  },
+  "gato": {
+   "categoria": "animales",
+   "clave": "gato",
+   "medio": "palabras/medio/gato.wav",
+   "dur_medio_ms": 750,
+   "final": "palabras/final/gato.wav",
+   "dur_final_ms": 720
+  },
+  "pato": {
+   "categoria": "animales",
+   "clave": "pato",
+   "medio": "palabras/medio/pato.wav",
+   "dur_medio_ms": 445,
+   "final": "palabras/final/pato.wav",
+   "dur_final_ms": 605
+  },
+  "pájaro": {
+   "categoria": "animales",
+   "clave": "pajaro",
+   "medio": "palabras/medio/pajaro.wav",
+   "dur_medio_ms": 625,
+   "final": "palabras/final/pajaro.wav",
+   "dur_final_ms": 665
+  },
+  "caballo": {
+   "categoria": "animales",
+   "clave": "kabayo",
+   "medio": "palabras/medio/caballo.wav",
+   "dur_medio_ms": 900,
+   "final": "palabras/final/caballo.wav",
+   "dur_final_ms": 775
+  },
+  "pez": {
+   "categoria": "animales",
+   "clave": "pez",
+   "medio": "palabras/medio/pez.wav",
+   "dur_medio_ms": 420,
+   "final": "palabras/final/pez.wav",
+   "dur_final_ms": 475
+  },
+  "ratón": {
+   "categoria": "animales",
+   "clave": "Raton",
+   "medio": "palabras/medio/raton.wav",
+   "dur_medio_ms": 905,
+   "final": "palabras/final/raton.wav",
+   "dur_final_ms": 940
+  },
+  "conejo": {
+   "categoria": "animales",
+   "clave": "konejo",
+   "medio": "palabras/medio/conejo.wav",
+   "dur_medio_ms": 615,
+   "final": "palabras/final/conejo.wav",
+   "dur_final_ms": 795
+  },
+  "oso": {
+   "categoria": "animales",
+   "clave": "oso",
+   "medio": "palabras/medio/oso.wav",
+   "dur_medio_ms": 550,
+   "final": "palabras/final/oso.wav",
+   "dur_final_ms": 600
+  },
+  "león": {
+   "categoria": "animales",
+   "clave": "leon",
+   "medio": "palabras/medio/leon.wav",
+   "dur_medio_ms": 515,
+   "final": "palabras/final/leon.wav",
+   "dur_final_ms": 780
+  },
+  "mono": {
+   "categoria": "animales",
+   "clave": "mono",
+   "medio": "palabras/medio/mono.wav",
+   "dur_medio_ms": 475,
+   "final": "palabras/final/mono.wav",
+   "dur_final_ms": 540
+  },
+  "oveja": {
+   "categoria": "animales",
+   "clave": "obeja",
+   "medio": "palabras/medio/oveja.wav",
+   "dur_medio_ms": 600,
+   "final": "palabras/final/oveja.wav",
+   "dur_final_ms": 765
+  },
+  "pollito": {
+   "categoria": "animales",
+   "clave": "poyito",
+   "medio": "palabras/medio/pollito.wav",
+   "dur_medio_ms": 730,
+   "final": "palabras/final/pollito.wav",
+   "dur_final_ms": 735
+  },
+  "mariposa": {
+   "categoria": "animales",
+   "clave": "mariposa",
+   "medio": "palabras/medio/mariposa.wav",
+   "dur_medio_ms": 1675,
+   "final": "palabras/final/mariposa.wav",
+   "dur_final_ms": 840
+  },
+  "casa": {
+   "categoria": "lugares",
+   "clave": "kasa",
+   "medio": "palabras/medio/casa.wav",
+   "dur_medio_ms": 515,
+   "final": "palabras/final/casa.wav",
+   "dur_final_ms": 595
+  },
+  "escuela": {
+   "categoria": "lugares",
+   "clave": "eskuela",
+   "medio": "palabras/medio/escuela.wav",
+   "dur_medio_ms": 750,
+   "final": "palabras/final/escuela.wav",
+   "dur_final_ms": 780
+  },
+  "parque": {
+   "categoria": "lugares",
+   "clave": "parke",
+   "medio": "palabras/medio/parque.wav",
+   "dur_medio_ms": 510,
+   "final": "palabras/final/parque.wav",
+   "dur_final_ms": 745
+  },
+  "playa": {
+   "categoria": "lugares",
+   "clave": "playa",
+   "medio": "palabras/medio/playa.wav",
+   "dur_medio_ms": 620,
+   "final": "palabras/final/playa.wav",
+   "dur_final_ms": 715
+  },
+  "jardín": {
+   "categoria": "lugares",
+   "clave": "jardin",
+   "medio": "palabras/medio/jardin.wav",
+   "dur_medio_ms": 625,
+   "final": "palabras/final/jardin.wav",
+   "dur_final_ms": 880
+  },
+  "campo": {
+   "categoria": "lugares",
+   "clave": "kampo",
+   "medio": "palabras/medio/campo.wav",
+   "dur_medio_ms": 555,
+   "final": "palabras/final/campo.wav",
+   "dur_final_ms": 745
+  },
+  "río": {
+   "categoria": "lugares",
+   "clave": "Rio",
+   "medio": "palabras/medio/rio.wav",
+   "dur_medio_ms": 415,
+   "final": "palabras/final/rio.wav",
+   "dur_final_ms": 590
+  },
+  "mar": {
+   "categoria": "lugares",
+   "clave": "mar",
+   "medio": "palabras/medio/mar.wav",
+   "dur_medio_ms": 460,
+   "final": "palabras/final/mar.wav",
+   "dur_final_ms": 590
+  },
+  "montaña": {
+   "categoria": "lugares",
+   "clave": "montaña",
+   "medio": "palabras/medio/montanya.wav",
+   "dur_medio_ms": 865,
+   "final": "palabras/final/montanya.wav",
+   "dur_final_ms": 860
+  },
+  "ciudad": {
+   "categoria": "lugares",
+   "clave": "ziudad",
+   "medio": "palabras/medio/ciudad.wav",
+   "dur_medio_ms": 670,
+   "final": "palabras/final/ciudad.wav",
+   "dur_final_ms": 630
+  },
+  "calle": {
+   "categoria": "lugares",
+   "clave": "kaye",
+   "medio": "palabras/medio/calle.wav",
+   "dur_medio_ms": 530,
+   "final": "palabras/final/calle.wav",
+   "dur_final_ms": 590
+  },
+  "tienda": {
+   "categoria": "lugares",
+   "clave": "tienda",
+   "medio": "palabras/medio/tienda.wav",
+   "dur_medio_ms": 635,
+   "final": "palabras/final/tienda.wav",
+   "dur_final_ms": 700
+  },
+  "pasto": {
+   "categoria": "cosas",
+   "clave": "pasto",
+   "medio": "palabras/medio/pasto.wav",
+   "dur_medio_ms": 575,
+   "final": "palabras/final/pasto.wav",
+   "dur_final_ms": 700
+  },
+  "sol": {
+   "categoria": "cosas",
+   "clave": "sol",
+   "medio": "palabras/medio/sol.wav",
+   "dur_medio_ms": 415,
+   "final": "palabras/final/sol.wav",
+   "dur_final_ms": 645
+  },
+  "luna": {
+   "categoria": "cosas",
+   "clave": "luna",
+   "medio": "palabras/medio/luna.wav",
+   "dur_medio_ms": 470,
+   "final": "palabras/final/luna.wav",
+   "dur_final_ms": 585
+  },
+  "agua": {
+   "categoria": "cosas",
+   "clave": "agua",
+   "medio": "palabras/medio/agua.wav",
+   "dur_medio_ms": 625,
+   "final": "palabras/final/agua.wav",
+   "dur_final_ms": 610
+  },
+  "flor": {
+   "categoria": "cosas",
+   "clave": "flor",
+   "medio": "palabras/medio/flor.wav",
+   "dur_medio_ms": 570,
+   "final": "palabras/final/flor.wav",
+   "dur_final_ms": 605
+  },
+  "árbol": {
+   "categoria": "cosas",
+   "clave": "arbol",
+   "medio": "palabras/medio/arbol.wav",
+   "dur_medio_ms": 740,
+   "final": "palabras/final/arbol.wav",
+   "dur_final_ms": 885
+  },
+  "pelota": {
+   "categoria": "cosas",
+   "clave": "pelota",
+   "medio": "palabras/medio/pelota.wav",
+   "dur_medio_ms": 630,
+   "final": "palabras/final/pelota.wav",
+   "dur_final_ms": 755
+  },
+  "libro": {
+   "categoria": "cosas",
+   "clave": "libro",
+   "medio": "palabras/medio/libro.wav",
+   "dur_medio_ms": 470,
+   "final": "palabras/final/libro.wav",
+   "dur_final_ms": 545
+  },
+  "juguete": {
+   "categoria": "cosas",
+   "clave": "jugete",
+   "medio": "palabras/medio/juguete.wav",
+   "dur_medio_ms": 1540,
+   "final": "palabras/final/juguete.wav",
+   "dur_final_ms": 810
+  },
+  "mesa": {
+   "categoria": "cosas",
+   "clave": "mesa",
+   "medio": "palabras/medio/mesa.wav",
+   "dur_medio_ms": 555,
+   "final": "palabras/final/mesa.wav",
+   "dur_final_ms": 675
+  },
+  "cama": {
+   "categoria": "cosas",
+   "clave": "kama",
+   "medio": "palabras/medio/cama.wav",
+   "dur_medio_ms": 590,
+   "final": "palabras/final/cama.wav",
+   "dur_final_ms": 569
+  },
+  "pan": {
+   "categoria": "cosas",
+   "clave": "pan",
+   "medio": "palabras/medio/pan.wav",
+   "dur_medio_ms": 355,
+   "final": "palabras/final/pan.wav",
+   "dur_final_ms": 680
+  },
+  "leche": {
+   "categoria": "cosas",
+   "clave": "leCe",
+   "medio": "palabras/medio/leche.wav",
+   "dur_medio_ms": 480,
+   "final": "palabras/final/leche.wav",
+   "dur_final_ms": 635
+  },
+  "fruta": {
+   "categoria": "cosas",
+   "clave": "fruta",
+   "medio": "palabras/medio/fruta.wav",
+   "dur_medio_ms": 675,
+   "final": "palabras/final/fruta.wav",
+   "dur_final_ms": 715
+  },
+  "manzana": {
+   "categoria": "cosas",
+   "clave": "manzana",
+   "medio": "palabras/medio/manzana.wav",
+   "dur_medio_ms": 760,
+   "final": "palabras/final/manzana.wav",
+   "dur_final_ms": 850
+  },
+  "helado": {
+   "categoria": "cosas",
+   "clave": "elado",
+   "medio": "palabras/medio/helado.wav",
+   "dur_medio_ms": 615,
+   "final": "palabras/final/helado.wav",
+   "dur_final_ms": 775
+  },
+  "comida": {
+   "categoria": "cosas",
+   "clave": "komida",
+   "medio": "palabras/medio/comida.wav",
+   "dur_medio_ms": 655,
+   "final": "palabras/final/comida.wav",
+   "dur_final_ms": 675
+  },
+  "carro": {
+   "categoria": "cosas",
+   "clave": "kaRo",
+   "medio": "palabras/medio/carro.wav",
+   "dur_medio_ms": 530,
+   "final": "palabras/final/carro.wav",
+   "dur_final_ms": 600
+  },
+  "bicicleta": {
+   "categoria": "cosas",
+   "clave": "bizikleta",
+   "medio": "palabras/medio/bicicleta.wav",
+   "dur_medio_ms": 1420,
+   "final": "palabras/final/bicicleta.wav",
+   "dur_final_ms": 955
+  },
+  "es": {
+   "categoria": "verbos",
+   "clave": "es",
+   "medio": "palabras/medio/es.wav",
+   "dur_medio_ms": 195,
+   "final": "palabras/final/es.wav",
+   "dur_final_ms": 395
+  },
+  "está": {
+   "categoria": "verbos",
+   "clave": "esta",
+   "medio": "palabras/medio/esta.wav",
+   "dur_medio_ms": 495,
+   "final": "palabras/final/esta.wav",
+   "dur_final_ms": 615
+  },
+  "son": {
+   "categoria": "verbos",
+   "clave": "son",
+   "medio": "palabras/medio/son.wav",
+   "dur_medio_ms": 365,
+   "final": "palabras/final/son.wav",
+   "dur_final_ms": 645
+  },
+  "están": {
+   "categoria": "verbos",
+   "clave": "estan",
+   "medio": "palabras/medio/estan.wav",
+   "dur_medio_ms": 555,
+   "final": "palabras/final/estan.wav",
+   "dur_final_ms": 875
+  },
+  "soy": {
+   "categoria": "verbos",
+   "clave": "soi",
+   "medio": "palabras/medio/soy.wav",
+   "dur_medio_ms": 365,
+   "final": "palabras/final/soy.wav",
+   "dur_final_ms": 595
+  },
+  "estoy": {
+   "categoria": "verbos",
+   "clave": "estoi",
+   "medio": "palabras/medio/estoy.wav",
+   "dur_medio_ms": 565,
+   "final": "palabras/final/estoy.wav",
+   "dur_final_ms": 740
+  },
+  "tiene": {
+   "categoria": "verbos",
+   "clave": "tiene",
+   "medio": "palabras/medio/tiene.wav",
+   "dur_medio_ms": 375,
+   "final": "palabras/final/tiene.wav",
+   "dur_final_ms": 579
+  },
+  "tengo": {
+   "categoria": "verbos",
+   "clave": "tengo",
+   "medio": "palabras/medio/tengo.wav",
+   "dur_medio_ms": 445,
+   "final": "palabras/final/tengo.wav",
+   "dur_final_ms": 650
+  },
+  "va": {
+   "categoria": "verbos",
+   "clave": "ba",
+   "medio": "palabras/medio/va.wav",
+   "dur_medio_ms": 320,
+   "final": "palabras/final/va.wav",
+   "dur_final_ms": 400
+  },
+  "voy": {
+   "categoria": "verbos",
+   "clave": "boi",
+   "medio": "palabras/medio/voy.wav",
+   "dur_medio_ms": 355,
+   "final": "palabras/final/voy.wav",
+   "dur_final_ms": 600
+  },
+  "vamos": {
+   "categoria": "verbos",
+   "clave": "bamos",
+   "medio": "palabras/medio/vamos.wav",
+   "dur_medio_ms": 450,
+   "final": "palabras/final/vamos.wav",
+   "dur_final_ms": 680
+  },
+  "come": {
+   "categoria": "verbos",
+   "clave": "kome",
+   "medio": "palabras/medio/come.wav",
+   "dur_medio_ms": 425,
+   "final": "palabras/final/come.wav",
+   "dur_final_ms": 525
+  },
+  "como": {
+   "categoria": "verbos",
+   "clave": "komo",
+   "medio": "palabras/medio/como.wav",
+   "dur_medio_ms": 340,
+   "final": "palabras/final/como.wav",
+   "dur_final_ms": 520
+  },
+  "bebe": {
+   "categoria": "verbos",
+   "clave": "bebe",
+   "medio": "palabras/medio/bebe.wav",
+   "dur_medio_ms": 380,
+   "final": "palabras/final/bebe.wav",
+   "dur_final_ms": 545
+  },
+  "juega": {
+   "categoria": "verbos",
+   "clave": "juega",
+   "medio": "palabras/medio/juega.wav",
+   "dur_medio_ms": 560,
+   "final": "palabras/final/juega.wav",
+   "dur_final_ms": 685
+  },
+  "juego": {
+   "categoria": "verbos",
+   "clave": "juego",
+   "medio": "palabras/medio/juego.wav",
+   "dur_medio_ms": 495,
+   "final": "palabras/final/juego.wav",
+   "dur_final_ms": 690
+  },
+  "corre": {
+   "categoria": "verbos",
+   "clave": "koRe",
+   "medio": "palabras/medio/corre.wav",
+   "dur_medio_ms": 460,
+   "final": "palabras/final/corre.wav",
+   "dur_final_ms": 630
+  },
+  "salta": {
+   "categoria": "verbos",
+   "clave": "salta",
+   "medio": "palabras/medio/salta.wav",
+   "dur_medio_ms": 520,
+   "final": "palabras/final/salta.wav",
+   "dur_final_ms": 745
+  },
+  "duerme": {
+   "categoria": "verbos",
+   "clave": "duerme",
+   "medio": "palabras/medio/duerme.wav",
+   "dur_medio_ms": 565,
+   "final": "palabras/final/duerme.wav",
+   "dur_final_ms": 685
+  },
+  "lee": {
+   "categoria": "verbos",
+   "clave": "lee",
+   "medio": "palabras/medio/lee.wav",
+   "dur_medio_ms": 355,
+   "final": "palabras/final/lee.wav",
+   "dur_final_ms": 560
+  },
+  "canta": {
+   "categoria": "verbos",
+   "clave": "kanta",
+   "medio": "palabras/medio/canta.wav",
+   "dur_medio_ms": 579,
+   "final": "palabras/final/canta.wav",
+   "dur_final_ms": 860
+  },
+  "mira": {
+   "categoria": "verbos",
+   "clave": "mira",
+   "medio": "palabras/medio/mira.wav",
+   "dur_medio_ms": 530,
+   "final": "palabras/final/mira.wav",
+   "dur_final_ms": 540
+  },
+  "quiere": {
+   "categoria": "verbos",
+   "clave": "kiere",
+   "medio": "palabras/medio/quiere.wav",
+   "dur_medio_ms": 580,
+   "final": "palabras/final/quiere.wav",
+   "dur_final_ms": 590
+  },
+  "quiero": {
+   "categoria": "verbos",
+   "clave": "kiero",
+   "medio": "palabras/medio/quiero.wav",
+   "dur_medio_ms": 525,
+   "final": "palabras/final/quiero.wav",
+   "dur_final_ms": 575
+  },
+  "vive": {
+   "categoria": "verbos",
+   "clave": "bibe",
+   "medio": "palabras/medio/vive.wav",
+   "dur_medio_ms": 380,
+   "final": "palabras/final/vive.wav",
+   "dur_final_ms": 555
+  },
+  "nada": {
+   "categoria": "verbos",
+   "clave": "nada",
+   "medio": "palabras/medio/nada.wav",
+   "dur_medio_ms": 590,
+   "final": "palabras/final/nada.wav",
+   "dur_final_ms": 535
+  },
+  "vuela": {
+   "categoria": "verbos",
+   "clave": "buela",
+   "medio": "palabras/medio/vuela.wav",
+   "dur_medio_ms": 395,
+   "final": "palabras/final/vuela.wav",
+   "dur_final_ms": 650
+  },
+  "camina": {
+   "categoria": "verbos",
+   "clave": "kamina",
+   "medio": "palabras/medio/camina.wav",
+   "dur_medio_ms": 715,
+   "final": "palabras/final/camina.wav",
+   "dur_final_ms": 775
+  },
+  "grande": {
+   "categoria": "adjetivos",
+   "clave": "grande",
+   "medio": "palabras/medio/grande.wav",
+   "dur_medio_ms": 680,
+   "final": "palabras/final/grande.wav",
+   "dur_final_ms": 720
+  },
+  "pequeño": {
+   "categoria": "adjetivos",
+   "clave": "pekeño",
+   "medio": "palabras/medio/pequenyo.wav",
+   "dur_medio_ms": 700,
+   "final": "palabras/final/pequenyo.wav",
+   "dur_final_ms": 790
+  },
+  "pequeña": {
+   "categoria": "adjetivos",
+   "clave": "pekeña",
+   "medio": "palabras/medio/pequenya.wav",
+   "dur_medio_ms": 815,
+   "final": "palabras/final/pequenya.wav",
+   "dur_final_ms": 775
+  },
+  "bonito": {
+   "categoria": "adjetivos",
+   "clave": "bonito",
+   "medio": "palabras/medio/bonito.wav",
+   "dur_medio_ms": 565,
+   "final": "palabras/final/bonito.wav",
+   "dur_final_ms": 825
+  },
+  "bonita": {
+   "categoria": "adjetivos",
+   "clave": "bonita",
+   "medio": "palabras/medio/bonita.wav",
+   "dur_medio_ms": 630,
+   "final": "palabras/final/bonita.wav",
+   "dur_final_ms": 670
+  },
+  "feliz": {
+   "categoria": "adjetivos",
+   "clave": "feliz",
+   "medio": "palabras/medio/feliz.wav",
+   "dur_medio_ms": 655,
+   "final": "palabras/final/feliz.wav",
+   "dur_final_ms": 570
+  },
+  "contento": {
+   "categoria": "adjetivos",
+   "clave": "kontento",
+   "medio": "palabras/medio/contento.wav",
+   "dur_medio_ms": 990,
+   "final": "palabras/final/contento.wav",
+   "dur_final_ms": 985
+  },
+  "contenta": {
+   "categoria": "adjetivos",
+   "clave": "kontenta",
+   "medio": "palabras/medio/contenta.wav",
+   "dur_medio_ms": 1210,
+   "final": "palabras/final/contenta.wav",
+   "dur_final_ms": 915
+  },
+  "rojo": {
+   "categoria": "adjetivos",
+   "clave": "Rojo",
+   "medio": "palabras/medio/rojo.wav",
+   "dur_medio_ms": 460,
+   "final": "palabras/final/rojo.wav",
+   "dur_final_ms": 655
+  },
+  "azul": {
+   "categoria": "adjetivos",
+   "clave": "azul",
+   "medio": "palabras/medio/azul.wav",
+   "dur_medio_ms": 590,
+   "final": "palabras/final/azul.wav",
+   "dur_final_ms": 695
+  },
+  "verde": {
+   "categoria": "adjetivos",
+   "clave": "berde",
+   "medio": "palabras/medio/verde.wav",
+   "dur_medio_ms": 575,
+   "final": "palabras/final/verde.wav",
+   "dur_final_ms": 660
+  },
+  "amarillo": {
+   "categoria": "adjetivos",
+   "clave": "amariyo",
+   "medio": "palabras/medio/amarillo.wav",
+   "dur_medio_ms": 670,
+   "final": "palabras/final/amarillo.wav",
+   "dur_final_ms": 770
+  },
+  "blanco": {
+   "categoria": "adjetivos",
+   "clave": "blanko",
+   "medio": "palabras/medio/blanco.wav",
+   "dur_medio_ms": 760,
+   "final": "palabras/final/blanco.wav",
+   "dur_final_ms": 795
+  },
+  "negro": {
+   "categoria": "adjetivos",
+   "clave": "negro",
+   "medio": "palabras/medio/negro.wav",
+   "dur_medio_ms": 510,
+   "final": "palabras/final/negro.wav",
+   "dur_final_ms": 590
+  },
+  "alto": {
+   "categoria": "adjetivos",
+   "clave": "alto",
+   "medio": "palabras/medio/alto.wav",
+   "dur_medio_ms": 490,
+   "final": "palabras/final/alto.wav",
+   "dur_final_ms": 705
+  },
+  "rápido": {
+   "categoria": "adjetivos",
+   "clave": "Rapido",
+   "medio": "palabras/medio/rapido.wav",
+   "dur_medio_ms": 645,
+   "final": "palabras/final/rapido.wav",
+   "dur_final_ms": 675
+  },
+  "nuevo": {
+   "categoria": "adjetivos",
+   "clave": "nuebo",
+   "medio": "palabras/medio/nuevo.wav",
+   "dur_medio_ms": 505,
+   "final": "palabras/final/nuevo.wav",
+   "dur_final_ms": 550
+  },
+  "mucho": {
+   "categoria": "adjetivos",
+   "clave": "muCo",
+   "medio": "palabras/medio/mucho.wav",
+   "dur_medio_ms": 590,
+   "final": "palabras/final/mucho.wav",
+   "dur_final_ms": 635
+  },
+  "muchos": {
+   "categoria": "adjetivos",
+   "clave": "muCos",
+   "medio": "palabras/medio/muchos.wav",
+   "dur_medio_ms": 635,
+   "final": "palabras/final/muchos.wav",
+   "dur_final_ms": 675
+  },
+  "muy": {
+   "categoria": "adjetivos",
+   "clave": "mui",
+   "medio": "palabras/medio/muy.wav",
+   "dur_medio_ms": 400,
+   "final": "palabras/final/muy.wav",
+   "dur_final_ms": 520
+  },
+  "más": {
+   "categoria": "adjetivos",
+   "clave": "mas",
+   "medio": "palabras/medio/mas.wav",
+   "dur_medio_ms": 375,
+   "final": "palabras/final/mas.wav",
+   "dur_final_ms": 455
+  },
+  "hoy": {
+   "categoria": "tiempo_y_otros",
+   "clave": "oi",
+   "medio": "palabras/medio/hoy.wav",
+   "dur_medio_ms": 425,
+   "final": "palabras/final/hoy.wav",
+   "dur_final_ms": 590
+  },
+  "ayer": {
+   "categoria": "tiempo_y_otros",
+   "clave": "ayer",
+   "medio": "palabras/medio/ayer.wav",
+   "dur_medio_ms": 620,
+   "final": "palabras/final/ayer.wav",
+   "dur_final_ms": 755
+  },
+  "mañana": {
+   "categoria": "tiempo_y_otros",
+   "clave": "mañana",
+   "medio": "palabras/medio/manyana.wav",
+   "dur_medio_ms": 555,
+   "final": "palabras/final/manyana.wav",
+   "dur_final_ms": 730
+  },
+  "ahora": {
+   "categoria": "tiempo_y_otros",
+   "clave": "aora",
+   "medio": "palabras/medio/ahora.wav",
+   "dur_medio_ms": 520,
+   "final": "palabras/final/ahora.wav",
+   "dur_final_ms": 680
+  },
+  "siempre": {
+   "categoria": "tiempo_y_otros",
+   "clave": "siempre",
+   "medio": "palabras/medio/siempre.wav",
+   "dur_medio_ms": 820,
+   "final": "palabras/final/siempre.wav",
+   "dur_final_ms": 645
+  },
+  "aquí": {
+   "categoria": "tiempo_y_otros",
+   "clave": "aki",
+   "medio": "palabras/medio/aqui.wav",
+   "dur_medio_ms": 470,
+   "final": "palabras/final/aqui.wav",
+   "dur_final_ms": 630
+  },
+  "allá": {
+   "categoria": "tiempo_y_otros",
+   "clave": "aya",
+   "medio": "palabras/medio/alla.wav",
+   "dur_medio_ms": 540,
+   "final": "palabras/final/alla.wav",
+   "dur_final_ms": 575
+  },
+  "no": {
+   "categoria": "tiempo_y_otros",
+   "clave": "no",
+   "medio": "palabras/medio/no.wav",
+   "dur_medio_ms": 310,
+   "final": "palabras/final/no.wav",
+   "dur_final_ms": 300
+  },
+  "sí": {
+   "categoria": "tiempo_y_otros",
+   "clave": "si",
+   "medio": "palabras/medio/si.wav",
+   "dur_medio_ms": 390,
+   "final": "palabras/final/si.wav",
+   "dur_final_ms": 455
+  },
+  "vacaciones": {
+   "categoria": "tiempo_y_otros",
+   "clave": "bakaziones",
+   "medio": "palabras/medio/vacaciones.wav",
+   "dur_medio_ms": 1045,
+   "final": "palabras/final/vacaciones.wav",
+   "dur_final_ms": 955
+  },
+  "día": {
+   "categoria": "tiempo_y_otros",
+   "clave": "dia",
+   "medio": "palabras/medio/dia.wav",
+   "dur_medio_ms": 415,
+   "final": "palabras/final/dia.wav",
+   "dur_final_ms": 550
+  },
+  "noche": {
+   "categoria": "tiempo_y_otros",
+   "clave": "noCe",
+   "medio": "palabras/medio/noche.wav",
+   "dur_medio_ms": 415,
+   "final": "palabras/final/noche.wav",
+   "dur_final_ms": 645
+  },
+  "tarde": {
+   "categoria": "tiempo_y_otros",
+   "clave": "tarde",
+   "medio": "palabras/medio/tarde.wav",
+   "dur_medio_ms": 425,
+   "final": "palabras/final/tarde.wav",
+   "dur_final_ms": 625
+  },
+  "también": {
+   "categoria": "tiempo_y_otros",
+   "clave": "tambien",
+   "medio": "palabras/medio/tambien.wav",
+   "dur_medio_ms": 1050,
+   "final": "palabras/final/tambien.wav",
+   "dur_final_ms": 775
+  },
+  "todos": {
+   "categoria": "tiempo_y_otros",
+   "clave": "todos",
+   "medio": "palabras/medio/todos.wav",
+   "dur_medio_ms": 520,
+   "final": "palabras/final/todos.wav",
+   "dur_final_ms": 560
+  }
+ },
+ "silabas": {
+  "a": "silabas/a.wav",
+  "e": "silabas/e.wav",
+  "i": "silabas/i.wav",
+  "o": "silabas/o.wav",
+  "u": "silabas/u.wav",
+  "ba": "silabas/ba.wav",
+  "be": "silabas/be.wav",
+  "bi": "silabas/bi.wav",
+  "bo": "silabas/bo.wav",
+  "bu": "silabas/bu.wav",
+  "ca": "silabas/ca.wav",
+  "co": "silabas/co.wav",
+  "cu": "silabas/cu.wav",
+  "que": "silabas/que.wav",
+  "qui": "silabas/qui.wav",
+  "cha": "silabas/cha.wav",
+  "che": "silabas/che.wav",
+  "chi": "silabas/chi.wav",
+  "cho": "silabas/cho.wav",
+  "chu": "silabas/chu.wav",
+  "da": "silabas/da.wav",
+  "de": "silabas/de.wav",
+  "di": "silabas/di.wav",
+  "do": "silabas/do.wav",
+  "du": "silabas/du.wav",
+  "fa": "silabas/fa.wav",
+  "fe": "silabas/fe.wav",
+  "fi": "silabas/fi.wav",
+  "fo": "silabas/fo.wav",
+  "fu": "silabas/fu.wav",
+  "ga": "silabas/ga.wav",
+  "go": "silabas/go.wav",
+  "gu": "silabas/gu.wav",
+  "gue": "silabas/gue.wav",
+  "gui": "silabas/gui.wav",
+  "ja": "silabas/ja.wav",
+  "je": "silabas/je.wav",
+  "ji": "silabas/ji.wav",
+  "jo": "silabas/jo.wav",
+  "ju": "silabas/ju.wav",
+  "ka": "silabas/ka.wav",
+  "ke": "silabas/ke.wav",
+  "ki": "silabas/ki.wav",
+  "ko": "silabas/ko.wav",
+  "ku": "silabas/ku.wav",
+  "la": "silabas/la.wav",
+  "le": "silabas/le.wav",
+  "li": "silabas/li.wav",
+  "lo": "silabas/lo.wav",
+  "lu": "silabas/lu.wav",
+  "lla": "silabas/lla.wav",
+  "lle": "silabas/lle.wav",
+  "lli": "silabas/lli.wav",
+  "llo": "silabas/llo.wav",
+  "llu": "silabas/llu.wav",
+  "ma": "silabas/ma.wav",
+  "me": "silabas/me.wav",
+  "mi": "silabas/mi.wav",
+  "mo": "silabas/mo.wav",
+  "mu": "silabas/mu.wav",
+  "na": "silabas/na.wav",
+  "ne": "silabas/ne.wav",
+  "ni": "silabas/ni.wav",
+  "no": "silabas/no.wav",
+  "nu": "silabas/nu.wav",
+  "ña": "silabas/nya.wav",
+  "ñe": "silabas/nye.wav",
+  "ñi": "silabas/nyi.wav",
+  "ño": "silabas/nyo.wav",
+  "ñu": "silabas/nyu.wav",
+  "pa": "silabas/pa.wav",
+  "pe": "silabas/pe.wav",
+  "pi": "silabas/pi.wav",
+  "po": "silabas/po.wav",
+  "pu": "silabas/pu.wav",
+  "ra": "silabas/ra.wav",
+  "re": "silabas/re.wav",
+  "ri": "silabas/ri.wav",
+  "ro": "silabas/ro.wav",
+  "ru": "silabas/ru.wav",
+  "rra": "silabas/rra.wav",
+  "rre": "silabas/rre.wav",
+  "rri": "silabas/rri.wav",
+  "rro": "silabas/rro.wav",
+  "rru": "silabas/rru.wav",
+  "sa": "silabas/sa.wav",
+  "se": "silabas/se.wav",
+  "si": "silabas/si.wav",
+  "so": "silabas/so.wav",
+  "su": "silabas/su.wav",
+  "ta": "silabas/ta.wav",
+  "te": "silabas/te.wav",
+  "ti": "silabas/ti.wav",
+  "to": "silabas/to.wav",
+  "tu": "silabas/tu.wav",
+  "va": "silabas/va.wav",
+  "ve": "silabas/ve.wav",
+  "vi": "silabas/vi.wav",
+  "vo": "silabas/vo.wav",
+  "vu": "silabas/vu.wav",
+  "wa": "silabas/wa.wav",
+  "we": "silabas/we.wav",
+  "wi": "silabas/wi.wav",
+  "wo": "silabas/wo.wav",
+  "wu": "silabas/wu.wav",
+  "ya": "silabas/ya.wav",
+  "ye": "silabas/ye.wav",
+  "yi": "silabas/yi.wav",
+  "yo": "silabas/yo.wav",
+  "yu": "silabas/yu.wav",
+  "ce": "silabas/ce.wav",
+  "ci": "silabas/ci.wav",
+  "za": "silabas/za.wav",
+  "zo": "silabas/zo.wav",
+  "zu": "silabas/zu.wav",
+  "ab": "silabas/ab.wav",
+  "eb": "silabas/eb.wav",
+  "ib": "silabas/ib.wav",
+  "ob": "silabas/ob.wav",
+  "ub": "silabas/ub.wav",
+  "ac": "silabas/ac.wav",
+  "ec": "silabas/ec.wav",
+  "ic": "silabas/ic.wav",
+  "oc": "silabas/oc.wav",
+  "uc": "silabas/uc.wav",
+  "ad": "silabas/ad.wav",
+  "ed": "silabas/ed.wav",
+  "id": "silabas/id.wav",
+  "od": "silabas/od.wav",
+  "ud": "silabas/ud.wav",
+  "af": "silabas/af.wav",
+  "ef": "silabas/ef.wav",
+  "if": "silabas/if.wav",
+  "of": "silabas/of.wav",
+  "uf": "silabas/uf.wav",
+  "ag": "silabas/ag.wav",
+  "eg": "silabas/eg.wav",
+  "ig": "silabas/ig.wav",
+  "og": "silabas/og.wav",
+  "ug": "silabas/ug.wav",
+  "al": "silabas/al.wav",
+  "el": "silabas/el.wav",
+  "il": "silabas/il.wav",
+  "ol": "silabas/ol.wav",
+  "ul": "silabas/ul.wav",
+  "am": "silabas/am.wav",
+  "em": "silabas/em.wav",
+  "im": "silabas/im.wav",
+  "om": "silabas/om.wav",
+  "um": "silabas/um.wav",
+  "an": "silabas/an.wav",
+  "en": "silabas/en.wav",
+  "in": "silabas/in.wav",
+  "on": "silabas/on.wav",
+  "un": "silabas/un.wav",
+  "ap": "silabas/ap.wav",
+  "ep": "silabas/ep.wav",
+  "ip": "silabas/ip.wav",
+  "op": "silabas/op.wav",
+  "up": "silabas/up.wav",
+  "ar": "silabas/ar.wav",
+  "er": "silabas/er.wav",
+  "ir": "silabas/ir.wav",
+  "or": "silabas/or.wav",
+  "ur": "silabas/ur.wav",
+  "as": "silabas/as.wav",
+  "es": "silabas/es.wav",
+  "is": "silabas/is.wav",
+  "os": "silabas/os.wav",
+  "us": "silabas/us.wav",
+  "at": "silabas/at.wav",
+  "et": "silabas/et.wav",
+  "it": "silabas/it.wav",
+  "ot": "silabas/ot.wav",
+  "ut": "silabas/ut.wav",
+  "az": "silabas/az.wav",
+  "ez": "silabas/ez.wav",
+  "iz": "silabas/iz.wav",
+  "oz": "silabas/oz.wav",
+  "uz": "silabas/uz.wav",
+  "bla": "silabas/bla.wav",
+  "ble": "silabas/ble.wav",
+  "bli": "silabas/bli.wav",
+  "blo": "silabas/blo.wav",
+  "blu": "silabas/blu.wav",
+  "bra": "silabas/bra.wav",
+  "bre": "silabas/bre.wav",
+  "bri": "silabas/bri.wav",
+  "bro": "silabas/bro.wav",
+  "bru": "silabas/bru.wav",
+  "cla": "silabas/cla.wav",
+  "cle": "silabas/cle.wav",
+  "cli": "silabas/cli.wav",
+  "clo": "silabas/clo.wav",
+  "clu": "silabas/clu.wav",
+  "cra": "silabas/cra.wav",
+  "cre": "silabas/cre.wav",
+  "cri": "silabas/cri.wav",
+  "cro": "silabas/cro.wav",
+  "cru": "silabas/cru.wav",
+  "dra": "silabas/dra.wav",
+  "dre": "silabas/dre.wav",
+  "dri": "silabas/dri.wav",
+  "dro": "silabas/dro.wav",
+  "dru": "silabas/dru.wav",
+  "fla": "silabas/fla.wav",
+  "fle": "silabas/fle.wav",
+  "fli": "silabas/fli.wav",
+  "flo": "silabas/flo.wav",
+  "flu": "silabas/flu.wav",
+  "fra": "silabas/fra.wav",
+  "fre": "silabas/fre.wav",
+  "fri": "silabas/fri.wav",
+  "fro": "silabas/fro.wav",
+  "fru": "silabas/fru.wav",
+  "gla": "silabas/gla.wav",
+  "gle": "silabas/gle.wav",
+  "gli": "silabas/gli.wav",
+  "glo": "silabas/glo.wav",
+  "glu": "silabas/glu.wav",
+  "gra": "silabas/gra.wav",
+  "gre": "silabas/gre.wav",
+  "gri": "silabas/gri.wav",
+  "gro": "silabas/gro.wav",
+  "gru": "silabas/gru.wav",
+  "pla": "silabas/pla.wav",
+  "ple": "silabas/ple.wav",
+  "pli": "silabas/pli.wav",
+  "plo": "silabas/plo.wav",
+  "plu": "silabas/plu.wav",
+  "pra": "silabas/pra.wav",
+  "pre": "silabas/pre.wav",
+  "pri": "silabas/pri.wav",
+  "pro": "silabas/pro.wav",
+  "pru": "silabas/pru.wav",
+  "tra": "silabas/tra.wav",
+  "tre": "silabas/tre.wav",
+  "tri": "silabas/tri.wav",
+  "tro": "silabas/tro.wav",
+  "tru": "silabas/tru.wav",
+  "ai": "silabas/ai.wav",
+  "au": "silabas/au.wav",
+  "ei": "silabas/ei.wav",
+  "eu": "silabas/eu.wav",
+  "ia": "silabas/ia.wav",
+  "ie": "silabas/ie.wav",
+  "io": "silabas/io.wav",
+  "iu": "silabas/iu.wav",
+  "oi": "silabas/oi.wav",
+  "ou": "silabas/ou.wav",
+  "ua": "silabas/ua.wav",
+  "ue": "silabas/ue.wav",
+  "ui": "silabas/ui.wav",
+  "uo": "silabas/uo.wav"
+ }
+}

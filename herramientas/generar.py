@@ -29,7 +29,7 @@ def clave():
     return os.environ.get("ELEVENLABS_API_KEY", "proxy-injected")
 
 
-def tts_con_tiempos(texto, voice_settings, previous_text=None, next_text=None, semilla=SEMILLA):
+def tts_con_tiempos(texto, voice_settings, previous_text=None, next_text=None, semilla=SEMILLA, voz=None):
     cuerpo = {
         "text": texto,
         "model_id": MODELO,
@@ -42,7 +42,7 @@ def tts_con_tiempos(texto, voice_settings, previous_text=None, next_text=None, s
     if next_text:
         cuerpo["next_text"] = next_text
     for intento in range(5):
-        r = requests.post(f"{API}/text-to-speech/{VOZ_ID}/with-timestamps",
+        r = requests.post(f"{API}/text-to-speech/{voz or VOZ_ID}/with-timestamps",
                           params={"output_format": FORMATO},
                           headers={"xi-api-key": clave()}, json=cuerpo, timeout=600)
         if r.status_code == 200:
@@ -89,22 +89,24 @@ def tomas_del_bloque(b):
 TOMAS = RAIZ / "trabajo" / "tomas"
 
 
-def clave_toma(texto, ajustes, previous_text, semilla):
+def clave_toma(texto, ajustes, previous_text, semilla, next_text=None, voz=None):
     import hashlib
-    datos = json.dumps([MODELO, VOZ_ID, FORMATO, texto, previous_text, semilla, ajustes], ensure_ascii=False,
-                       sort_keys=True)
+    lista = [MODELO, voz or VOZ_ID, FORMATO, texto, previous_text, semilla, ajustes]
+    if next_text is not None:
+        lista.append(next_text)
+    datos = json.dumps(lista, ensure_ascii=False, sort_keys=True)
     return hashlib.sha1(datos.encode("utf-8")).hexdigest()[:16]
 
 
-def obtener_toma(texto, ajustes, previous_text, semilla):
+def obtener_toma(texto, ajustes, previous_text, semilla, next_text=None, voz=None):
     """Genera una toma corta (o la reutiliza del caché trabajo/tomas/)."""
     TOMAS.mkdir(parents=True, exist_ok=True)
-    k = clave_toma(texto, ajustes, previous_text, semilla)
+    k = clave_toma(texto, ajustes, previous_text, semilla, next_text, voz)
     wav, js = TOMAS / f"{k}.wav", TOMAS / f"{k}.json"
     if wav.exists() and js.exists():
         d = json.loads(js.read_text(encoding="utf-8"))
         return wav.read_bytes(), d["alineacion"], None, d["peticion"]
-    audio, al, aln, cuerpo = tts_con_tiempos(texto, ajustes, previous_text, semilla=semilla)
+    audio, al, aln, cuerpo = tts_con_tiempos(texto, ajustes, previous_text, next_text, semilla=semilla, voz=voz)
     wav.write_bytes(audio)
     js.write_text(json.dumps({"alineacion": al, "peticion": cuerpo}, ensure_ascii=False), encoding="utf-8")
     return audio, al, aln, cuerpo

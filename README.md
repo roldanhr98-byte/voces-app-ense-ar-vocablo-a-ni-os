@@ -5,6 +5,9 @@ WAV 48 kHz mono 16 bits) para enseñar a los niños las vocales, las sílabas, l
 
 - **`audios/`**: todos los audios listos para la app, recortados y organizados por carpeta, con `manifest.json`,
   `manifest.csv`, `README.md` y `escuchar.html` (página para probarlos). Es el mismo contenido del zip entregado.
+- **`audios_lectura/`**: paquete de lectura encadenada (unir sílabas y armar oraciones en cualquier orden):
+  palabras en versión "medio" y "final", sílabas, `lector.js` para la app, `probar.html` y ejemplos.
+  Detalle en [`audios_lectura/README.md`](audios_lectura/README.md). Se genera con `herramientas/lectura.py`.
 - **`herramientas/`**: scripts que generan, recortan, verifican y empaquetan los audios.
 - **`fuente/`**: para cada bloque, el texto enviado, los ajustes de voz, las tomas y la alineación por carácter
   que devolvió ElevenLabs, que se usa para recortar.

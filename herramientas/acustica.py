@@ -146,3 +146,42 @@ def ruido_previo_ms(x, debil=45, fuerte=20):
     if not len(a) or not len(b):
         return 0.0
     return float((b[0] - a[0]) * 5)
+
+
+def f0_contorno(x, hop=0.01, fmin=50, fmax=250):
+    """F0 (Hz) por frame de 10 ms; 0 donde no hay voz."""
+    w = int(0.04 * SR)
+    h = int(hop * SR)
+    n = max(1, (len(x) - w) // h + 1)
+    lo, hi = int(SR / fmax), int(SR / fmin)
+    win = np.hanning(w)
+    acw = np.correlate(win, win, "full")[w - 1:w + hi]
+    acw = acw / acw[0]
+    e_max = None
+    res = np.zeros(n)
+    energias = np.array([np.mean(x[i * h:i * h + w] ** 2) for i in range(n)])
+    e_max = energias.max() + 1e-12
+    for i in range(n):
+        f = x[i * h:i * h + w] * win
+        if energias[i] < e_max * 10 ** (-35 / 10):
+            continue
+        ac = np.fft.irfft(np.abs(np.fft.rfft(f, 2 * w)) ** 2)[:hi + 1]
+        if ac[0] <= 0:
+            continue
+        r = ac[lo:hi + 1] / ac[0] / acw[lo:hi + 1]
+        k = int(np.argmax(r))
+        if r[k] > 0.45:
+            res[i] = SR / (lo + k)
+    return res
+
+
+def pendiente_final_st(x):
+    """Pendiente de F0 (semitonos/seg) en el último 40 % de la parte sonora: < 0 = cae (cierre)."""
+    f = f0_contorno(x)
+    v = np.where(f > 0)[0]
+    if len(v) < 6:
+        return 0.0
+    v = v[int(len(v) * 0.6):]
+    st = 12 * np.log2(f[v] / 100.0)
+    t = v * 0.01
+    return float(np.polyfit(t, st, 1)[0]) if len(v) >= 3 else 0.0
